@@ -1,0 +1,127 @@
+<div id="container">
+  <label id="btext">Pupil Enrollment</label><br>
+  <label>Enter the details of the pupil to enroll them.</label><br><br>
+  <form id="pupil-form">
+    <label id="htext">Pupil Details</label><br>
+    <label for="fname">First Name</label> <label id="rq">*</label><br>
+    <input type="text" id="fname" name="fname" required autocomplete="given-name"><br>
+    <label for="lname">Last name</label> <label id="rq">*</label><br>
+    <input type="text" id="lname" name="lname" required autocomplete="family-name"><br>
+    <label for="birthday">Date of Birth</label> <label id="rq">*</label><br>
+    <input type="date" id="birthday" name="birthday" required><br><br>
+    <label id="htext">Address</label><br>
+    <label for="address1">Line 1</label> <label id="rq">*</label><br>
+    <input type="text" id="address1" name="address1" required autocomplete="address-line1"><br>
+    <label for="address2">Line 2</label><br>
+    <input type="text" id="address2" name="address2" autocomplete="address-line2"><br>
+    <label for="town">Town</label> <label id="rq">*</label><br>
+    <input type="text" id="town" name="town" required autocomplete="address-level2"><br>
+    <label for="county">County</label> <label id="rq">*</label><br>
+    <input type="text" id="county" name="county" required autocomplete="address-level1"><br>
+    <label for="postcode">Postcode</label> <label id="rq">*</label><br>
+    <input type="text" id="postcode" name="postcode" required autocomplete="postal-code" maxlength="8"><br><br>
+    <label id="htext">Other Information</label><br>
+    <label for="guardians">How many guardians does the pupil have?</label> <label id="rq">*</label>
+    <select id="guardians" name="guardians" required>
+      <option value="one">1</option>
+      <option value="two">2</option>
+    </select><br><br>
+    <label for="medicheck">Does this pupil have any medical conditions?</label> <label id="rq">*</label>
+    <input type="checkbox" id="medicheck" name="medicheck" required><br>
+    <label for="medinfo">If yes, please describe them below:</label><br>
+    <textarea id="medinfo" name="medinfo" rows="4" cols="50"></textarea><br>
+  </form>
+</div>
+<div id="container">
+  <form id="guardian-one-form">
+    <label id="btext">(One) Guardian Assignment</label><br>
+    <label>Enter the details of the guardian to assign them.</label><br><br>
+    <label id="htext">Guardian Details</label><br>
+    <label for="fname">First Name</label> <label id="rq">*</label><br>
+    <input type="text" id="fname" name="fname" required autocomplete="given-name"><br>
+    <label for="lname">Last name</label> <label id="rq">*</label><br>
+    <input type="text" id="lname" name="lname" required autocomplete="family-name"><br>
+    <label for="relation">Relation to Pupil</label> <label id="rq">*</label><br>
+    <select id="relation" name="relation" required>
+      <option value="parent">Parent</option>
+      <option value="grandparent">Grandparent</option>
+      <option value="pibling">Pibling</option>
+      <option value="sibling">Sibling</option>
+      <option value="foster">Foster Parent</option>
+    </select><br><br>
+    <label id="htext">Address</label><br>
+    <label for="address1">Line 1</label> <label id="rq">*</label><br>
+    <input type="text" id="address1" name="address1" required autocomplete="address-line1"><br>
+    <label for="address2">Line 2</label><br>
+    <input type="text" id="address2" name="address2" autocomplete="address-line2"><br>
+    <label for="town">Town</label> <label id="rq">*</label><br>
+    <input type="text" id="town" name="town" required autocomplete="address-level2"><br>
+    <label for="county">County</label> <label id="rq">*</label><br>
+    <input type="text" id="county" name="county" required autocomplete="address-level1"><br>
+    <label for="postcode">Postcode</label> <label id="rq">*</label><br>
+    <input type="text" id="postcode" name="postcode" required autocomplete="postal-code" maxlength="8"><br><br>
+    <label id="htext">Contact Information</label><br>
+    <label for="email">E-Mail</label> <label id="rq">*</label><br>
+    <input type="text" id="email" name="email" required autocomplete="email"><br>
+    <label for="phone">Phone Number (UK Only)</label> <label id="rq">*</label><br>
+    <input type="text" id="phone" name="phone" required autocomplete="tel-national">
+  </form>
+</div>
+<pre></pre>
+<div id="container">
+  <form id="guardian-two-form">
+    <label id="btext">(Two) Guardian Assignment</label><br>
+    <label>Enter the details of the guardian to assign them.</label><br><br>
+    <label id="htext">Guardian Details</label><br>
+    <label for="fname">First Name</label> <label id="rq">*</label><br>
+    <input type="text" id="fname" name="fname" required autocomplete="given-name"><br>
+    <label for="lname">Last name</label> <label id="rq">*</label><br>
+    <input type="text" id="lname" name="lname" required autocomplete="family-name"><br>
+    <label for="relation">Relation to Pupil</label> <label id="rq">*</label><br>
+    <select id="relation" name="relation" required>
+      <option value="parent">Parent</option>
+      <option value="grandparent">Grandparent</option>
+      <option value="pibling">Pibling</option>
+      <option value="sibling">Sibling</option>
+      <option value="foster">Foster Parent</option>
+    </select><br><br>
+    <label id="htext">Address</label><br>
+    <label for="address1">Line 1</label> <label id="rq">*</label><br>
+    <input type="text" id="address1" name="address1" required autocomplete="address-line1"><br>
+    <label for="address2">Line 2</label><br>
+    <input type="text" id="address2" name="address2" autocomplete="address-line2"><br>
+    <label for="town">Town</label> <label id="rq">*</label><br>
+    <input type="text" id="town" name="town" required autocomplete="address-level2"><br>
+    <label for="county">County</label> <label id="rq">*</label><br>
+    <input type="text" id="county" name="county" required autocomplete="address-level1"><br>
+    <label for="postcode">Postcode</label> <label id="rq">*</label><br>
+    <input type="text" id="postcode" name="postcode" required autocomplete="postal-code" maxlength="8"><br><br>
+    <label id="htext">Contact Information</label><br>
+    <label for="email">E-Mail</label> <label id="rq">*</label><br>
+    <input type="text" id="email" name="email" required autocomplete="email"><br>
+    <label for="phone">Phone Number (UK Only)</label> <label id="rq">*</label><br>
+    <input type="text" id="phone" name="phone" required autocomplete="tel-national">
+  </form>
+</div>
+<pre></pre>
+<div id="container">
+  <form id="class-form">
+    <label id="btext">Class Assignment</label><br>
+    <label>Select the appropriate class from the dropdown to assign them.</label><br><br>
+    <select id="classes" name="classes" required>
+      <option value="reception">Reception</option>
+      <option value="one">Year One</option>
+      <option value="two">Year Two</option>
+      <option value="three">Year Three</option>
+      <option value="four">Year Four</option>
+      <option value="five">Year Five</option>
+      <option value="six">Year Six</option>
+    </select> <label id="rq">*</label>
+  </form>
+</div>
+<pre></pre>
+<div id="container">
+  <label id="btext">Create Pupil</label><br>
+  <label>Please confirm all details and sections are correct before creating.</label><br><br>
+  <button type="button" id="master-submit">Create</button>
+</div>

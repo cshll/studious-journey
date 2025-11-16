@@ -1,6 +1,9 @@
+/* Body */
+
 :root {
   --primary: white;
   --secondary: #2A7B9B;
+  --content: #E9E6E6;
   --gradient: #0D263B;
   --text-primary: black;
   --text-secondary: white;
@@ -9,7 +12,12 @@
 body {
   background-color: var(--primary);
   font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
+/* Header */
 
 header {
   position: absolute;
@@ -28,21 +36,78 @@ header h2 {
   font-size: 1.25rem;
 }
 
-main {
-  position: absolute;
-  top: 9rem;
-  left: 0;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-bottom: 1rem;
-}
-
 header * {
   font-size: 1.5rem;
+}
+
+/* Content */
+
+main {
+  position: absolute;
+  top: 8.25rem;
+  left: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 100%;
 }
 
 main * {
   color: var(--text-primary);
   font-size: 1rem;
   font-weight: 400;
+}
+
+/* Containers */
+
+#container {
+  width: 90%;
+  margin-top: 1rem;
+  background-color: var(--content);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+input,
+textarea,
+select {
+  border: none;
+  border-radius: 0.25rem;
+  background-color: var(--primary);
+}
+
+table {
+  width: 100%;
+  background-color: var(--primary);
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  border: 0.1rem solid var(--content);
+}
+
+th {
+  background-color: lightgray;
+}
+
+#container label {
+  display: inline-block;
+  margin-top: 0.25rem;
+  margin-bottom: 0.15rem;
+}
+
+#btext {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+#htext {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+#rq,
+#error {
+  color: lightcoral;
 }
