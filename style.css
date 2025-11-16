@@ -57,6 +57,11 @@ main * {
   font-weight: 400;
 }
 
+#return {
+  margin-top: 1rem;
+  margin-left: 0.4rem;
+}
+
 /* Containers */
 
 #container {

@@ -1,0 +1,54 @@
+<div id="container">
+  <label id="btext">Teacher Addition</label><br>
+  <label>Enter the details of the teacher to add them.</label><br><br>
+  <form id="teacher-form">
+    <label id="htext">Teacher Details</label><br>
+    <label for="fname">First Name</label> <label id="rq">*</label><br>
+    <input type="text" id="fname" name="fname" required autocomplete="given-name"><br>
+    <label for="lname">Last name</label> <label id="rq">*</label><br>
+    <input type="text" id="lname" name="lname" required autocomplete="family-name"><br><br>
+    <label id="htext">Address</label><br>
+    <label for="address1">Line 1</label> <label id="rq">*</label><br>
+    <input type="text" id="address1" name="address1" required autocomplete="address-line1"><br>
+    <label for="address2">Line 2</label><br>
+    <input type="text" id="address2" name="address2" autocomplete="address-line2"><br>
+    <label for="town">Town</label> <label id="rq">*</label><br>
+    <input type="text" id="town" name="town" required autocomplete="address-level2"><br>
+    <label for="county">County</label> <label id="rq">*</label><br>
+    <input type="text" id="county" name="county" required autocomplete="address-level1"><br>
+    <label for="postcode">Postcode</label> <label id="rq">*</label><br>
+    <input type="text" id="postcode" name="postcode" required autocomplete="postal-code" maxlength="8"><br><br>
+    <label id="htext">Contact Information</label><br>
+    <label for="email">E-Mail</label> <label id="rq">*</label><br>
+    <input type="text" id="email" name="email" required autocomplete="email"><br>
+    <label for="phone">Phone Number (UK Only)</label> <label id="rq">*</label><br>
+    <input type="text" id="phone" name="phone" required autocomplete="tel-national"><br><br>
+    <label id="htext">Other Information</label><br>
+    <label for="salary">Annual Salary</label> <label id="rq">*</label><br>
+    <label>£</label> <input type="text" id="salary" name="salary" required><br><br>
+    <label for="background">Background Check Passed</label>
+    <input type="checkbox" id="background" name="background">
+  </form>
+</div>
+<pre></pre>
+<div id="container">
+  <form id="class-form">
+    <label id="btext">Class Assignment</label><br>
+    <label>Select the appropriate class from the dropdown to assign them.</label><br><br>
+    <select id="classes" name="classes" required>
+      <option value="reception">Reception</option>
+      <option value="one">Year One</option>
+      <option value="two">Year Two</option>
+      <option value="three">Year Three</option>
+      <option value="four">Year Four</option>
+      <option value="five">Year Five</option>
+      <option value="six">Year Six</option>
+    </select> <label id="rq">*</label>
+  </form>
+</div>
+<pre></pre>
+<div id="container">
+  <label id="btext">Confirm Creation</label><br>
+  <label>Please confirm all details and sections are correct before submitting.</label><br><br>
+  <button type="button" id="master-submit">Submit</button>
+</div>
