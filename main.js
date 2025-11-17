@@ -93,8 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
     selectElement.addEventListener('change', handleSelectionChange);
   };
 
-  selectKey();
+  fetchOperation('login');
 
-  backButton.addEventListener('click', () => { selectKey(lastOperation); });
-  returnButton.addEventListener('click', selectKey);
+  //selectKey();
+
+  //backButton.addEventListener('click', () => { selectKey(lastOperation); });
+  //returnButton.addEventListener('click', selectKey);
 });
