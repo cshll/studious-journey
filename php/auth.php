@@ -1,4 +1,6 @@
 <?php
+// Handles authentication within the website.
+
 // Start session and set responses to JSON.
 session_start();
 header('Content-Type: application/json');

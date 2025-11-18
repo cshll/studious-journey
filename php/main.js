@@ -1,39 +1,54 @@
+// Handles form control within the website.
+
+// Wait for the document object model to load.
 document.addEventListener('DOMContentLoaded', () => {
+  // Grab content location.
   const content = document.getElementById('content');
 
+  // Grab back and return buttons within the navigation section.
   const backButton = document.getElementById('back');
   const returnButton = document.getElementById('return');
 
+  // Save current operations for the navigation.
   var lastOperation = 'select_key';
   var thisOperation = 'select_key';
 
   const fetchOperation = async (operation) => {
     console.log(`Attempting to load '${operation}'`)
 
+    // Set operations accordingly.
     lastOperation = thisOperation;
     thisOperation = operation;
 
     try {
+      // Attempt to fetch the required operation.
       const response = await fetch(`operations/${operation}.html`);
+      // If the operation can't be found it will throw an error.
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
 
+      // Set the page content to the correct operation form.
       const htmlContent = await response.text();
       content.innerHTML = htmlContent;
     } catch (error) {
+      // Throw a more verbose error for the user to see.
       console.error(`Error loading '${operation}': `, error);
       content.innerHTML = `<div id="container"><label id="btext" style="color: lightcoral">${error.message}!</label><br><label id="error">Error loading '${operation}'<br>Please try again later.</label></div>`;
     }
   };
 
   const chooseClass = async () => {
+    // Fetch the choose class operation and wait for it.
     await fetchOperation('choose_class');
 
+    // Find the classes element.
     const selectElement = document.getElementById('classes');
     const handleSelectionChange = (event) => {
+      // Get the value of the dropdown object.
       const selectedValue = event.target.value;
 
+      // Switch statement to send user to the corresponding form they clicked.
       switch (selectedValue) {
         case 'reception':
           fetchOperation('show_rows');
@@ -65,16 +80,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    // Wait for any changes to the dropdown selection.
     selectElement.addEventListener('change', handleSelectionChange);
   };
 
   const selectKey = async () => {
+    // Fetch and wait for the select key operation.
     await fetchOperation('select_key');
 
+    // Find the types element.
     const selectElement = document.getElementById('types');
     const handleSelectionChange = (event) => {
+      // Grab the users input within the dropdown.
       const selectedValue = event.target.value;
 
+      // Switch statement to show the user their corresponding selection.
       switch (selectedValue) {
         case 'pupil':
           fetchOperation('show_rows');
@@ -90,9 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    // Check for any changes to the dropdown selection.
     selectElement.addEventListener('change', handleSelectionChange);
   };
 
+  // Show the login page before anything else.
   fetchOperation('login');
 
   //selectKey();
