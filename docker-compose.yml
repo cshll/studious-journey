@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: ./nodejs/Dockerfile
+    container_name: nodejs-app
+    volumes:
+      - ./php:/app/php
+    ports:
+      - "3000:3000"
+    dns:
+      - 8.8.8.8
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: php-fpm
+    volumes:
+      - ./php:/var/www/html
+    environment:
+      TZ: Europe/London
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: school
+      MYSQL_DATABASE: school_db
+    volumes:
+      - ./db-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-service
+    links:
+      - db:db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - "8080:80"
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx-webserver
+    volumes:
+      - ./php:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+      - nodejs
+    restart: always
+
+volumes:
+  dbdata:

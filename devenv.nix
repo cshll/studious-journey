@@ -5,7 +5,13 @@
     enable = true;
   };
 
+  languages.php = {
+    enable = true;
+  };
+
+
   packages = [
+    pkgs.yarn
     pkgs.nodePackages.live-server
   ];
 

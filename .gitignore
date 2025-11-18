@@ -4,3 +4,4 @@ devenv.lock
 .git/
 package-lock.json
 node_modules/
+db-data/
