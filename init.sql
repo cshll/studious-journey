@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 INSERT IGNORE INTO users (username, password_hash)
-VALUES ('admin', '');
+VALUES ('admin', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu');
