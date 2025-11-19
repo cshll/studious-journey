@@ -112,7 +112,10 @@ th {
   font-size: 1.1rem;
 }
 
-#rq,
-#error {
+#rq {
   color: lightcoral;
+}
+
+.error {
+  color: red;
 }

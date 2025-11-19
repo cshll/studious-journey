@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
       // Throw a more verbose error for the user to see.
       console.error(`Error loading '${operation}': `, error);
-      content.innerHTML = `<div id="container"><label id="btext" style="color: lightcoral">${error.message}!</label><br><label id="error">Error loading '${operation}'<br>Please try again later.</label></div>`;
+      content.innerHTML = `<div id="container"><label id="btext" style="color: red">${error.message}!</label><br><label class="error">Error loading '${operation}'<br>Please try again later.</label></div>`;
     }
   };
 
@@ -114,8 +114,40 @@ document.addEventListener('DOMContentLoaded', () => {
     selectElement.addEventListener('change', handleSelectionChange);
   };
 
+  const login = async () => {
+    await fetchOperation('login');
+
+    const loginForm = document.getElementById('login');
+    const errorLogin = document.getElementById('errorLogin');
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(loginForm);
+
+      try {
+        const response = await fetch('auth.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          fetchOperation('select_key');
+        } else {
+          errorLogin.innerText = 'Invalid username or password';
+        }
+      } catch (error) {
+        errorLogin.innerText = 'Unknown error';
+      }
+    };
+
+    loginForm.addEventListener('submit', handleSubmit);
+  };
+
   // Show the login page before anything else.
-  fetchOperation('login');
+  login();
 
   //selectKey();
 
