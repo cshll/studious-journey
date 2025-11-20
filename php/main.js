@@ -134,6 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (data.success) {
+          // Override back button to prevent going back to login page.
+          lastOperation = 'select_key';
+          thisOperation = 'select_key';
+
           selectKey();
         } else {
           errorLogin.innerText = 'Invalid username or password';
