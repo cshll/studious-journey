@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (data.success) {
-          fetchOperation('select_key');
+          selectKey();
         } else {
           errorLogin.innerText = 'Invalid username or password';
         }
