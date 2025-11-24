@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login');
     const errorLogin = document.getElementById('errorLogin');
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
+    const handleSubmit = async (event) => {
+      event.preventDefault();
 
       const formData = new FormData(loginForm);
 

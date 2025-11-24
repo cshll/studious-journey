@@ -5,20 +5,12 @@
 session_start();
 header('Content-Type: application/json');
 
-// Set database variables to use later.
-$db_host = 'db';
-$db_user = 'root';
-$db_pass = 'school';
-$db_name = 'school_db';
-
 // Define variables used within code.
 $username = '';
 $password = '';
 
 try {
-  // Attempt to connect to the database.
-  $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  require 'connect.php';
 
   // If the incoming request is a POST, accept it.
   if ($_SERVER["REQUEST_METHOD"] == "POST") {

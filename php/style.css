@@ -7,6 +7,7 @@
   --gradient: #0D263B;
   --text-primary: black;
   --text-secondary: white;
+  --smooth-transition: cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 body {
@@ -29,6 +30,9 @@ header {
   color: var(--text-secondary);
   background: var(--secondary);
   background: linear-gradient(33deg, var(--secondary) 0%, var(--gradient) 100%);
+  display: flex;
+  align-items: center;
+  box-shadow: -1rem 0rem 1rem var(--text-primary);
 }
 
 header h2 {
@@ -36,8 +40,36 @@ header h2 {
   font-size: 1.25rem;
 }
 
+header h3,
+header a {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+header a {
+  max-height: 2rem;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--gradient);
+  color: var(--text-secondary);
+  transition: transform 0.3s var(--smooth-transition);
+}
+
+header a:hover {
+  transform: scale(1.05);
+}
+
 header * {
   font-size: 1.5rem;
+}
+
+header #right {
+  margin-left: auto;
+  padding-right: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Content */
