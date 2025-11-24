@@ -14,26 +14,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = trim($_POST['username'] ?? '');
   $password = $_POST['password'] ?? '';
 
-  if (empty($username) || empty($password)) {
-    $error_msg = 'Invalid username or password.';
-  } else {
-    try {
-      $stmt = $pdo->prepare("SELECT username, password_hash FROM users WHERE username = :username");
-      $stmt->execute(['username' => $username]);
-      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  try {
+    $stmt = $pdo->prepare("SELECT username, password_hash FROM users WHERE username = :username");
+    $stmt->execute(['username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      if ($user && password_verify($password, $user['password_hash'])) {
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $user['username'];
+    if ($user && password_verify($password, $user['password_hash'])) {
+      $_SESSION['loggedin'] = true;
+      $_SESSION['username'] = $user['username'];
 
-        header('Location: index.php');
-        exit;
-      } else {
-        $error_msg = 'Invalid username or password.';
-      }
-    } catch (PDOException $error) {
-      $error_msg = 'Unknown error.';
+      header('Location: index.php');
+      exit;
+    } else {
+      $error_msg = 'Invalid username or password.';
     }
+  } catch (PDOException $error) {
+    $error_msg = 'Unknown error.';
   }
 }
 ?>
