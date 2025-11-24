@@ -3,54 +3,78 @@
 
 // Start session and set responses to JSON.
 session_start();
-header('Content-Type: application/json');
+require 'connect.php';
+require 'check.php';
 
 // Define variables used within code.
 $username = '';
-$password = '';
+$error_msg = '';
 
-try {
-  require 'connect.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = trim($_POST['username'] ?? '');
+  $password = $_POST['password'] ?? '';
 
-  // If the incoming request is a POST, accept it.
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-    // If either username or password is empty, tell the user to fix the issues.
-    if (empty($username) || empty($password)) {
-      echo json_encode(['success' => false, 'message' => 'Please fill out all fields']);
-      exit;
-    }
-
-    // Look in the database to find the corresponding username.
-    $stmt = $pdo->prepare("SELECT username, password_hash FROM users WHERE username = :username");
-    $stmt->execute(['username' => $username]);
-    $user = $stmt->fetch();
-
-    // Hash the password and check it against the hash within the database.
-    if ($user && password_verify($password, $user['password_hash'])) {
-      // Set session variables to use later, tells the website we are now logged in.
-      $_SESSION['loggedin'] = TRUE;
-      $_SESSION['username'] = $user['username'];
-
-      // Tell the user their login was a success.
-      echo json_encode(['success' => true, 'username' => $user['username']]);
-      exit;
-    } else {
-      // Tell the user their login was not a success.
-      echo json_encode(['success' => false, 'message' => 'Invalid username or password']);
-      exit;
-    }
+  if (empty($username) || empty($password)) {
+    $error_msg = 'Invalid username or password.';
   } else {
-    // Tell the user that they did not use the POST method and throw a '405: Method not allowed'.
-    http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Endpoint only allows POST']);
-    exit;
+    try {
+      $stmt = $pdo->prepare("SELECT username, password_hash FROM users WHERE username = :username");
+      $stmt->execute(['username' => $username]);
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      if ($user && password_verify($password, $user['password_hash'])) {
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $user['username'];
+
+        header('Location: index.php');
+        exit;
+      } else {
+        $error_msg = 'Invalid username or password.';
+      }
+    } catch (PDOException $error) {
+      $error_msg = 'Unknown error.';
+    }
   }
-} catch(PDOException $_) {
-  // Tell the user that the database connection could not be made; vague for security.
-  echo json_encode(['success' => false, 'message' => 'Could not connect to database']);
-  exit;
 }
 ?>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>St Alphonsus Primary School</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <div id="left">
+      <h1>St Alphonsus Primary School</h1>
+      <h2>Control Panel</h2>
+    </div>
+    <div id="right">
+    </div>
+  </header>
+  <main>
+    <div id="content">
+      <div id="container">
+        <label id="btext">Login</label><br>
+        <label>Login to access the control panel.</label><br><br>
+        <form id="login" action="login.php" method="POST">
+          <label for="username">Username</label> <label id="rq">*</label><br>
+          <input type="text" id="username" name="username"><br>
+          <label for="password">Password</label> <label id="rq">*</label><br>
+          <input type="password" id="password" name="password"><br><br>
+          <button id="submit" name="submit">Submit</button>
+          <?php if (!empty($error_msg)): ?>
+            <label id="error"><?php echo htmlspecialchars($error_msg); ?></label>
+          <?php endif; ?>
+        </form> 
+      </div>
+    </div>
+    <pre></pre>
+  </main>
+  <footer></footer>
+</body>
+
+</html>
