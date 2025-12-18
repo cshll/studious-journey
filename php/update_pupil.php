@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['full_na
 
   $birthday = $_POST['birthday'];
   $date_object = DateTime::createFromFormat('Y-m-d', $birthday);
-
   if (!$date_object || $date_object->format('Y-m-d') !== $birthday) {
     die("Invalid birthday provided.");
   }
