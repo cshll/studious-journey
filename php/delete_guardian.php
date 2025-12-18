@@ -12,8 +12,11 @@ if ($_SESSION['usertype'] != 'admin') {
   die("403: You are not authorized to access this resource.");
 }
 
-if (isset($_GET['id'])) {
-  $guardian_id = $_GET['id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])) {
+  $guardian_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+  if (!$guardian_id || $guardian_id <= 0) {
+    die("Invalid guardian ID provided.");
+  }
 
   try {
     $stmt = $pdo->prepare("DELETE FROM guardians WHERE guardian_id = :id");

@@ -12,8 +12,11 @@ if ($_SESSION['usertype'] != 'admin') {
   die("403: You are not authorized to access this resource.");
 }
 
-if (isset($_GET['id'])) {
-  $teacher_id = $_GET['id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])) {
+  $teacher_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+  if (!$teacher_id || $teacher_id <= 0) {
+    die("Invalid teacher ID provided.");
+  }
 
   try {
     $stmt = $pdo->prepare("DELETE FROM teachers WHERE teacher_id = :id");

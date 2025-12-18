@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['full_na
   }
 
   $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
-  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100) {
     die("Invalid email provided.");
   }
   

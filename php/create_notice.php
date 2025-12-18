@@ -20,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['date'], $_POST['descr
   }
 
   $notice_title = trim(strip_tags($_POST['title']));
+  if (strlen($notice_title) > 100) {
+    die("Invalid title provided.");
+  }
 
   $notice_description = trim(strip_tags($_POST['description']));
   if (empty($notice_description)) {

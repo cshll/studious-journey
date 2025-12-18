@@ -12,8 +12,11 @@ if ($_SESSION['usertype'] != 'admin') {
   die("403: You are not authorized to access this resource.");
 }
 
-if (isset($_GET['id'])) {
-  $pupil_id = $_GET['id'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['id'])) {
+  $pupil_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+  if (!$pupil_id || $pupil_id <= 0) {
+    die("Invalid pupil ID provided.");
+  }
 
   try {
     $stmt = $pdo->prepare("DELETE FROM pupils WHERE pupil_id = :id");
