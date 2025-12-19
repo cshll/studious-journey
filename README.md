@@ -4,7 +4,7 @@ How to start the server:
 - First download Docker Desktop on Windows: https://www.docker.com/products/docker-desktop/
 - Install it as well as WSL 2 (if asked).
 - Open Docker Desktop.
-- Navigate to this project folder where 'docker-dompose.yml' is.
+- Navigate to this project folder where 'docker-compose.yml' is.
 - Right-click and open in terminal.
 - Run this command below:
 ```
