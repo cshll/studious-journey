@@ -19,4 +19,5 @@ docker compose up -d --build --force-recreate
 docker ps
 ```
 - Visit localhost on your browser for the site and localhost:8080 for phpMyAdmin.
+
 This can also be done on Linux (**run using sudo**) using the above commands in a terminal (if docker is installed).
