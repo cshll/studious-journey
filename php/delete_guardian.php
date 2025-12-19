@@ -13,11 +13,13 @@ if ($_SESSION['usertype'] != 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+  // Check if the guardian ID is valid.
   $guardian_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
   if (!$guardian_id || $guardian_id <= 0) {
     die("Invalid guardian ID provided.");
   }
 
+  // Delete the guardian from the database.
   try {
     $stmt = $pdo->prepare("DELETE FROM guardians WHERE guardian_id = :id");
     $stmt->execute(['id' => $guardian_id]);

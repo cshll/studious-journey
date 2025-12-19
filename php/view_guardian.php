@@ -12,10 +12,12 @@ if ($_SESSION['usertype'] != 'admin' && $_SESSION['usertype'] != 'teacher') {
   die("403: You are not authorized to access this resource.");
 }
 
+// Select the guardian from the database.
 $stmt = $pdo->prepare("SELECT guardians.* FROM guardians WHERE guardian_id = :guardian_id");
 $stmt->execute(['guardian_id' => $_GET['id']]);
 $guardian = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Check if guardian is found.
 if (!$guardian) {
   die("Guardian not found!");
 }

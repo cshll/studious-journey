@@ -12,6 +12,7 @@ if ($_SESSION['usertype'] != 'admin') {
   die("403: You are not authorized to access this resource.");
 }
 
+// Pull down classes where the capacity is not full. 
 try {
   $class_sql = "SELECT classes.class_id, classes.name 
   FROM classes 
@@ -27,16 +28,19 @@ try {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'], $_POST['birthday'], $_POST['address'], $_POST['class_id'])) {
+  // Check if class ID is valid or within the classes array.
   $class_id = filter_input(INPUT_POST, 'class_id', FILTER_VALIDATE_INT);
   if (!$class_id || !in_array($class_id, array_column($classes, 'class_id'))) {
     die("Invalid class ID provided.");
   }
 
+  // Check if full name is valid.
   $full_name = trim(strip_tags($_POST['full_name']));
   if (empty($full_name) || strlen($full_name) > 100 || strlen($full_name) < 2) {
     die("Invalid full name provided.");
   }
 
+  // Check if the given date is a valid date.
   $birthday = $_POST['birthday'];
   $date_object = DateTime::createFromFormat('Y-m-d', $birthday);
   if (!$date_object || $date_object->format('Y-m-d') !== $birthday) {
@@ -48,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'], $_POST['
     die("Invalid birthday provided.");
   }
 
+  // Check if address is valid.
   $address = trim(strip_tags($_POST['address']));
   if (empty($address)) {
     die("Invalid address provided.");
@@ -55,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['full_name'], $_POST['
   
   $medical_info = !empty($_POST['medical_info']) ? trim(strip_tags($_POST['medical_info'])) : null;
 
+  // Insert the pupil data into the database.
   try {
     $pupil_sql = "INSERT INTO pupils (full_name, address, birthday, medical_info, class_id) 
     VALUES (:full_name, :address, :birthday, :medical_info, :class_id)";

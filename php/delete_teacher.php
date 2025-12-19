@@ -13,11 +13,13 @@ if ($_SESSION['usertype'] != 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+  // Check if teacher ID exists.
   $teacher_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
   if (!$teacher_id || $teacher_id <= 0) {
     die("Invalid teacher ID provided.");
   }
 
+  // Delete the teacher from the database.
   try {
     $stmt = $pdo->prepare("DELETE FROM teachers WHERE teacher_id = :id");
     $stmt->execute(['id' => $teacher_id]);

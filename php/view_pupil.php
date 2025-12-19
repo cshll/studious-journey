@@ -12,11 +12,13 @@ if ($_SESSION['usertype'] != 'admin' && $_SESSION['usertype'] != 'teacher') {
   die("403: You are not authorized to access this resource.");
 }
 
+// Select the pupil frpm the database.
 $pupil_stmt = $pdo->prepare("SELECT pupils.* FROM pupils WHERE pupil_id = :pupil_id");
 $pupil_stmt->execute(['pupil_id' => $_GET['id']]);
 $pupil = $pupil_stmt->fetch(PDO::FETCH_ASSOC);
 
 try {
+  // Grab classes that are under capacity or matching the pupils class ID from the database.
   $class_sql = "SELECT classes.class_id, classes.name 
   FROM classes 
   LEFT JOIN pupils ON classes.class_id = pupils.class_id 
@@ -31,6 +33,7 @@ try {
   die("Unknown error!");
 }
 
+// Check if pupil is found.
 if (!$pupil) {
   die("Pupil not found!");
 }

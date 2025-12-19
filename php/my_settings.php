@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $new_password = $_POST['new_password'] ?? '';
   $confirm_password = $_POST['confirm_password'] ? '';
 
+  // Check if the password matches requirements.
   if (empty($current_password) || empty($new_password) || empty($confirm_password)) {
     $error_msg = "All fields must be entered.";
   } elseif ($new_password !== $confirm_password) {
@@ -29,17 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error_msg = "Password must be at least 8 characters, contain a number, and a capital letter.";
   } 
 
+  // If no errors were found, continue.
   if (empty($error_msg)) {
     try {
+      // Grab the password hash for the current logged in user.
       $stmt = $pdo->prepare("SELECT password_hash FROM users WHERE user_id = :user_id");
       $stmt->execute(['user_id' => $user_id]);
       $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+      // Check if the current password is correct.
       if (!password_verify($current_password, $user['password_hash'])) {
         $error_msg = 'Current password is not correct.';
       } else {
+        // Hash the password.
         $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
+        // Update the password on the database.
         $user_sql = "UPDATE users SET 
         password_hash = :password_hash
         WHERE user_id = :user_id";

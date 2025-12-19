@@ -13,22 +13,24 @@ if ($_SESSION['usertype'] != 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['full_name'], $_POST['birthday'], $_POST['address'], $_POST['class_id'])) {
+  // Check if pupil ID is valid.
   $pupil_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
   if (!$pupil_id || $pupil_id <= 0) {
     die("Invalid pupil ID provided.");
   }
 
   try {
-    $pupil_sql = "SELECT class_id FROM pupils WHERE pupil_id = :pupil_id";
-
-    $pupil_stmt = $pdo->prepare($pupil_sql);
+    // Grab the class belonging to the pupil from the database.
+    $pupil_stmt = $pdo->prepare("SELECT class_id FROM pupils WHERE pupil_id = :pupil_id");
     $pupil_stmt->execute(['pupil_id' => $pupil_id]);
     $pupil = $pupil_stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Check if pupil actually exists.
     if (!$pupil) {
       die("Invalid pupil ID provided.");
     }
 
+    // Grab classes that are under capacity or matching pupils class ID from the database.
     $class_sql = "SELECT classes.class_id, classes.name 
     FROM classes 
     LEFT JOIN pupils ON classes.class_id = pupils.class_id 
@@ -43,16 +45,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['full_na
     die("Unknown error!");
   }
 
+  // Check if class ID is valid.
   $class_id = filter_input(INPUT_POST, 'class_id', FILTER_VALIDATE_INT);
   if (!$class_id || !in_array($class_id, array_column($classes, 'class_id'))) {
     die("Invalid class ID provided.");
   }
 
+  // Check if full name is valid.
   $full_name = trim(strip_tags($_POST['full_name']));
   if (empty($full_name) || strlen($full_name) > 100 || strlen($full_name) < 2) {
     die("Invalid full name provided.");
   }
 
+  // Check if date provided is a valid date.
   $birthday = $_POST['birthday'];
   $date_object = DateTime::createFromFormat('Y-m-d', $birthday);
   if (!$date_object || $date_object->format('Y-m-d') !== $birthday) {
@@ -64,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['full_na
     die("Invalid birthday provided.");
   }
 
+  // Check if address is valid.
   $address = trim(strip_tags($_POST['address']));
   if (empty($address)) {
     die("Invalid address provided.");
@@ -72,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['full_na
   $medical_info = !empty($_POST['medical_info']) ? trim(strip_tags($_POST['medical_info'])) : null;
 
   try {
+    // Update pupil within the database.
     $pupil_sql = "UPDATE pupils SET 
     full_name = :full_name, 
     address = :address,

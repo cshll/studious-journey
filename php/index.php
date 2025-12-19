@@ -8,6 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   exit;
 }
 
+// Pull down all the notices from the database.
 $stmt = $pdo->query("SELECT notices.* FROM notices");
 $notices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -78,11 +79,13 @@ $notices = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php
           $my_pupils = [];
 
+          // Pull down the guardian from the database using the session user id.
           $stmt = $pdo->prepare("SELECT guardian_id, full_name FROM guardians WHERE user_id = :user_id");
           $stmt->execute(['user_id' => $_SESSION['userid']]);
           $guardian = $stmt->fetch(PDO::FETCH_ASSOC);
 
           if ($guardian) {
+            // Pull down the guardians children from the database.
             $guardian_id = $guardian['guardian_id'];
 
             $sql = "SELECT pupils.full_name, pupils.birthday, pupils.medical_info, classes.name as class_name 
@@ -124,6 +127,7 @@ $notices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       <?php if ($_SESSION['usertype'] == 'teacher'): ?>
         <?php
+          // Pull down the teacher from the database using the session user id.
           $teacher_sql = "SELECT teachers.*, job_type.name, job_type.annual_salary, (job_type.annual_salary / 12) as monthly_gross 
           FROM teachers 
           LEFT JOIN job_type ON teachers.job_id = job_type.job_id 
@@ -133,10 +137,12 @@ $notices = $stmt->fetchAll(PDO::FETCH_ASSOC);
           $stmt->execute(['teacher_id' => $_SESSION['userid']]);
           $teacher = $stmt->fetch(PDO::FETCH_ASSOC);
 
+          // Format annual salary into monthly gross.
           $monthly_formatted = number_format($teacher['monthly_gross'], 2);
 
+          // Grab the date for the last day of the current month. 
           $date = new DateTime('last day of this month');
-          
+
           if ($date->format('N') > 5) {
             $date->modify('last Friday');
           }

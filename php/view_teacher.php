@@ -12,10 +12,12 @@ if ($_SESSION['usertype'] != 'admin') {
   die("403: You are not authorized to access this resource.");
 }
 
+// Grab teacher from the database.
 $stmt = $pdo->prepare("SELECT teachers.* FROM teachers WHERE teacher_id = :teacher_id");
 $stmt->execute(['teacher_id' => $_GET['id']]);
 $teacher = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Check if teacher is found.
 if (!$teacher) {
   die("Teacher not found!");
 }

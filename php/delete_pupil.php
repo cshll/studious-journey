@@ -13,11 +13,13 @@ if ($_SESSION['usertype'] != 'admin') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+  // Check if pupil ID exists.
   $pupil_id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
   if (!$pupil_id || $pupil_id <= 0) {
     die("Invalid pupil ID provided.");
   }
-
+  
+  // Delete the pupil from the database.
   try {
     $stmt = $pdo->prepare("DELETE FROM pupils WHERE pupil_id = :id");
     $stmt->execute(['id' => $pupil_id]);

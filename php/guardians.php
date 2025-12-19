@@ -14,9 +14,11 @@ if ($_SESSION['usertype'] != 'admin' && $_SESSION['usertype'] != 'teacher') {
 
 $search_term = $_GET['search'] ?? '';
 
+// Pull down the correct guardian from the database.
 $guardian_sql = "SELECT * FROM guardians WHERE 1=1";
 $guardian_params = [];
 
+// Concatenate search terms to SQL statement.
 if (!empty($search_term)) {
   $guardian_sql .= " AND full_name LIKE :search";
   $guardian_params['search'] = "%$search_term%";

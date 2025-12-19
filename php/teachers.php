@@ -14,12 +14,14 @@ if ($_SESSION['usertype'] != 'admin' && $_SESSION['usertype'] != 'teacher') {
 
 $search_term = $_GET['search'] ?? '';
 
+// Grab teachers from the database.
 $teacher_sql = "SELECT teachers.*, classes.name as class_name 
 FROM teachers 
 JOIN classes ON teachers.class_id = classes.class_id 
 WHERE 1=1";
 $teacher_params = [];
 
+// Concatenate the search terms within the SQL statement.
 if (!empty($search_term)) {
   $teacher_sql .= " AND full_name LIKE :search";
   $teacher_params['search'] = "%$search_term%";

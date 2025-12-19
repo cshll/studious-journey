@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = trim($_POST['username'] ?? '');
   $password = $_POST['password'] ?? '';
 
+  // Pull down the user from the database that matches the username.
   try {
     $sql_users = "SELECT users.user_id, users.username, users.password_hash, types.type_name 
     FROM users 
@@ -25,7 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute(['username' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Check if hash matches the password.
     if ($user && password_verify($password, $user['password_hash'])) {
+      // Set session variables for reuse.
       $_SESSION['loggedin'] = true;
       $_SESSION['userid'] = $user['user_id'];
       $_SESSION['usertype'] = $user['type_name'];
@@ -33,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       $real_name = $user['username'];
 
+      // Grab users full name from the database.
       try {
         $stmt = $pdo->prepare("SELECT full_name FROM " . $user['type_name'] . "s WHERE user_id = :user_id");  
         $stmt->execute(['user_id' => $user['user_id']]);

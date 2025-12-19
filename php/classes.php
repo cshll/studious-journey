@@ -14,6 +14,7 @@ if ($_SESSION['usertype'] != 'admin' && $_SESSION['usertype'] != 'teacher') {
 
 $search_term = $_GET['search'] ?? '';
 
+// Pull down classes from database.
 $class_sql = "SELECT classes.*, teachers.full_name as teacher_name, teachers.teacher_id as teacher_id 
 FROM classes 
 LEFT JOIN teachers ON classes.class_id = teachers.class_id 
@@ -23,9 +24,11 @@ ORDER BY classes.class_id ASC";
 $stmt = $pdo->query($class_sql);
 $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Pull down pupils from database.
 $pupil_sql = "SELECT * FROM pupils WHERE 1=1";
 $pupil_params = [];
 
+// Add search terms to the SQL statement.
 if (!empty($search_term)) {
   $pupil_sql .= " AND full_name LIKE :search";
   $pupil_params['search'] = "%$search_term%";
@@ -37,6 +40,7 @@ $stmt = $pdo->prepare($pupil_sql);
 $stmt->execute($pupil_params);
 $pupils = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Function to grab pupils for a specific class, returns pupils within a class.
 function getPupilsForClass($class_id, $pupils) {
   $results = [];
   foreach ($pupils as $pupil) {
