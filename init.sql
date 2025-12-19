@@ -1,6 +1,3 @@
--- Initiates needed tables within the SQL file.
-
--- Creates the users table, allows for username and password_hash with an auto increment for id.
 CREATE TABLE IF NOT EXISTS types (
   type_id INT AUTO_INCREMENT PRIMARY KEY,
   type_name VARCHAR(50) NOT NULL
@@ -20,7 +17,6 @@ CREATE TABLE IF NOT EXISTS users (
   FOREIGN KEY (type_id) REFERENCES types(type_id) ON DELETE SET NULL
 );
 
--- Creates the pupils table.
 CREATE TABLE IF NOT EXISTS classes (
   class_id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
@@ -108,11 +104,9 @@ CREATE TABLE IF NOT EXISTS behavioral_notices (
   FOREIGN KEY (pupil_id) REFERENCES pupils(pupil_id) ON DELETE CASCADE
 );
 
--- Inserts the default user 'admin' with the password 'school' into the users table.
 INSERT INTO users (username, password_hash, type_id) VALUES 
 ('admin', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu', 1);
 
--- teachers
 INSERT INTO users (username, password_hash, type_id) VALUES 
 ('scollins', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu', 2),
 ('dmwangi', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu', 2),
@@ -131,7 +125,6 @@ INSERT INTO teachers (full_name, address, email, phone_number, background_check,
 ('Liam Gallagher', '10 Burnage Lane, Burnage, M19 1ER', 'l.gallagher@st-alphonsus.sch.uk', '07700900106', TRUE, 6, (SELECT user_id FROM users WHERE username = 'lgallagher'), 2),
 ('Grace Henderson', 'Apartment 4B, Deansgate Square, M15 4UP', 'g.henderson@st-alphonsus.sch.uk', '07700900107', TRUE, 7, (SELECT user_id FROM users WHERE username = 'ghenderson'), 2);
 
--- guardians
 INSERT INTO users (username, password_hash, type_id) VALUES 
 ('gjroberts', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu', 3),
 ('gikhan', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu', 3),
@@ -142,7 +135,6 @@ INSERT INTO guardians (full_name, address, email, phone_number, user_id) VALUES
 ('Imran Khan', '22 Seymour Grove, Old Trafford, M16 0LH', 'i.khan@email.test', '07700111333', (SELECT user_id FROM users WHERE username = 'gikhan')),
 ('Tunde Adebayo', '56 Shrewsbury Street, Old Trafford, M16 9AP', 't.adebayo@email.test', '07700111444', (SELECT user_id FROM users WHERE username = 'gtadebayo'));
 
--- pupils
 INSERT INTO users (username, password_hash, type_id) VALUES 
 ('aroberts19', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu', 4),
 ('akhan17', '$2y$10$iMQJAMvOl51LtxI6.8lx1uxrri8fxUoa0lHqA9t6GLc8.VG2mrxpu', 4),
@@ -155,7 +147,6 @@ INSERT INTO pupils (full_name, address, birthday, medical_info, class_id, user_i
 ('Lucas Adebayo', '56 Shrewsbury Street, Old Trafford, M16 9AP', '2015-02-14', 'Mild asthma', 5, (SELECT user_id FROM users WHERE username = 'ladebayo15')),
 ('Zara Khan', '22 Seymour Grove, Old Trafford, M16 0LH', '2013-08-30', 'Requires glasses', 7, (SELECT user_id FROM users WHERE username = 'zkhan13'));
 
--- pupil to guardian linking
 INSERT INTO guardian_pupil (pupil_id, guardian_id) VALUES
 ((SELECT pupil_id FROM pupils WHERE full_name = 'Alfie Roberts'), (SELECT guardian_id FROM guardians WHERE full_name = 'Julie Roberts')),
 ((SELECT pupil_id FROM pupils WHERE full_name = 'Aisha Khan'), (SELECT guardian_id FROM guardians WHERE full_name = 'Imran Khan')),
@@ -164,5 +155,5 @@ INSERT INTO guardian_pupil (pupil_id, guardian_id) VALUES
 
 INSERT INTO notices (description, notice_date, title) VALUES
 ('This is a test notice, please ignore.', '1970-01-01', NULL),
-('School is closed today due to bad weather.', '2025-12-12', 'Closure'),
-('Christmas holidays begin!', '2025-12-19', NULL);
+('School is closed today due to bad weather.', '2026-12-12', 'Closure'),
+('Christmas holidays begin!', '2026-12-19', NULL);
