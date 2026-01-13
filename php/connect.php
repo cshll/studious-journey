@@ -1,8 +1,8 @@
 <?php
 $db_host = 'db';
 $db_user = 'root';
-$db_pass = 'school';
-$db_name = 'school_db';
+$db_pass = 'busses';
+$db_name = 'bus_db';
 
 // Connect to the database or throw error if connection failed.
 try {

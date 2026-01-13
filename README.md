@@ -1,4 +1,4 @@
-# St Alphonsus Primary School
+# Framework Bus Company
 
 How to start the server:
 - First download Docker Desktop on Windows: https://www.docker.com/products/docker-desktop/

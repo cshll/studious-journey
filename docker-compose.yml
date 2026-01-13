@@ -27,8 +27,8 @@ services:
     container_name: mysql-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: school
-      MYSQL_DATABASE: school_db
+      MYSQL_ROOT_PASSWORD: busses
+      MYSQL_DATABASE: bus_db
     volumes:
       - ./db-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
