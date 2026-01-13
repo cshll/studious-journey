@@ -56,11 +56,18 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .logo {
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 7.5px;
+}
+
+.logo svg {
+  display: block;
 }
 
 .logo a {
@@ -68,6 +75,10 @@ ul {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
+  line-height: 1;
+  display: inline-block;
+  position: relative;
+  top: 5px;
 }
 
 .main-nav ul {
@@ -169,8 +180,19 @@ ul {
     flex-wrap: wrap;
   }
 
+  .logo {
+    width: 100%;
+  }
+
+  .main-nav {
+    margin-right: auto;
+  }
+
   .main-nav ul {
-    gap: 15px;
+    font-size: 0.9rem;
+  }
+
+  #login {
     font-size: 0.9rem;
   }
 }

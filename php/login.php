@@ -14,6 +14,11 @@
   <header class="site-header">
     <div class="container header-flex">
       <div class="logo">
+        <svg width="50" height="50" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <g fill="var(--text-dark)" fill-rule="evenodd">
+            <path d="M10 20h40c2.2 0 4 1.8 4 4v16c0 2.2-1.8 4-4 4h-4v4h-6v-4H20v4h-6v-4h-4c-2.2 0-4-1.8-4-4V24c0-2.2 1.8-4 4-4zm4 6h10v8H14v-8zm18 0h14v8H32v-8z"/>
+          </g>
+        </svg>
         <a href="index.php">Trafford Bus</a>
       </div>
       <nav class="main-nav">
@@ -25,10 +30,9 @@
     </div>
   </header>
 
-  <main class="site-content" style="margin: 15vh !important; margin-left: 25vw !important; margin-right: 25vw !important;">
+  <main class="site-content" style="margin: 15vh !important; margin-left: 20vw !important; margin-right: 20vw !important;">
     <div class="container">
-      <h1>Test</h1>
-      <p>Test 1</p>
+      <h1>Login</h1>
     </div>
   </main>
 
