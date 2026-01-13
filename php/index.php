@@ -14,13 +14,14 @@
   <header class="site-header">
     <div class="container header-flex">
       <div class="logo">
-        <a href="#">Bus</a>
+        <a href="index.php">Trafford Bus</a>
       </div>
       <nav class="main-nav">
         <ul>
           <li><a href="#">Test 1</a></li>
         </ul>
       </nav>
+      <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
     </div>
   </header>
 
@@ -53,7 +54,7 @@
         </div>
       </div>
       <div class="footer-bottom"</div>
-        <p>&copy; 2026 Bus Test. All rights reserved.</p>
+        <p>&copy; 2026 Trafford Bus. All rights reserved.</p>
       </div>
     </div>
   </footer>
