@@ -9,6 +9,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Company</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.86.0/dist/L.Control.Locate.min.css" />
+     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.86.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
 </head>
 <body>
   <header class="site-header">
@@ -33,8 +41,18 @@
 
   <main class="site-content">
     <div class="container">
-      <h1>Test</h1>
-      <p>Test 1<br><br><br><br><br><br><br><br><br><br>A<br><br><br><br><br><br><br>a</p>
+      <h1>Map of Trafford</h1>
+    <div id="liveMap" style="width: 100%; height: 500px;"></div>
+    <script>
+        var liveMap = L.map('liveMap').setView([53.4189361, -2.3592972], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(liveMap);
+    L.control.locate().addTo(liveMap);
+    //Insert Reference for Leaflet and Thunderforest API
+    //leaflet-locatecontrol-gh-pages
+    </script>
     </div>
   </main>
 

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Leaflet.Locate - Geolocation Control for Leaflet</title>
+    <link rel="icon" href="favicon.svg" />
+    <style>
+      :root {
+        --bg: #0a0e13;
+        --bg-subtle: #0f1419;
+        --text: #e6edf3;
+        --text-muted: #b9bcc0;
+        --link: #58a6ff;
+        --link-hover: #79c0ff;
+        --border: #21262d;
+        --accent: #238636;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.6 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        color: var(--link);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      a:hover {
+        color: var(--link-hover);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      header {
+        padding: 64px 0 48px;
+        background: linear-gradient(180deg, #0a1f3d 0%, #091427 55%, var(--bg) 100%);
+      }
+
+      .header-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: center;
+      }
+
+      h1 {
+        margin: 0 0 24px;
+        font-size: 48px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        color: #ffffff;
+      }
+
+      h1 img {
+        width: 48px;
+        flex-shrink: 0;
+      }
+
+      .header-description {
+        color: var(--text-muted);
+        font-size: 17px;
+        line-height: 1.7;
+      }
+
+      .header-description p {
+        margin: 0 0 16px;
+      }
+
+      .header-description p:last-child {
+        margin-bottom: 0;
+      }
+
+      .header-links {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        align-items: center;
+      }
+
+      .hero {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .hero img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      main {
+        padding-bottom: 80px;
+      }
+
+      h2 {
+        margin: 0 0 32px;
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        color: var(--text);
+      }
+
+      .examples {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 48px 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .examples li {
+        margin: 0;
+        display: flex;
+      }
+
+      .examples a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        min-height: 64px;
+        padding: 24px 96px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-size: 17px;
+        text-align: center;
+        transition: all 0.2s ease;
+      }
+
+      .examples a:hover {
+        border-color: var(--link);
+        background: rgba(88, 166, 255, 0.05);
+        transform: translateX(4px);
+        color: var(--link-hover);
+      }
+
+      code {
+        background: rgba(110, 118, 129, 0.15);
+        border: 1px solid var(--border);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-family: "SF Mono", Monaco, "Cascadia Mono", "Roboto Mono", Consolas, monospace;
+      }
+
+      @media (max-width: 768px) {
+        .header-content {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+
+        h1 {
+          font-size: 36px;
+        }
+
+        header {
+          padding: 48px 0 32px;
+        }
+
+        .header-description {
+          font-size: 16px;
+        }
+
+        h2 {
+          font-size: 24px;
+          margin-bottom: 24px;
+        }
+
+        .examples {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .header-links {
+          gap: 12px;
+        }
+
+        .header-links span {
+          display: none;
+        }
+      }
+    </style>
+    <meta name="description" content="A useful control to geolocate the user with many options. Used by osm.org and mapbox among many others." />
+    <meta property="og:title" content="leaflet-locatecontrol" />
+    <meta property="og:description" content="A useful control to geolocate the user with many options. Used by osm.org and mapbox among many others." />
+    <meta property="og:image" content="screenshot.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="header-left">
+            <h1>
+              <img src="favicon.svg" alt="Leaflet.Locate logo" />
+              Leaflet.Locate
+            </h1>
+            <div class="header-description">
+              <p>
+                A geolocation control for <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> that helps users find their current
+                position on the map.
+              </p>
+              <p>
+                Shows the user's location with a single click, tracks position updates, and can pan the map to follow along. Offers many options for customizing
+                behavior and appearance.
+              </p>
+            </div>
+            <div class="header-links">
+              <a href="https://www.npmjs.com/package/leaflet.locatecontrol" target="_blank" rel="noopener">📦 npm</a>
+              <span class="">•</span>
+              <a href="https://github.com/domoritz/leaflet-locatecontrol" target="_blank" rel="noopener">📚 GitHub</a>
+              <span class="">•</span>
+              <a href="https://github.com/domoritz/leaflet-locatecontrol#readme" target="_blank" rel="noopener">📖 Documentation</a>
+              <span class="">•</span>
+              <a href="https://github.com/domoritz/leaflet-locatecontrol/blob/HEAD/LICENSE" target="_blank" rel="noopener">⚖️ MIT License</a>
+            </div>
+          </div>
+          <div class="hero">
+            <img src="screenshot.png" alt="leaflet-locatecontrol example map screenshot" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <h2>Implementation Examples</h2>
+      <ul class="examples">
+        <li>
+          <a href="demo/umd/">Leaflet UMD</a>
+        </li>
+        <li>
+          <a href="demo/esm/">Leaflet ESM</a>
+        </li>
+        <li>
+          <a href="demo/mapbox/">Mapbox UMD</a>
+        </li>
+      </ul>
+
+      <h2>Feature Showcase</h2>
+      <ul class="examples">
+        <li>
+          <a href="demo/test-timeout.html">Poor GPS Signal Handling</a>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>
