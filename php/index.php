@@ -9,6 +9,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Company</title>
   <link rel="stylesheet" href="style.css">
+  <!-- AI NEEDS REFERENCES - PWA Manifest link -->
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <header class="site-header">
@@ -69,5 +71,30 @@
       </div>
     </div>
   </footer>
+  <!-- AI NEEDS REFERENCES - Service Worker Registration -->
+  <script>
+    // AI NEEDS REFERENCES - PWA installation detection
+    let deferredPrompt;
+    
+    // AI NEEDS REFERENCES - Before install prompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+    
+    // AI NEEDS REFERENCES - App installed event
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+    });
+    
+    // AI NEEDS REFERENCES - Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .catch((error) => {
+          // AI NEEDS REFERENCES - console.error for service worker registration failure
+          console.error('Service Worker registration failed:', error);
+        });
+    }
+  </script>
 </body>
 </html>
