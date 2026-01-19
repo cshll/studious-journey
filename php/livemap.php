@@ -30,12 +30,17 @@
         <a href="index.php">Trafford Bus</a>
       </div>
       <nav class="main-nav">
-        <ul>
-          <li><a href="#">Test 1</a></li>
+      <ul>
+          <li><a href="#">Home Page</a></li>
+          <li><a href="#">Veiw Tickets</a></li>
+          <li><a href="#">Purchase Ticket</a></li>
           <li><a href="livemap.php">LiveMap</a></li>
+          <li><a href="#">Timetables</a></li>
+          <li><a href="#">Create Journey</a></li>
         </ul>
       </nav>
       <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
+      <a class="btn btn-primary-grad" href="login.php" id="login">Sign up</a>
     </div>
   </header>
 
