@@ -31,16 +31,13 @@
       </div>
       <nav class="main-nav">
       <ul>
-          <li><a href="#">Home Page</a></li>
-          <li><a href="#">Veiw Tickets</a></li>
-          <li><a href="#">Purchase Ticket</a></li>
-          <li><a href="livemap.php">LiveMap</a></li>
+          <li><a href="#">Tickets</a></li>
+          <li><a href="livemap.php">Map</a></li>
           <li><a href="#">Timetables</a></li>
-          <li><a href="#">Create Journey</a></li>
+          <li><a href="#">Journeys</a></li>
         </ul>
       </nav>
       <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
-      <a class="btn btn-primary-grad" href="login.php" id="login">Sign up</a>
     </div>
   </header>
 
@@ -65,21 +62,24 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
-          <h3>Test</h3>
-          <p>Test 1</p>
+          <h3>About Us</h3>
+          <p>Trafford Bus operates a local bus service within the Trafford area.</p>
         </div>
 
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Test 2</a></li>
+            <li><a href="#">Tickets</a></li>
+            <li><a href="livemap.php">Map</a></li>
+            <li><a href="#">Timetables</a></li>
+            <li><a href="#">Journeys</a></li>
           </ul>
         </div>
       
         <div class="footer-col">
           <h4>Contact Us</h4>
-          <p>Test 1</p>
-          <p>Test 2</p>
+          <p>📧 support@traffordbus.local</p>
+          <p>📱 0161</p>
         </div>
       </div>
       <div class="footer-bottom"</div>
