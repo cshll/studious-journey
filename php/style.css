@@ -196,7 +196,6 @@ ul {
 .btn-primary-grad {
   background: var(--bg-light);
   color: var(--text-dark);
-  box-shadow: 0 4px 12px rgba(96, 125, 139, 0.3);
   transition: transform 0.2s;
 }
 
@@ -210,7 +209,7 @@ ul {
   margin: 0.5vh;
   background-color: var(--bg-light);
   border-radius: 1rem;
-  border: 2px solid var(--primary-color)
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .site-footer {

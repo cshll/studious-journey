@@ -41,7 +41,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     </div>
   </header>
 
-  <main class="site-content" style="margin: 10vh !important; margin-left: 7vw !important; margin-right: 7vw !important;">
+  <main class="site-content" style="margin: 60px auto; max-width: 900px; overflow: hidden;">
     <div class="container auth-card">
       <div class="auth-half login-side">
         <h2>Login</h2>
