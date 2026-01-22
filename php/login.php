@@ -41,9 +41,26 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     </div>
   </header>
 
-  <main class="site-content" style="margin: 15vh !important; margin-left: 20vw !important; margin-right: 20vw !important;">
-    <div class="container">
-      <h1>Login</h1>
+  <main class="site-content" style="margin: 10vh !important; margin-left: 7vw !important; margin-right: 7vw !important;">
+    <div class="container auth-card">
+      <div class="auth-half login-side">
+        <h2>Login</h2>
+        <form>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="Enter email here...">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" placeholder="Enter password here...">
+          </div>
+          <button type="submit" class="btn full-width">Sign In</button>
+      </div>
+      <div class="auth-half register-side">
+        <h2>Register</h2>
+        <p>New to Trafford Bus? Create an account to plan journeys or access tickets.</p>
+        <button class="btn btn-outline full-width">Create Account</button>
+      </div>
     </div>
   </main>
 

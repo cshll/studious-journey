@@ -45,6 +45,80 @@ ul {
   width: 100%;
 }
 
+.auth-card {
+  display: flex;
+}
+
+.auth-half {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-side {
+  border-right: 1px solid #e0e0e0;
+}
+
+.auth-half h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--text-dark);
+}
+
+.auth-half p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.full-width {
+  width: 100%;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary-color) !important;
+  color: var(--text-dark);
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
 .site-header {
   background: var(--primary-gradient);
   color: var(--text-dark);
@@ -194,5 +268,14 @@ ul {
 
   #login {
     font-size: 0.9rem;
+  }
+
+  .auth-card {
+    flex-direction: column;
+  }
+
+  .login-side {
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
   }
 }
