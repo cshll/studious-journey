@@ -37,7 +37,11 @@
           <li><a href="#">Journeys</a></li>
         </ul>
       </nav>
-      <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
+      <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === false): ?>
+        <a class="btn btn-header" href="login.php" id="login">Login</a>
+      <?php else: ?>
+        <a class="btn btn-header" href="logout.php" id="logout">Logout</a>
+      <?php endif; ?>
     </div>
   </header>
 

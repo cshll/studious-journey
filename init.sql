@@ -17,11 +17,13 @@
 -- docker ps
 -- ```
 -- - Visit localhost on your browser for the site and localhost:8080 for phpMyAdmin.
---
 -- This can also be done on Linux (**run using sudo**) using the above commands in a terminal (if docker is installed).
 
 CREATE TABLE IF NOT EXISTS users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(50) NOT NULL UNIQUE,
-  password_hash VARCHAR(255) NOT NULL,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL
 );
+
+INSERT INTO users (email, password_hash) VALUES 
+('admin@localhost', '$2y$10$w.twbxazasehpTWPJ3dL1OyvZCxmKCFYU6SnvexzPaAEs0BWorCem');

@@ -8,6 +8,35 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   exit;
 }
 
+$error_msg = '';
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  $email = trim($_POST['email'] ?? '');
+  $password = $_POST['password'] ?? '';
+
+  try {
+    $sql_users = "SELECT users.user_id, users.email, users.password_hash 
+    FROM users 
+    WHERE users.email = :email";
+
+    $stmt = $pdo->prepare($sql_users);
+    $stmt->execute(['email' => $email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($password, $user['password_hash'])) {
+      $_SESSION['loggedin'] = true;
+      $_SESSION['userid'] = $user['user_id'];
+      $_SESSION['email'] = $user['email'];
+
+      header('Location: index.php');
+      exit;
+    } else {
+      $error_msg = 'Invalid username or password.';
+    }
+  } catch (PDOException $error) {
+    $error_msg = $error;
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +66,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
           <li><a href="#">Journeys</a></li>
         </ul>
       </nav>
-      <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
+      <a class="btn btn-header" href="login.php" id="login">Login</a>
     </div>
   </header>
 
@@ -45,21 +74,25 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     <div class="container auth-card">
       <div class="auth-half login-side">
         <h2>Login</h2>
-        <form>
+        <form id="login" action="login.php" method="POST">
           <div class="form-group">
             <label>Email</label>
-            <input type="email" placeholder="Enter email here...">
+            <input name="email" type="email" placeholder="Enter email here...">
           </div>
           <div class="form-group">
             <label>Password</label>
-            <input type="password" placeholder="Enter password here...">
+            <input name="password" type="password" placeholder="Enter password here...">
           </div>
           <button type="submit" class="btn full-width">Sign In</button>
+          <?php if (!empty($error_msg)): ?>
+            <p style="margin-top: 5px; color: #ff6b6b !important;"><?php echo htmlspecialchars($error_msg); ?></p>
+          <?php endif; ?>
+        </form>
       </div>
       <div class="auth-half register-side">
         <h2>Register</h2>
         <p>New to Trafford Bus? Create an account to plan journeys or access tickets.</p>
-        <button class="btn btn-outline full-width">Create Account</button>
+        <a class="btn btn-outline full-width" href="signup.php" id="signup">Create Account</a>
       </div>
     </div>
   </main>
