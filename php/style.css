@@ -248,6 +248,126 @@ ul {
   cursor: pointer;
 }
 
+/* Timetable Page */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 30px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+.search-bar-wrapper {
+  margin-bottom: 20px;
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+}
+
+.trip-list-panel {
+  background: var(--bg-light);
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.trip-list-panel h3 {
+  padding: 15px;
+  background: #f9f9f9;
+  margin: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.trip-scroller {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.trip-card-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  text-decoration: none;
+  color: var(--text-dark);
+  transition: background 0.2s;
+}
+
+.trip-card-item:hover {
+  background-color: #fff9db;
+}
+
+.trip-card-item.active-trip {
+  background-color: var(--text-dark);
+  color: var(--bg-light);
+}
+
+.badge-route {
+  background: var(--primary-color);
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 10px;
+  color: #000;
+}
+
+.trip-dest {
+  flex: 1;
+  font-weight: 500;
+}
+
+.trip-detail-panel {
+  background: var(--bg-light);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  min-height: 400px;
+}
+
+.detail-header {
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.big-badge {
+  background: var(--text-dark);
+  color: var(--primary-color);
+  padding: 5px 15px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.time-slot {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.map-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.empty-state {
+  text-align: center;
+  color: #888;
+  margin-top: 100px;
+}
+
 /* Mobile Support */
 
 @media (max-width: 768px) {
@@ -278,5 +398,13 @@ ul {
   .login-side {
     border-right: none;
     border-bottom: 1px solid #e0e0e0;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trip-list-panel {
+    height: 300px;
   }
 }

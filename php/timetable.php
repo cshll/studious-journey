@@ -1,5 +1,44 @@
 <?php
 session_start();
+
+require 'connect.php';
+
+$search = $_GET['search'] ?? '';
+$search_sql = "SELECT trips.trip_id, routes.route_number, trips.trip_headsign 
+FROM trips 
+JOIN routes ON trips.route_id = routes.route_id 
+WHERE routes.route_number LIKE ? OR trips.trip_headsign LIKE ? 
+ORDER BY routes.route_number ASC";
+
+$stmt_list = $pdo->prepare($search_sql);
+$stmt_list->execute(["%$search%", "%$search%"]);
+$all_trips = $stmt_list->fetchAll();
+
+$selected_trip = null;
+$trip_stops = [];
+
+if (isset($_GET['trip_id'])) {
+  $trip_id = $_GET['trip_id'];
+
+  $info_sql = "SELECT trips.*, routes.route_number, routes.route_name 
+  FROM trips 
+  JOIN routes ON trips.route_id = routes.route_id 
+  WHERE trips.trip_id = ?";
+
+  $stmt_info = $pdo->prepare($info_sql);
+  $stmt_info->execute([$trip_id]);
+  $selected_trip = $stmt_info->fetch();
+
+  $stops_sql = "SELECT stops.stop_name, stops.latitude, stops.longitude, stop_times.arrival_time 
+  FROM stop_times 
+  JOIN stops ON stop_times.stop_id = stops.stop_id 
+  WHERE stop_times.trip_id = ? 
+  ORDER BY stop_times.stop_sequence ASC";
+
+  $stmt_stops = $pdo->prepare($stops_sql);
+  $stmt_stops->execute([$trip_id]);
+  $trip_stops = $stmt_stops->fetchAll();
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +81,79 @@ session_start();
   <main class="site-content">
     <div class="container">
       <h1>Timetable</h1>
+      <div class="seach-bar-wrapper">
+        <form action="timetable.php" method="GET" class="search-form">
+          <input type="text" name="search" placeholder="Search routes here..." value="<?php echo htmlspecialchars($search); ?>">
+          <?php if (isset($_GET['trip_id'])): ?>
+            <input type="hidden" name="trip_id" value="<?php echo $_GET['trip_id']; ?>">
+          <?php endif; ?>
+          <button type="submit" class="btn">Search</button>
+        </form>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="trip-list-panel">
+          <h3>Available Trips</h3>
+          <div class="trip-scroller">
+            <?php if (count($all_trips) > 0): ?>
+              <?php foreach ($all_trips as $trip): ?>
+                <?php $is_active = (isset($_GET['trip_id']) && $_GET['trip_id'] == $trip['trip_id']) ? 'active-trip' : ''?>
+                <a href="timetable.php?trip_id=<?php echo $trip['trip_id']; ?>&search=<?php echo htmlspecialchars($search); ?>"
+                  class="trip-card-item <?php echo $is_active; ?>">
+                  <span class="badge-route"><?php echo htmlspecialchars($trip['route_number']); ?></span>
+                  <span class="trip-dest"><?php echo htmlspecialchars($trip['trip_headsign']); ?></span>
+                  <span class="arrow">→</span>
+                </a>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <p class="no-results">No trips found.</p>
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+
+      <div cass="trip-detail-panel">
+        <?php if ($selected_trip): ?>
+          <div class="detail-header">
+            <h2>
+              <span class="big-badge"><?php echo htmlspecialchars($selected_trip['route_number']); ?></span>
+              Route to <?php echo htmlspecialchars($selected_trip['trip_headsign']); ?>
+            </h2>
+          </div>
+
+          <table class="bus-table">
+            <thead>
+              <tr>
+                <th>Stop Name</th>
+                <th>Arrival</th>
+                <th>Map</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <?php foreach ($trip_stops as $stop): ?>
+                <tr>
+                  <td class="stop-name"><?php echo htmlspecialchars($stop['stop_name']); ?></td>
+                  <td class="time-slot"><?php echo htmlspecialchars($stop['arrival_time']); ?></td>
+                  <td>
+                    <?php if ($stop['latitude']): ?>
+                      <a href="https://www.google.com/maps?q=<?php echo $stop['latitude']; ?>,<?php echo $stop['longitude']; ?>"
+                        target="_blank" class="map-link">📍 View</a>
+                    <?php else: ?>
+                      <span class="text-muted">-</span>
+                    <?php endif; ?>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php else: ?>
+          <div class="empty-state">
+            <div style="font-size: 3rem;">🚌</div>
+            <h3>Select a trip to view the schedule</h3>
+            <p>Choose a route from the list on the left.</p>
+          </div>
+        <?php endif; ?>
+      </div>
     </div>
   </main>
 
