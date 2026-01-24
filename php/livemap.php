@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -37,10 +37,10 @@
           <li><a href="#">Journeys</a></li>
         </ul>
       </nav>
-      <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === false): ?>
-        <a class="btn btn-header" href="login.php" id="login">Login</a>
-      <?php else: ?>
+      <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
         <a class="btn btn-header" href="logout.php" id="logout">Logout</a>
+      <?php else: ?>
+        <a class="btn btn-header" href="login.php" id="login">Login</a>
       <?php endif; ?>
     </div>
   </header>
