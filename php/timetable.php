@@ -59,7 +59,7 @@
           <ul>
             <li><a href="#">Tickets</a></li>
             <li><a href="livemap.php">Map</a></li>
-            <li><a href="#">Timetables</a></li>
+            <li><a href="timetable.php">Timetables</a></li>
             <li><a href="#">Journeys</a></li>
           </ul>
         </div>
