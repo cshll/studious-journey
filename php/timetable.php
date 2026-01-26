@@ -79,9 +79,9 @@ if (isset($_GET['trip_id'])) {
   </header>
 
   <main class="site-content">
-    <div class="container">
+    <div class="container" style="display: flex; flex-wrap: wrap; gap: 25px;">
       <h1>Timetable</h1>
-      <div class="seach-bar-wrapper">
+      <div class="seach-bar-wrapper" style="width: 100%;">
         <form action="timetable.php" method="GET" class="search-form">
           <input type="text" name="search" placeholder="Search routes here..." value="<?php echo htmlspecialchars($search); ?>">
           <?php if (isset($_GET['trip_id'])): ?>
@@ -112,7 +112,7 @@ if (isset($_GET['trip_id'])) {
         </div>
       </div>
 
-      <div cass="trip-detail-panel">
+      <div class="trip-detail-panel">
         <?php if ($selected_trip): ?>
           <div class="detail-header">
             <h2>
@@ -150,7 +150,7 @@ if (isset($_GET['trip_id'])) {
           <div class="empty-state">
             <div style="font-size: 3rem;">🚌</div>
             <h3>Select a trip to view the schedule</h3>
-            <p>Choose a route from the list on the left.</p>
+            <p>Choose a route from the list.</p>
           </div>
         <?php endif; ?>
       </div>

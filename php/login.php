@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       header('Location: index.php');
       exit;
     } else {
-      $error_msg = 'Invalid username or password.';
+      $error_msg = 'Invalid email or password.';
     }
   } catch (PDOException $error) {
     $error_msg = $error;

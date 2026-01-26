@@ -253,12 +253,7 @@ ul {
   display: grid;
   grid-template-columns: 350px 1fr;
   gap: 30px;
-  margin-top: 20px;
   align-items: start;
-}
-
-.search-bar-wrapper {
-  margin-bottom: 20px;
 }
 
 .search-form {
@@ -334,12 +329,21 @@ ul {
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   min-height: 400px;
+  flex-grow: 1;
 }
 
 .detail-header {
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 14px;
   margin-bottom: 20px;
+}
+
+.bus-table {
+  width: 100%;
+}
+
+.bus-table th {
+  text-align: left;
 }
 
 .big-badge {
@@ -402,9 +406,14 @@ ul {
 
   .dashboard-grid {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
   .trip-list-panel {
     height: 300px;
+  }
+
+  .trip-detail-panel {
+    width: 100%;
   }
 }
