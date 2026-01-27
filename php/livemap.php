@@ -50,12 +50,22 @@ session_start();
       <h1>Map of Trafford</h1>
       <div id="liveMap" style="width: 100%; height: 500px;"></div>
       <script>
-        var liveMap = L.map('liveMap').setView([53.4189361, -2.3592972], 13);
+        var liveMap = L.map('liveMap', {
+          zoomControl: false
+        }).setView([53.4189361, -2.3592972], 13);
+
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(liveMap);
-        L.control.locate().addTo(liveMap);
+        
+        L.control.locate({
+          position: 'bottomright'
+        }).addTo(liveMap);
+
+        L.control.zoom({
+          position: 'bottomright'
+        }).addTo(liveMap);
         //Insert Reference for Leaflet and Thunderforest API
         //leaflet-locatecontrol-gh-pages
       </script>
