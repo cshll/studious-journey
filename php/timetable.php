@@ -64,10 +64,10 @@ if (isset($_GET['trip_id'])) {
       </div>
       <nav class="main-nav">
         <ul>
-          <li><a href="#">Tickets</a></li>
+          <li><a href="tickets.php">Tickets</a></li>
           <li><a href="livemap.php">Map</a></li>
           <li><a href="timetable.php">Timetables</a></li>
-          <li><a href="#">Journeys</a></li>
+          <li><a href="journeys.php">Journeys</a></li>
         </ul>
       </nav>
       <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
@@ -168,10 +168,10 @@ if (isset($_GET['trip_id'])) {
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Tickets</a></li>
+            <li><a href="tickets.php">Tickets</a></li>
             <li><a href="livemap.php">Map</a></li>
             <li><a href="timetable.php">Timetables</a></li>
-            <li><a href="#">Journeys</a></li>
+            <li><a href="journeys.php">Journeys</a></li>
           </ul>
         </div>
       

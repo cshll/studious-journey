@@ -25,10 +25,10 @@ session_start();
       </div>
       <nav class="main-nav">
         <ul>
-          <li><a href="#">Tickets</a></li>
+          <li><a href="tickets.php">Tickets</a></li>
           <li><a href="livemap.php">Map</a></li>
           <li><a href="timetable.php">Timetables</a></li>
-          <li><a href="#">Journeys</a></li>
+          <li><a href="journeys.php">Journeys</a></li>
         </ul>
       </nav>
       <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
@@ -41,8 +41,6 @@ session_start();
 
   <main class="site-content">
     <div class="container">
-      <h1>Test</h1>
-      <p>Test 1</p>
     </div>
   </main>
 
@@ -57,10 +55,10 @@ session_start();
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Tickets</a></li>
+            <li><a href="tickets.php">Tickets</a></li>
             <li><a href="livemap.php">Map</a></li>
-            <li><a href="#">Timetables</a></li>
-            <li><a href="#">Journeys</a></li>
+            <li><a href="timetable.php">Timetables</a></li>
+            <li><a href="journeys.php">Journeys</a></li>
           </ul>
         </div>
       

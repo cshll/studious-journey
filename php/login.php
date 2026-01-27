@@ -60,10 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       </div>
       <nav class="main-nav">
         <ul>
-          <li><a href="#">Tickets</a></li>
+          <li><a href="tickets.php">Tickets</a></li>
           <li><a href="livemap.php">Map</a></li>
           <li><a href="timetable.php">Timetables</a></li>
-          <li><a href="#">Journeys</a></li>
+          <li><a href="journeys.php">Journeys</a></li>
         </ul>
       </nav>
       <a class="btn btn-header" href="login.php" id="login">Login</a>
@@ -108,10 +108,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Tickets</a></li>
+            <li><a href="tickets.php">Tickets</a></li>
             <li><a href="livemap.php">Map</a></li>
-            <li><a href="#">Timetables</a></li>
-            <li><a href="#">Journeys</a></li>
+            <li><a href="timetable.php">Timetables</a></li>
+            <li><a href="journeys.php">Journeys</a></li>
           </ul>
         </div>
       
