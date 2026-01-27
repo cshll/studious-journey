@@ -187,6 +187,72 @@ ul {
   font-size: 0.9rem;
 }
 
+/* Home Page */
+
+body.home-page .site-content {
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-section {
+  position: relative;
+  min-height: calc(100vh - 82px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: var(--text-dark);
+  background:
+    linear-gradient(rgba(255, 204, 0, 0.85), rgba(255, 204, 0, 0.6)),
+    url('https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2071&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-overlay h1 {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.hero-overlay p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.btn-hero {
+  display: inline-block;
+  padding: 12px 30px;
+  border: 3px solid var(--text-dark);
+  color: var(--text-dark);
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.btn-hero:hover {
+  background: var(--text-dark);
+  color: var(--primary-color);
+}
+
+.content-section {
+  padding: 80px 0;
+  background: var(--bg-light);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
 /* Login Page */
 
 .auth-card {
@@ -389,6 +455,14 @@ ul {
 
   .main-nav ul {
     font-size: 0.9rem;
+  }
+
+  .hero-overlay h1 {
+    font-size: 2.5rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
   }
 
   #login {

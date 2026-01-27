@@ -61,7 +61,8 @@ CREATE TABLE IF NOT EXISTS stop_times (
 /*DUMMY DATA*/
 
 /*Route X50*/
-INSERT INTO routes (route_number, route_name) VALUES ('X50', 'Manchester to Trafford');
+INSERT INTO routes (route_number, route_name) VALUES 
+('X50', 'Manchester to Trafford');
 
 /*3 Stops*/
 INSERT INTO stops (stop_name, latitude, longitude) VALUES 
@@ -70,7 +71,9 @@ INSERT INTO stops (stop_name, latitude, longitude) VALUES
 ('Piccadilly Gardens', 53.4811, -2.2369);
 
 /*2 Trips*/
-INSERT INTO trips (route_id, trip_headsign) VALUES (1, 'Picadilly'), (1, 'Picadilly');
+INSERT INTO trips (route_id, trip_headsign) VALUES 
+(1, 'Picadilly'), 
+(1, 'Picadilly');
 
 /*Trip 1 (ID 1)*/
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
