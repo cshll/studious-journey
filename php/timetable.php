@@ -48,7 +48,6 @@ if (isset($_GET['trip_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Company</title>
   <link rel="stylesheet" href="style.css">
-  <!-- AI NEEDS REFERENCES - PWA Manifest link -->
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -191,7 +190,11 @@ if (isset($_GET['trip_id'])) {
     <div class="pwa-text-box">
       <h3>Mobile Users Benefit</h3>
       <p>Install the app for a better experience.</p>
-      <button id="pwa-install-btn" class="btn btn-primary">Install App ↓</button>
+      
+      <div class="pwa-btn-group">
+        <button id="pwa-dismiss-btn" class="btn btn-outline-small">No Thanks</button>
+        <button id="pwa-install-btn" class="btn btn-primary-small">Install App ↓</button>
+      </div>
     </div> 
 
     <div class="phone-mockup">
@@ -205,40 +208,6 @@ if (isset($_GET['trip_id'])) {
     </div>
   </div>
 
-  <script>
-    // AI NEEDS REFERENCES - Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .catch((error) => {
-          // AI NEEDS REFERENCES - console.error for service worker registration failure
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-
-    let deferredPrompt;
-    const pwaContainer = document.getElementById('pwaPromo');
-    const installBtn = document.getElementById('pwa-install-btn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      pwaContainer.style.display = 'flex';
-    });
-
-    installBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to install prompt: ${outcome}`);
-        deferredPrompt = null;
-        pwaContainer.style.display = 'none';
-      }
-    });
-
-    window.addEventListener('appinstalled', () => {
-      pwaContainer.style.display = 'none';
-      deferredPrompt = null;
-    });
-  </script>
+  <script src="pwa.js"></script>
 </body>
 </html>

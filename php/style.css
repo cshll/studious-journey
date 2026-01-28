@@ -155,6 +155,32 @@ ul {
   color: var(--text-light);
 }
 
+.btn-primary-small {
+  background: var(--primary-color);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-dark)
+}
+
+.btn-outline-small {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.btn-outline-small:hover {
+  background: #f0f0f0;
+  color: #333
+}
+
 /* Footer */
 
 .site-footer {
@@ -448,7 +474,7 @@ body.home-page .site-content {
   position: fixed;
   bottom: 0;
   right: 50px;
-  display: flex;
+  display: none;
   align-items: flex-end;
   gap: 20px;
   z-index: 9999;
@@ -462,7 +488,7 @@ body.home-page .site-content {
   border-radius: 12px;
   margin-bottom: 20px;
   text-align: right;
-  max-width: 200px;
+  max-width: 320px;
 }
 
 .pwa-text-box h3 {
@@ -496,6 +522,13 @@ body.home-page .site-content {
   animation: gentlePulse 1s infinite;
 }
 
+.pwa-btn-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
 .phone-screen {
   background: var(--primary-color);
   width: 100%;
@@ -523,6 +556,10 @@ body.home-page .site-content {
   border-radius: 0 0 10px 10px;
 }
 
+.slide-out {
+  animation: slideDown 0.6s forwards cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
 /* Keyframes */
 
 @keyframes slideUp {
@@ -534,6 +571,18 @@ body.home-page .site-content {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
   }
 }
 

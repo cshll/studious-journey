@@ -17,6 +17,7 @@ session_start();
      crossorigin=""></script>
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.86.0/dist/L.Control.Locate.min.css" />
      <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.86.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <header class="site-header">
@@ -106,7 +107,11 @@ session_start();
     <div class="pwa-text-box">
       <h3>Mobile Users Benefit</h3>
       <p>Install the app for a better experience.</p>
-      <button id="pwa-install-btn" class="btn btn-primary">Install App ↓</button>
+
+      <div class="pwa-btn-group">
+        <button id="pwa-dismiss-btn" class="btn btn-outline-small">No Thanks</button>
+        <button id="pwa-install-btn" class="btn btn-primary-small">Install App ↓</button>
+      </div>
     </div> 
 
     <div class="phone-mockup">
@@ -120,40 +125,6 @@ session_start();
     </div>
   </div>
 
-  <script>
-    // AI NEEDS REFERENCES - Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .catch((error) => {
-          // AI NEEDS REFERENCES - console.error for service worker registration failure
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-
-    let deferredPrompt;
-    const pwaContainer = document.getElementById('pwaPromo');
-    const installBtn = document.getElementById('pwa-install-btn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      pwaContainer.style.display = 'flex';
-    });
-
-    installBtn.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to install prompt: ${outcome}`);
-        deferredPrompt = null;
-        pwaContainer.style.display = 'none';
-      }
-    });
-
-    window.addEventListener('appinstalled', () => {
-      pwaContainer.style.display = 'none';
-      deferredPrompt = null;
-    });
-  </script>
+  <script src="pwa.js"></script> 
 </body>
 </html>
