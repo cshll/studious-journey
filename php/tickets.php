@@ -40,7 +40,6 @@ session_start();
 
   <main class="site-content">
     <div class="container">
-      <h1>Tickets</h1>
     </div>
   </main>
 

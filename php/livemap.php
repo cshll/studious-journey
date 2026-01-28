@@ -48,7 +48,6 @@ session_start();
 
   <main class="site-content">
     <div class="container">
-      <h1>Map of Trafford</h1>
       <div id="liveMap" style="width: 100%; height: 500px;"></div>
       <script>
         var liveMap = L.map('liveMap', {

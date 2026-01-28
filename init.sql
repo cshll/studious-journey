@@ -86,3 +86,36 @@ INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
 (2, 1, '09:00', 1),
 (2, 2, '09:20', 2),
 (2, 3, '09:45', 3);
+
+/* 1. New Route: Altrincham to Trafford */
+/* This will be Route ID 2 */
+INSERT INTO routes (route_number, route_name) VALUES 
+('263', 'Altrincham to Trafford');
+
+/* 2. Three Stops (Ordered Start to End) */
+/* Stop IDs 4, 5, 6 */
+INSERT INTO stops (stop_name, latitude, longitude) VALUES 
+('Altrincham Interchange', 53.3872, -2.3482),  /* Start */
+('Sale Tram Stop', 53.4251, -2.3167),          /* Middle */
+('Trafford Centre', 53.4668, -2.3488);         /* End */
+
+/* 3. Two Trips */
+/* Trip IDs 3, 4 linked to Route ID 2 */
+/* Headsign shows where the bus is GOING (Trafford) */
+INSERT INTO trips (route_id, trip_headsign) VALUES 
+(2, 'Trafford Centre'), 
+(2, 'Trafford Centre');
+
+/* 4. Trip 1 Times (Starts 10:00) */
+/* Uses Stop IDs 4, 5, 6 */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(3, 4, '10:00', 1), /* Depart Altrincham */
+(3, 5, '10:20', 2), /* Sale */
+(3, 6, '10:45', 3); /* Arrive Trafford */
+
+/* 5. Trip 2 Times (Starts 11:00) */
+/* Uses Stop IDs 4, 5, 6 */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(4, 4, '11:00', 1), /* Depart Altrincham */
+(4, 5, '11:20', 2), /* Sale */
+(4, 6, '11:45', 3); /* Arrive Trafford */
