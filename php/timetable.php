@@ -42,6 +42,16 @@ if ($route_id) {
   $stmt_next->execute([$route_id, $current_time]);
   $next_trip = $stmt_next->fetch();
 
+  $schedule_sql = "SELECT trips.trip_headsign, MIN(stop_times.arrival_time) as start_time 
+    FROM trips 
+    JOIN stop_times ON trips.trip_id = stop_times.trip_id 
+    WHERE trips.route_id = ? 
+    GROUP BY trips.trip_id 
+    ORDER BY start_time ASC";
+  $stmt_schedule = $pdo->prepare($schedule_sql);
+  $stmt_schedule->execute([$route_id]);
+  $daily_schedule = $stmt_schedule->fetchAll();
+
   if ($next_trip) {
     $stops_sql = "SELECT stops.stop_name, stops.latitude, stops.longitude, stop_times.arrival_time 
       FROM stop_times 
@@ -139,10 +149,7 @@ if ($route_id) {
 
         <?php if ($next_trip): ?>
           <div class="trip-detail-panel" style="display: block;">
-            <div class="detail-header">
-                <h3>Full Schedule (Current Trip)</h3>
-            </div>
-        
+            <h3>Current Schedule</h3>
             <table class="bus-table">
               <thead>
                 <tr>
@@ -171,6 +178,43 @@ if ($route_id) {
             </table>
           </div>
         <?php endif; ?>
+
+        <div class="daily-schedule-container">
+          <h3>Daily Departures</h3>
+          <div class="table-responsive">
+            <table class="schedule-compact">
+              <thead>
+                <tr>
+                  <th>Depart</th>
+                  <th>To</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($daily_schedule as $trip):
+                  $trip_time = $trip['start_time'];
+                    
+                  if ($trip_time < $current_time) {
+                    $status = "Departed";
+                    $row_class = "row-past";
+                  } elseif ($next_trip && $trip_time == $next_trip['start_time']) {
+                    $status = "Next Bus";
+                    $row_class = "row-next";
+                  } else {
+                    $status = "On Time";
+                    $row_class = "";
+                  }
+                ?>
+                  <tr class="<?php echo $row_class; ?>">
+                    <td class="time-cell"><?php echo date('H:i', strtotime($trip_time)); ?></td>
+                    <td><?php echo htmlspecialchars($trip['trip_headsign']); ?></td>
+                    <td><span class="status-badge <?php echo strtolower(str_replace(' ', '-', $status)); ?>"><?php echo $status; ?></span></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
       <?php endif; ?>
     </div>
   </main>

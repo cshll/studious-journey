@@ -446,12 +446,6 @@ body.home-page .site-content {
   flex-grow: 1;
 }
 
-.detail-header {
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 14px;
-  margin-bottom: 20px;
-}
-
 .bus-table {
   width: 100%;
 }
@@ -470,6 +464,87 @@ body.home-page .site-content {
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
+}
+
+.daily-schedule-container {
+  width: 100%;
+  margin-top: 30px;
+  background: var(--bg-light);
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #eee;
+}
+
+.daily-schedule-container h3,
+.trip-detail-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: #444;
+  border-bottom: 2px solid var(--primary-color);
+  display: inline-block;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
+.schedule-compact {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.schedule-compact th {
+  text-align: left;
+  color: #888;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.schedule-compact td {
+  padding: 10px 5px;
+  border-bottom: 1px solid #f9f9f9;
+}
+
+.schedule-compact .time-cell {
+  font-weight: 700;
+  font-family: monospace;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.row-past {
+  opacity: 0.5;
+  background: #fafafa;
+}
+
+.row-next {
+  background-color: #fffde7;
+  border-left: 3px solid var(--primary-color);
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.status-badge.departed {
+  background: #eee;
+  color: #777;
+}
+
+.status-badge.next-bus {
+  background: var(--primary-color);
+  color: #000;
+}
+
+.status-badge.on-time {
+  background: #e3f2fd;
+  color: #1565c0;
 }
 
 /* PWA Promo Widget */
