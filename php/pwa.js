@@ -1,8 +1,6 @@
-// AI NEEDS REFERENCES - Service Worker Registration
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js')
     .catch((error) => {
-      // AI NEEDS REFERENCES - console.error for service worker registration failure
       console.error('Service Worker registration failed:', error);
     });
 }
