@@ -132,7 +132,7 @@ if ($route_id) {
 
       <?php if ($route_id && $selected_route): ?>
         <span>
-          <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold;">← Back to All Routes</a>
+          <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← Back to All Routes</a>
           <h2>Route <?php echo htmlspecialchars($selected_route['route_number']); ?></h2>
         </span>
 
