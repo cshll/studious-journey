@@ -145,19 +145,39 @@ INSERT INTO stops (stop_name, latitude, longitude) VALUES
 /* Trip IDs 3, 4 linked to Route ID 2 */
 /* Headsign shows where the bus is GOING (Trafford) */
 INSERT INTO trips (route_id, trip_headsign) VALUES 
-(2, 'Trafford Centre'), 
-(2, 'Trafford Centre');
+(2, 'Trafford Centre'), (2, 'Trafford Centre'), 
+(2, 'Trafford Centre'), (2, 'Trafford Centre'), 
+(2, 'Trafford Centre'), (2, 'Trafford Centre'), 
+(2, 'Trafford Centre'), (2, 'Trafford Centre');
 
-/* 4. Trip 1 Times (Starts 10:00) */
-/* Uses Stop IDs 4, 5, 6 */
+/* Trip 25: 07:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(3, 4, '10:00', 1), /* Depart Altrincham */
-(3, 5, '10:20', 2), /* Sale */
-(3, 6, '10:45', 3); /* Arrive Trafford */
+(25, 4, '07:00', 1), (25, 5, '07:20', 2), (25, 6, '07:45', 3);
 
-/* 5. Trip 2 Times (Starts 11:00) */
-/* Uses Stop IDs 4, 5, 6 */
+/* Trip 26: 09:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(4, 4, '11:00', 1), /* Depart Altrincham */
-(4, 5, '11:20', 2), /* Sale */
-(4, 6, '11:45', 3); /* Arrive Trafford */
+(26, 4, '09:00', 1), (26, 5, '09:20', 2), (26, 6, '09:45', 3);
+
+/* Trip 27: 11:00 */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(27, 4, '11:00', 1), (27, 5, '11:20', 2), (27, 6, '11:45', 3);
+
+/* Trip 28: 13:00 */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(28, 4, '13:00', 1), (28, 5, '13:20', 2), (28, 6, '13:45', 3);
+
+/* Trip 29: 15:00 */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(29, 4, '15:00', 1), (29, 5, '15:20', 2), (29, 6, '15:45', 3);
+
+/* Trip 30: 17:00 */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(30, 4, '17:00', 1), (30, 5, '17:20', 2), (30, 6, '17:45', 3);
+
+/* Trip 31: 19:00 */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(31, 4, '19:00', 1), (31, 5, '19:20', 2), (31, 6, '19:45', 3);
+
+/* Trip 32: 21:00 (Last bus) */
+INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+(32, 4, '21:00', 1), (32, 5, '21:20', 2), (32, 6, '21:45', 3);
