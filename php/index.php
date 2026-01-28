@@ -49,7 +49,7 @@ $route_count = $stmt->fetchColumn();
         <h1>Welcome to Trafford Bus</h1>
         <p>Serving <?php echo $route_count; ?> routes in Greater Manchester.</p>
         
-        <a href="#about" class="scroll-down-arrow">v</a>
+        <a href="#about" class="scroll-down-arrow">⌄</a>
       </div>
     </section>
 
