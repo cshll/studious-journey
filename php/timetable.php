@@ -4,40 +4,64 @@ session_start();
 require 'connect.php';
 
 $search = $_GET['search'] ?? '';
-$search_sql = "SELECT trips.trip_id, routes.route_number, trips.trip_headsign 
-FROM trips 
-JOIN routes ON trips.route_id = routes.route_id 
-WHERE routes.route_number LIKE ? OR trips.trip_headsign LIKE ? 
-ORDER BY routes.route_number ASC";
+$search_params = [];
 
-$stmt_list = $pdo->prepare($search_sql);
-$stmt_list->execute(["%$search%", "%$search%"]);
-$all_trips = $stmt_list->fetchAll();
+if ($search) {
+  $routes_sql = "SELECT * FROM routes WHERE route_number LIKE ? OR route_name LIKE ? ORDER BY route_number ASC";
+  $search_params = ["%$search%", "%$search%"];
+} else {
+  $routes_sql = "SELECT * FROM routes ORDER BY route_number ASC";
+}
 
-$selected_trip = null;
+$stmt_routes = $pdo->prepare($routes_sql);
+$stmt_routes->execute($search_params);
+$all_routes = $stmt_routes->fetchAll();
+
+$selected_route = null;
+$next_trip = null;
 $trip_stops = [];
+$route_id = $_GET['route_id'] ?? null;
 
-if (isset($_GET['trip_id'])) {
-  $trip_id = $_GET['trip_id'];
+if ($route_id) {
+  $r_sql = "SELECT * FROM routes WHERE route_id = ?";
+  $stmt_r = $pdo->prepare($r_sql);
+  $stmt_r->execute([$route_id]);
+  $selected_route = $stmt_r->fetch();
 
-  $info_sql = "SELECT trips.*, routes.route_number, routes.route_name 
-  FROM trips 
-  JOIN routes ON trips.route_id = routes.route_id 
-  WHERE trips.trip_id = ?";
+  $current_time = date('H:i:s');
 
-  $stmt_info = $pdo->prepare($info_sql);
-  $stmt_info->execute([$trip_id]);
-  $selected_trip = $stmt_info->fetch();
+  $next_sql = "SELECT trips.*, MIN(stop_times.arrival_time) as start_time 
+    FROM trips 
+    JOIN stop_times ON trips.trip_id = stop_times.trip_id 
+    WHERE trips.route_id = ? 
+    GROUP BY trips.trip_id 
+    HAVING start_time >= ? 
+    ORDER BY start_time ASC 
+    LIMIT 1";
+  $stmt_next = $pdo->prepare($next_sql);
+  $stmt_next->execute([$route_id, $current_time]);
+  $next_trip = $stmt_next->fetch();
 
-  $stops_sql = "SELECT stops.stop_name, stops.latitude, stops.longitude, stop_times.arrival_time 
-  FROM stop_times 
-  JOIN stops ON stop_times.stop_id = stops.stop_id 
-  WHERE stop_times.trip_id = ? 
-  ORDER BY stop_times.stop_sequence ASC";
+  $schedule_sql = "SELECT trips.trip_headsign, MIN(stop_times.arrival_time) as start_time 
+    FROM trips 
+    JOIN stop_times ON trips.trip_id = stop_times.trip_id 
+    WHERE trips.route_id = ? 
+    GROUP BY trips.trip_id 
+    ORDER BY start_time ASC";
+  $stmt_schedule = $pdo->prepare($schedule_sql);
+  $stmt_schedule->execute([$route_id]);
+  $daily_schedule = $stmt_schedule->fetchAll();
 
-  $stmt_stops = $pdo->prepare($stops_sql);
-  $stmt_stops->execute([$trip_id]);
-  $trip_stops = $stmt_stops->fetchAll();
+  if ($next_trip) {
+    $stops_sql = "SELECT stops.stop_name, stops.latitude, stops.longitude, stop_times.arrival_time 
+      FROM stop_times 
+      JOIN stops ON stop_times.stop_id = stops.stop_id 
+      WHERE stop_times.trip_id = ? 
+      ORDER BY stop_times.stop_sequence ASC";
+    $stmt_stops = $pdo->prepare($stops_sql);
+    $stmt_stops->execute([$next_trip['trip_id']]);
+    $trip_stops = $stmt_stops->fetchAll();
+  }
 }
 ?>
 
@@ -48,7 +72,6 @@ if (isset($_GET['trip_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Company</title>
   <link rel="stylesheet" href="style.css">
-  <!-- AI NEEDS REFERENCES - PWA Manifest link -->
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -64,10 +87,10 @@ if (isset($_GET['trip_id'])) {
       </div>
       <nav class="main-nav">
         <ul>
-          <li><a href="#">Tickets</a></li>
+          <li><a href="tickets.php">Tickets</a></li>
           <li><a href="livemap.php">Map</a></li>
           <li><a href="timetable.php">Timetables</a></li>
-          <li><a href="#">Journeys</a></li>
+          <li><a href="journeys.php">Journeys</a></li>
         </ul>
       </nav>
       <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
@@ -79,81 +102,120 @@ if (isset($_GET['trip_id'])) {
   </header>
 
   <main class="site-content">
-    <div class="container">
-      <h1>Timetable</h1>
-      <div class="seach-bar-wrapper">
-        <form action="timetable.php" method="GET" class="search-form">
-          <input type="text" name="search" placeholder="Search routes here..." value="<?php echo htmlspecialchars($search); ?>">
-          <?php if (isset($_GET['trip_id'])): ?>
-            <input type="hidden" name="trip_id" value="<?php echo $_GET['trip_id']; ?>">
-          <?php endif; ?>
-          <button type="submit" class="btn">Search</button>
-        </form>
-      </div>
+    <div class="container" style="display: flex; flex-wrap: wrap; gap: 25px;">
+      <?php if (!$route_id): ?>
+        <div class="seach-bar-wrapper" style="width: 100%;">
+          <form action="timetable.php" method="GET" class="search-form">
+            <input type="text" name="search" placeholder="Search routes here..." value="<?php echo htmlspecialchars($search); ?>">
+            <?php if ($route_id): ?>
+              <input type="hidden" name="route_id" value="<?php echo htmlspecialchars($route_id); ?>">
+            <?php endif; ?>
+            <button type="submit" class="btn">Search</button>
+          </form>
+        </div>
 
-      <div class="dashboard-grid">
-        <div class="trip-list-panel">
-          <h3>Available Trips</h3>
-          <div class="trip-scroller">
-            <?php if (count($all_trips) > 0): ?>
-              <?php foreach ($all_trips as $trip): ?>
-                <?php $is_active = (isset($_GET['trip_id']) && $_GET['trip_id'] == $trip['trip_id']) ? 'active-trip' : ''?>
-                <a href="timetable.php?trip_id=<?php echo $trip['trip_id']; ?>&search=<?php echo htmlspecialchars($search); ?>"
-                  class="trip-card-item <?php echo $is_active; ?>">
-                  <span class="badge-route"><?php echo htmlspecialchars($trip['route_number']); ?></span>
-                  <span class="trip-dest"><?php echo htmlspecialchars($trip['trip_headsign']); ?></span>
-                  <span class="arrow">→</span>
+        <div class="trip-list-panel" style="width: 100%; max-width: 100%;">
+          <?php if (count($all_routes) > 0): ?>
+            <div class="routes-grid">
+              <?php foreach ($all_routes as $route): ?>
+                <a href="timetable.php?route_id=<?php echo $route['route_id']; ?>" class="route-btn-card">
+                  <span class="route-number-large"><?php echo htmlspecialchars($route['route_number']); ?></span>
+                  <span class="route-name"><?php echo htmlspecialchars($route['route_name']); ?></span>
                 </a>
               <?php endforeach; ?>
-            <?php else: ?>
-              <p class="no-results">No trips found.</p>
-            <?php endif; ?>
-          </div>
+            </div>
+          <?php else: ?>
+            <p>No routes found.</p>
+          <?php endif; ?>
         </div>
-      </div>
+      <?php endif; ?>
 
-      <div cass="trip-detail-panel">
-        <?php if ($selected_trip): ?>
-          <div class="detail-header">
-            <h2>
-              <span class="big-badge"><?php echo htmlspecialchars($selected_trip['route_number']); ?></span>
-              Route to <?php echo htmlspecialchars($selected_trip['trip_headsign']); ?>
-            </h2>
-          </div>
+      <?php if ($route_id && $selected_route): ?>
+        <span>
+          <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← Back to All Routes</a>
+          <h2>Route <?php echo htmlspecialchars($selected_route['route_number']); ?></h2>
+        </span>
 
-          <table class="bus-table">
-            <thead>
-              <tr>
-                <th>Stop Name</th>
-                <th>Arrival</th>
-                <th>Map</th>
-              </tr>
-            </thead>
+        <div class="next-bus-hero">
+          <?php if ($next_trip): ?>
+            <div class="hero-label">Next Bus Departing At</div>
+            <div class="hero-time"><?php echo date('H:i', strtotime($next_trip['start_time'])); ?></div>
+            <div class="hero-dest">To <?php echo htmlspecialchars($next_trip['trip_headsign']); ?></div>
+          <?php else: ?>
+            <div class="hero-time">End of Service</div>
+            <p>No more buses scheduled for today.</p>
+          <?php endif; ?>
+        </div>
 
-            <tbody>
-              <?php foreach ($trip_stops as $stop): ?>
+        <?php if ($next_trip): ?>
+          <div class="trip-detail-panel" style="display: block;">
+            <h3>Current Schedule</h3>
+            <table class="bus-table">
+              <thead>
                 <tr>
-                  <td class="stop-name"><?php echo htmlspecialchars($stop['stop_name']); ?></td>
-                  <td class="time-slot"><?php echo htmlspecialchars($stop['arrival_time']); ?></td>
-                  <td>
-                    <?php if ($stop['latitude']): ?>
-                      <a href="https://www.google.com/maps?q=<?php echo $stop['latitude']; ?>,<?php echo $stop['longitude']; ?>"
-                        target="_blank" class="map-link">📍 View</a>
-                    <?php else: ?>
-                      <span class="text-muted">-</span>
-                    <?php endif; ?>
+                  <th>Stop Name</th>
+                  <th>Arrival</th>
+                  <th>Map</th>
                 </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        <?php else: ?>
-          <div class="empty-state">
-            <div style="font-size: 3rem;">🚌</div>
-            <h3>Select a trip to view the schedule</h3>
-            <p>Choose a route from the list on the left.</p>
+              </thead>
+
+              <tbody>
+                <?php foreach ($trip_stops as $stop): ?>
+                  <tr>
+                    <td class="stop-name"><?php echo htmlspecialchars($stop['stop_name']); ?></td>
+                    <td class="time-slot"><?php echo date('H:i', strtotime($stop['arrival_time'])); ?></td>
+                    <td>
+                      <?php if ($stop['latitude']): ?>
+                        <a href="https://www.google.com/maps?q=<?php echo $stop['latitude']; ?>,<?php echo $stop['longitude']; ?>"
+                          target="_blank" class="map-link">📍 View</a>
+                        <?php else: ?>
+                          -
+                        <?php endif; ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
           </div>
         <?php endif; ?>
-      </div>
+
+        <div class="daily-schedule-container">
+          <h3>Daily Departures</h3>
+          <div class="table-responsive">
+            <table class="schedule-compact">
+              <thead>
+                <tr>
+                  <th>Depart</th>
+                  <th>To</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($daily_schedule as $trip):
+                  $trip_time = $trip['start_time'];
+                    
+                  if ($trip_time < $current_time) {
+                    $status = "Departed";
+                    $row_class = "row-past";
+                  } elseif ($next_trip && $trip_time == $next_trip['start_time']) {
+                    $status = "Next Bus";
+                    $row_class = "row-next";
+                  } else {
+                    $status = "On Time";
+                    $row_class = "";
+                  }
+                ?>
+                  <tr class="<?php echo $row_class; ?>">
+                    <td class="time-cell"><?php echo date('H:i', strtotime($trip_time)); ?></td>
+                    <td><?php echo htmlspecialchars($trip['trip_headsign']); ?></td>
+                    <td><span class="status-badge <?php echo strtolower(str_replace(' ', '-', $status)); ?>"><?php echo $status; ?></span></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <?php endif; ?>
     </div>
   </main>
 
@@ -168,10 +230,10 @@ if (isset($_GET['trip_id'])) {
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Tickets</a></li>
+            <li><a href="tickets.php">Tickets</a></li>
             <li><a href="livemap.php">Map</a></li>
             <li><a href="timetable.php">Timetables</a></li>
-            <li><a href="#">Journeys</a></li>
+            <li><a href="journeys.php">Journeys</a></li>
           </ul>
         </div>
       
@@ -186,30 +248,29 @@ if (isset($_GET['trip_id'])) {
       </div>
     </div>
   </footer>
-  <!-- AI NEEDS REFERENCES - Service Worker Registration -->
-  <script>
-    // AI NEEDS REFERENCES - PWA installation detection
-    let deferredPrompt;
-    
-    // AI NEEDS REFERENCES - Before install prompt event
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-    });
-    
-    // AI NEEDS REFERENCES - App installed event
-    window.addEventListener('appinstalled', () => {
-      deferredPrompt = null;
-    });
-    
-    // AI NEEDS REFERENCES - Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .catch((error) => {
-          // AI NEEDS REFERENCES - console.error for service worker registration failure
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-  </script>
+  
+  <div class="pwa-promo-container" id="pwaPromo">
+    <div class="pwa-text-box">
+      <h3>Mobile Users Benefit</h3>
+      <p>Install the app for a better experience.</p>
+      
+      <div class="pwa-btn-group">
+        <button id="pwa-dismiss-btn" class="btn btn-outline-small">No Thanks</button>
+        <button id="pwa-install-btn" class="btn btn-primary-small">Install App ↓</button>
+      </div>
+    </div> 
+
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="screen-content">
+          <span style="font-size: 2rem;">🚌</span>
+          <h4>Trafford Bus</h4>
+        </div>
+      </div>
+      <div class="phone-notch"></div>
+    </div>
+  </div>
+
+  <script src="pwa.js"></script>
 </body>
 </html>

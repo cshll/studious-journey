@@ -1,22 +1,17 @@
 {
-  "_comment": "AI NEEDS REFERENCES - PWA Manifest file",
   "name": "Trafford Bus",
   "short_name": "Trafford Bus",
   "start_url": "/index.php",
   "display": "standalone",
-  "_comment_bg": "AI NEEDS REFERENCES - background_color",
   "background_color": "#ffffff",
   "theme_color": "#0066cc",
-  "_comment_icons": "AI NEEDS REFERENCES - icons array",
   "icons": [
     {
-      "_comment_icon1": "AI NEEDS REFERENCES - icon definition",
       "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "_comment_icon2": "AI NEEDS REFERENCES - icon definition",
       "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"

@@ -9,10 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Company</title>
   <link rel="stylesheet" href="style.css">
-  <!-- AI NEEDS REFERENCES - PWA Manifest link -->
   <link rel="manifest" href="manifest.json">
 </head>
-<body>
+<body class="home-page">
   <header class="site-header">
     <div class="container header-flex">
       <div class="logo">
@@ -25,10 +24,10 @@
       </div>
       <nav class="main-nav">
         <ul>
-          <li><a href="#">Tickets</a></li>
+          <li><a href="tickets.php">Tickets</a></li>
           <li><a href="livemap.php">Map</a></li>
-          <li><a href="#">Timetables</a></li>
-          <li><a href="#">Journeys</a></li>
+          <li><a href="timetable.php">Timetables</a></li>
+          <li><a href="journeys.php">Journeys</a></li>
         </ul>
       </nav>
       <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
@@ -36,10 +35,26 @@
   </header>
 
   <main class="site-content">
-    <div class="container">
-      <h1>Test</h1>
-      <p>Test 1</p>
-    </div>
+    <section class="hero-section">
+      <div class="hero-overlay">
+        <h1>Welcome to Trafford Bus</h1>
+        <p>Serving <?php echo $route_count; ?> routes in Greater Manchester.</p>
+        
+        <a href="#about" class="scroll-down-arrow">⌄</a>
+      </div>
+    </section>
+
+    <section id="about" class="content-section">
+      <div class="container">
+        <div class="info-grid">
+          <div class="info-card">
+          </div>
+<!--TODO:
+  IMPLEMENT INFO CARDS
+-->
+        </div>
+      </div>
+    </section> 
   </main>
 
   <footer class="site-footer">
@@ -53,10 +68,10 @@
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#">Tickets</a></li>
+            <li><a href="tickets.php">Tickets</a></li>
             <li><a href="livemap.php">Map</a></li>
-            <li><a href="#">Timetables</a></li>
-            <li><a href="#">Journeys</a></li>
+            <li><a href="timetable.php">Timetables</a></li>
+            <li><a href="journeys.php">Journeys</a></li>
           </ul>
         </div>
       
@@ -71,30 +86,29 @@
       </div>
     </div>
   </footer>
-  <!-- AI NEEDS REFERENCES - Service Worker Registration -->
-  <script>
-    // AI NEEDS REFERENCES - PWA installation detection
-    let deferredPrompt;
-    
-    // AI NEEDS REFERENCES - Before install prompt event
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-    });
-    
-    // AI NEEDS REFERENCES - App installed event
-    window.addEventListener('appinstalled', () => {
-      deferredPrompt = null;
-    });
-    
-    // AI NEEDS REFERENCES - Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .catch((error) => {
-          // AI NEEDS REFERENCES - console.error for service worker registration failure
-          console.error('Service Worker registration failed:', error);
-        });
-    }
-  </script>
+
+  <div class="pwa-promo-container" id="pwaPromo">
+    <div class="pwa-text-box">
+      <h3>Mobile Users Benefit</h3>
+      <p>Install the app for a better experience.</p>
+      
+      <div class="pwa-btn-group">
+        <button id="pwa-dismiss-btn" class="btn btn-outline-small">No Thanks</button>
+        <button id="pwa-install-btn" class="btn btn-primary-small">Install App ↓</button>
+      </div>
+    </div> 
+
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="screen-content">
+          <span style="font-size: 2rem;">🚌</span>
+          <h4>Trafford Bus</h4>
+        </div>
+      </div>
+      <div class="phone-notch"></div>
+    </div>
+  </div>
+
+  <script src="pwa.js"></script>
 </body>
 </html>

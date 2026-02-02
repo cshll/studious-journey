@@ -9,14 +9,6 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bus Company</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.86.0/dist/L.Control.Locate.min.css" />
-     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.86.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -31,7 +23,7 @@ session_start();
         <a href="index.php">Trafford Bus</a>
       </div>
       <nav class="main-nav">
-      <ul>
+        <ul>
           <li><a href="tickets.php">Tickets</a></li>
           <li><a href="livemap.php">Map</a></li>
           <li><a href="timetable.php">Timetables</a></li>
@@ -48,31 +40,7 @@ session_start();
 
   <main class="site-content">
     <div class="container">
-      <div id="liveMap" style="width: 100%; height: 500px;"></div>
-      <script>
-        var liveMap = L.map('liveMap', {
-          zoomControl: false
-        }).setView([53.4189361, -2.3592972], 13);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(liveMap);
-        
-        L.control.locate({
-          position: 'bottomright'
-        }).addTo(liveMap);
-
-        L.control.zoom({
-          position: 'bottomright'
-        }).addTo(liveMap);
-        //Insert Reference for Leaflet and Thunderforest API
-        //leaflet-locatecontrol-gh-pages
-      </script>
     </div>
-    
-    <!-- Container for displaying bus data -->
-    <div id="busDataOutput" class="container"></div>
   </main>
 
   <footer class="site-footer">
@@ -104,12 +72,12 @@ session_start();
       </div>
     </div>
   </footer>
-
+  
   <div class="pwa-promo-container" id="pwaPromo">
     <div class="pwa-text-box">
       <h3>Mobile Users Benefit</h3>
       <p>Install the app for a better experience.</p>
-
+      
       <div class="pwa-btn-group">
         <button id="pwa-dismiss-btn" class="btn btn-outline-small">No Thanks</button>
         <button id="pwa-install-btn" class="btn btn-primary-small">Install App ↓</button>
@@ -127,6 +95,6 @@ session_start();
     </div>
   </div>
 
-  <script src="pwa.js"></script> 
+  <script src="pwa.js"></script>
 </body>
 </html>
