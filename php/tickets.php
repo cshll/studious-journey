@@ -60,6 +60,10 @@ $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
 
   <main class="site-content">
     <div class="container">
+      <?php if ($is_logged_in): ?>
+        <!--TODO: USER TICKETS SECTION -->
+      <?php endif; ?>
+
       <div class="ticket-grid">
         <?php foreach ($scopes as $scope): ?>
           <div class="ticket-card" style="border-top-color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">
