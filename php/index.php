@@ -47,7 +47,7 @@ $route_count = $stmt->fetchColumn();
     <section class="hero-section">
       <div class="hero-overlay">
         <h1>Welcome to Trafford Bus</h1>
-        <p>Serving <?php echo $route_count; ?> routes in Greater Manchester.</p>
+        <p>Serving <?= $route_count ?> routes in Greater Manchester.</p>
         
         <a href="#about" class="scroll-down-arrow">⌄</a>
       </div>

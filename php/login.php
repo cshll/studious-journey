@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           </div>
           <button type="submit" class="btn full-width">Sign In</button>
           <?php if (!empty($error_msg)): ?>
-            <p style="margin-top: 5px; color: #ff6b6b !important;"><?php echo htmlspecialchars($error_msg); ?></p>
+            <p style="margin-top: 5px; color: #ff6b6b !important;"><?= htmlspecialchars($error_msg) ?></p>
           <?php endif; ?>
         </form>
       </div>
