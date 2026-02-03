@@ -143,6 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin_id']) && isset($
                     <strong><?= substr($row['arrive_time'], 0, 5) ?></strong>
                   </div>
                 </div>
+
                 <div class="bus-action">
                   <span class="route-name"><?= htmlspecialchars($row['route_name']) ?></span>
                 </div>
