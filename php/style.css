@@ -3,11 +3,11 @@
 :root {
   --primary-color: #FFD100;
   --primary-gradient: #E6BC00;
-  --primary-hover: #FFFFFF;
-  --text-dark: #333333;
-  --text-light: #FFFFFF;
-  --bg-light: #F4F4F4;
-  --footer-bg: #222222;
+  --primary-hover: #fff;
+  --text-dark: #333;
+  --text-light: #fff;
+  --bg-light: #fff;
+  --footer-bg: #222;
   --max-width: 1200px;
   --spacing: 20px;
 }
@@ -178,7 +178,28 @@ ul {
 
 .btn-outline-small:hover {
   background: #f0f0f0;
-  color: #333
+  color: var(--text-dark);
+}
+
+.btn-add {
+  background: var(--bg-light);
+  border: 2px solid var(--primary-color);
+  color: var(--text-dark);
+  width: 32px;
+  height: 32px;
+  border-radius: 25%;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-add:hover {
+  background: var(--primary-color);
 }
 
 /* Footer */
@@ -511,7 +532,7 @@ body.home-page .site-content {
   font-weight: 700;
   font-family: monospace;
   font-size: 1.05rem;
-  color: #333;
+  color: var(--text-dark);
 }
 
 .row-past {
@@ -544,6 +565,79 @@ body.home-page .site-content {
 .status-badge.on-time {
   background: #e3f2fd;
   color: #1565c0;
+}
+
+/* Ticket Page */
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding-bottom: 40px;
+}
+
+.ticket-card {
+  background: var(--bg-light);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border-top: 6px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.ticket-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ticket-info {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ticket-info h2 {
+  margin-bottom: 5px;
+  font-size: 1.5rem;
+}
+
+.ticket-info .description {
+  color: #777;
+  font-size: 0.95rem;
+}
+
+.ticket-pricing {
+  padding: 25px;
+  background: #fafafa;
+  /* FAAAAAAAAAAHHH */
+  flex-grow: 1;
+}
+
+.ticket-pricing table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-pricing td {
+  padding: 12px 0;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ticket-pricing tr:last-child td {
+  border-bottom: none;
+}
+
+.price-val {
+  text-align: right;
+  font-weight: bold;
+  padding-right: 15px !important;
+}
+
+.action-col {
+  width: 40px;
+  text-align: right;
 }
 
 /* Journey Page */

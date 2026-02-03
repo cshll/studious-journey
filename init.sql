@@ -58,6 +58,97 @@ CREATE TABLE IF NOT EXISTS stop_times (
   FOREIGN KEY (stop_id) REFERENCES stops(stop_id)
 );
 
+CREATE TABLE IF NOT EXISTS ticket_scopes (
+  scope_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(255),
+  validity_seconds INT NOT NULL,
+  is_return BOOLEAN DEFAULT FALSE,
+  ui_color_hex VARCHAR(7) DEFAULT '#000000'
+);
+
+CREATE TABLE IF NOT EXISTS passenger_types (
+  passenger_type_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  verification_required BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS ticket_prices (
+  price_id INT AUTO_INCREMENT PRIMARY KEY,
+  scope_id INT NOT NULL,
+  passenger_type_id INT NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  FOREIGN KEY (scope_id) REFERENCES ticket_scopes(scope_id),
+  FOREIGN KEY (passenger_type_id) REFERENCES passenger_types(passenger_type_id),
+  UNIQUE KEY unique_product (scope_id, passenger_type_id)
+);
+
+CREATE TABLE IF NOT EXISTS user_tickets (
+  ticket_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  price_id INT NOT NULL,
+  purchase_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  activated_at DATETIME NULL,
+  expires_at DATETIME NULL,
+  ticket_hash VARCHAR(64) NOT NULL,
+  status ENUM('unused', 'active', 'expired') DEFAULT 'unused',
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (price_id) REFERENCES ticket_prices(price_id)
+);
+
+INSERT INTO ticket_scopes (name, description, validity_seconds, is_return, ui_color_hex) VALUES 
+('Single', 'One-way direct trip', 0, 0, '#3498db'),               -- Blue
+('Return', 'There and back again', 0, 1, '#2980b9'),              -- Dark Blue
+('Explorer Pass', 'Unlimited travel for 24 hours', 86400, 0, '#e67e22'), -- Orange
+('7-Day Saver', 'Unlimited travel for one week', 604800, 0, '#9b59b6'),  -- Purple
+('Commuter 30', 'Unlimited travel for 30 days', 2592000, 0, '#27ae60'),  -- Green
+('Freedom 365', 'Annual unlimited pass', 31536000, 0, '#f1c40f');        -- Gold
+
+-- 2. Insert Passenger Types
+INSERT INTO passenger_types (name, verification_required) VALUES 
+('Adult', 0),
+('Child', 0),
+('Student', 1), -- Frontend can ask for ID upload later
+('Senior', 1);
+
+-- 3. Insert Prices (The Matrix)
+-- We use variables to make the insert readable/maintainable
+-- Assuming IDs: 1=Single, 2=Return, 3=Explorer, 4=Week, 5=Month, 6=Annual
+-- Assuming IDs: 1=Adult, 2=Child, 3=Student, 4=Senior
+
+INSERT INTO ticket_prices (scope_id, passenger_type_id, price) VALUES 
+-- Adult Prices (Standard Single is £2.00)
+(1, 1, 2.00),   -- Adult Single
+(2, 1, 3.80),   -- Adult Return
+(3, 1, 5.50),   -- Adult Explorer
+(4, 1, 22.00),  -- Adult Weekly
+(5, 1, 80.00),  -- Adult Monthly
+(6, 1, 850.00), -- Adult Annual
+
+-- Child Prices (Approx 50% off)
+(1, 2, 1.00),
+(2, 2, 1.90),
+(3, 2, 2.75),
+(4, 2, 11.00),
+(5, 2, 40.00),
+(6, 2, 425.00),
+
+-- Student Prices (Approx 25% off)
+(1, 3, 1.50),
+(2, 3, 2.85),
+(3, 3, 4.10),
+(4, 3, 16.50),
+(5, 3, 60.00),
+(6, 3, 630.00),
+
+-- Senior Prices (Heavily discounted/Admin fees)
+(1, 4, 1.20),
+(2, 4, 2.00),
+(3, 4, 3.50),
+(4, 4, 10.00),
+(5, 4, 30.00),
+(6, 4, 300.00);
+
 /*DUMMY DATA*/
 
 /*Route X50*/
