@@ -18,6 +18,8 @@ $prices_by_scope = [];
 foreach ($all_prices as $p) {
   $prices_by_scope[$p['scope_id']][] = $p;
 }
+
+$is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +78,12 @@ foreach ($all_prices as $p) {
                       <td class="passenger-type"><?= htmlspecialchars($price_opt['passenger_name']) ?></td>
                       <td class="price-val">£<?= number_format($price_opt['price'], 2) ?></td>
                       <td class="action-col">
-                        <button class="btn btn-add" aria-label="Add to cart">+</button>
+                        <?php if ($is_logged_in): ?>
+                          <input type="hidden" name="price_id" value="<?= $price_opt['price_id'] ?>">
+                          <button type="submit" class="btn btn-add" aria-label="Purchase">+</button>
+                        <?php else: ?>
+                          <button type="button" class="btn btn-add" onclick="window.location.href='login.php'" aria-label="Purchase">+</button>
+                        <?php endif; ?>
                       </td>
                     </tr>
                   <?php endforeach; ?>
