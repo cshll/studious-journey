@@ -48,7 +48,7 @@ session_start();
 
   <main class="site-content">
     <div class="container">
-      <div id="liveMap" style="width: 100%; height: 500px;"></div>
+      <div id="liveMap" style="width: 100%; height: 500px; border-radius: 2%;"></div>
       <script>
         var liveMap = L.map('liveMap', {
           zoomControl: false
