@@ -123,11 +123,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin_id']) && isset($
         </div>
       </form>
 
-      <?php if ($error): ?>
+      <?php if ($error || $search_performed): ?>
         <hr class="divider">
+      <?php endif; ?>
+
+      <?php if ($error): ?>
         <p class="error-msg"><?= $error ?></p>
       <?php elseif ($search_performed): ?>
-        <hr class="divider">
         <div class="journey-list">
           <?php if (count($results) > 0): ?>
             <h3>Available Buses</h3>
