@@ -27,7 +27,7 @@ $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bus Company</title>
+  <title>Tickets - Bus Company</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
