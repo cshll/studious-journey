@@ -1,10 +1,5 @@
 <?php
-session_start();
 
-require 'connect.php';
-
-$stmt = $pdo->query("SELECT COUNT(*) FROM routes");
-$route_count = $stmt->fetchColumn();
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +15,7 @@ $route_count = $stmt->fetchColumn();
   <header class="site-header">
     <div class="container header-flex">
       <div class="logo">
-        <svg width="50" height="50" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 60 60" xmlns="`http://www.w3.org/2000/svg"`>
           <g fill="var(--text-dark)" fill-rule="evenodd">
             <path d="M10 20h40c2.2 0 4 1.8 4 4v16c0 2.2-1.8 4-4 4h-4v4h-6v-4H20v4h-6v-4h-4c-2.2 0-4-1.8-4-4V24c0-2.2 1.8-4 4-4zm4 6h10v8H14v-8zm18 0h14v8H32v-8z"/>
           </g>
@@ -35,11 +30,7 @@ $route_count = $stmt->fetchColumn();
           <li><a href="journeys.php">Journeys</a></li>
         </ul>
       </nav>
-      <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
-        <a class="btn btn-header" href="logout.php" id="logout">Logout</a>
-      <?php else: ?>
-        <a class="btn btn-header" href="login.php" id="login">Login</a>
-      <?php endif; ?>
+      <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
     </div>
   </header>
 

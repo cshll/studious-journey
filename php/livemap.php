@@ -70,6 +70,9 @@ session_start();
         //leaflet-locatecontrol-gh-pages
       </script>
     </div>
+    
+    <!-- Container for displaying bus data -->
+    <div id="busDataOutput" class="container"></div>
   </main>
 
   <footer class="site-footer">
