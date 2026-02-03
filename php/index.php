@@ -1,5 +1,10 @@
 <?php
+session_start();
 
+require 'connect.php';
+
+$stmt = $pdo->query("SELECT COUNT(*) FROM routes");
+$route_count = $stmt->fetchColumn();
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +35,11 @@
           <li><a href="journeys.php">Journeys</a></li>
         </ul>
       </nav>
-      <a class="btn btn-primary-grad" href="login.php" id="login">Login</a>
+      <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+        <a class="btn btn-header" href="logout.php" id="logout">Logout</a>
+      <?php else: ?>
+        <a class="btn btn-header" href="login.php" id="login">Login</a>
+      <?php endif; ?>
     </div>
   </header>
 
