@@ -61,6 +61,7 @@ $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
   <main class="site-content">
     <div class="container">
       <?php if ($is_logged_in): ?>
+        <hr class="divider">
         <!--TODO: USER TICKETS SECTION -->
       <?php endif; ?>
 
@@ -83,7 +84,7 @@ $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
                       <td class="price-val">£<?= number_format($price_opt['price'], 2) ?></td>
                       <td class="action-col">
                         <?php if ($is_logged_in): ?>
-                          <input type="hidden" name="price_id" value="<?= $price_opt['price_id'] ?>">
+                          <input type="hidden" name="price_id" value="<?= 'N/A' ?>">
                           <button type="submit" class="btn btn-add" aria-label="Purchase">+</button>
                         <?php else: ?>
                           <button type="button" class="btn btn-add" onclick="window.location.href='login.php'" aria-label="Purchase">+</button>
