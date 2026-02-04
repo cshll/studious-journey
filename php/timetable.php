@@ -93,20 +93,23 @@ require 'header.php';
     <?php endif; ?>
 
     <?php if ($route_id && $selected_route): ?>
-      <span>
-        <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← Back to All Routes</a>
-        <h2>Route <?= htmlspecialchars($selected_route['route_number']) ?></h2>
-      </span>
+      <div class="selected-wrapper">
+        <span>
+          <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← <u>Back to All Routes</u></a>
+          <h1>Route <?= htmlspecialchars($selected_route['route_number']) ?></h1>
+          <p>You are currently viewing information for <strong>Route <?= htmlspecialchars($selected_route['route_number']) ?></strong>, on this page you can find the current schedule and daily departures. Please make sure you have a valid ticket before boarding. If you do not have a ticket, you can <strong><u><a style="color: #1565c0;" href="tickets.php">purchase a ticket online</a></u></strong> or ask the driver.</p>
+        </span>
 
-      <div class="next-bus-hero">
-        <?php if ($next_trip): ?>
-          <div class="hero-label">Next Bus Departing At</div>
-          <div class="hero-time"><?= date('H:i', strtotime($next_trip['start_time'])) ?></div>
-          <div class="hero-dest">To <?= htmlspecialchars($next_trip['trip_headsign']) ?></div>
-        <?php else: ?>
-          <div class="hero-time">End of Service</div>
-          <p>No more buses scheduled for today.</p>
-        <?php endif; ?>
+        <div class="next-bus-hero">
+          <?php if ($next_trip): ?>
+            <div class="hero-label">Next Bus Departing At</div>
+            <div class="hero-time"><?= date('H:i', strtotime($next_trip['start_time'])) ?></div>
+            <div class="hero-dest">To <?= htmlspecialchars($next_trip['trip_headsign']) ?></div>
+          <?php else: ?>
+            <div class="hero-time">End of Service</div>
+            <p>No more buses scheduled for today.</p>
+          <?php endif; ?>
+        </div>
       </div>
 
       <hr class="divider">
@@ -118,7 +121,7 @@ require 'header.php';
             <thead>
               <tr>
                 <th>Stop Name</th>
-                <th>Arrival</th>
+                <th>Time</th>
                 <th>Map</th>
               </tr>
             </thead>

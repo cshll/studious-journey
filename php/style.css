@@ -397,6 +397,12 @@ body.home-page .site-content {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
+.selected-wrapper {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  border-radius: 8px;
+}
+
 .routes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
