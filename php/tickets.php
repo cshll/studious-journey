@@ -1,7 +1,5 @@
 <?php
-session_start();
-
-require 'connect.php';
+require 'init.php';
 
 $sql_scopes = "SELECT * FROM ticket_scopes ORDER BY validity_seconds ASC";
 $stmt_scopes = $pdo->query($sql_scopes);
@@ -19,62 +17,52 @@ foreach ($all_prices as $p) {
   $prices_by_scope[$p['scope_id']][] = $p;
 }
 
-$is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
+require 'header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<?php require 'head.php'; ?>
-<body class="home-page">
-  <?php require 'header.php'; ?>
+<main class="site-content">
+  <div class="container">
+    <?php if ($is_logged_in): ?>
+      <hr class="divider">
+      <!--TODO: USER TICKETS SECTION -->
+    <?php endif; ?>
 
-  <main class="site-content">
-    <div class="container">
-      <?php if ($is_logged_in): ?>
-        <hr class="divider">
-        <!--TODO: USER TICKETS SECTION -->
-      <?php endif; ?>
-
-      <div class="ticket-grid">
-        <?php foreach ($scopes as $scope): ?>
-          <div class="ticket-card" style="border-top-color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">
-            <div class="ticket-info">
-              <h2 style="color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">
-                <?= htmlspecialchars($scope['name']) ?>
-              </h2>
-              <p class="description"><?= htmlspecialchars($scope['description']) ?></p>
-            </div>
-
-            <div class="ticket-pricing">
-              <table>
-                <?php if (isset($prices_by_scope[$scope['scope_id']])): ?>
-                  <?php foreach ($prices_by_scope[$scope['scope_id']] as $price_opt): ?>
-                    <tr>
-                      <td class="passenger-type"><?= htmlspecialchars($price_opt['passenger_name']) ?></td>
-                      <td class="price-val">£<?= number_format($price_opt['price'], 2) ?></td>
-                      <td class="action-col">
-                        <?php if ($is_logged_in): ?>
-                          <input type="hidden" name="price_id" value="<?= 'N/A' ?>">
-                          <button type="submit" class="btn btn-add" aria-label="Purchase">+</button>
-                        <?php else: ?>
-                          <button type="button" class="btn btn-add" onclick="window.location.href='login.php'" aria-label="Purchase">+</button>
-                        <?php endif; ?>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                <?php else: ?>
-                  <tr><td colspan="3">Unavailable</td></tr>
-                <?php endif; ?>
-              </table>
-            </div>
+    <div class="ticket-grid">
+      <?php foreach ($scopes as $scope): ?>
+        <div class="ticket-card" style="border-top-color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">
+          <div class="ticket-info">
+            <h2 style="color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">
+              <?= htmlspecialchars($scope['name']) ?>
+            </h2>
+            <p class="description"><?= htmlspecialchars($scope['description']) ?></p>
           </div>
-        <?php endforeach; ?>
-      </div>
-    </div>
-  </main>
 
-  <?php require 'footer.php'; ?>
-  
-  <?php require 'pwa-promo.php'; ?>
-</body>
-</html>
+          <div class="ticket-pricing">
+            <table>
+              <?php if (isset($prices_by_scope[$scope['scope_id']])): ?>
+                <?php foreach ($prices_by_scope[$scope['scope_id']] as $price_opt): ?>
+                  <tr>
+                    <td class="passenger-type"><?= htmlspecialchars($price_opt['passenger_name']) ?></td>
+                    <td class="price-val">£<?= number_format($price_opt['price'], 2) ?></td>
+                    <td class="action-col">
+                      <?php if ($is_logged_in): ?>
+                        <input type="hidden" name="price_id" value="<?= 'N/A' ?>">
+                        <button type="submit" class="btn btn-add" aria-label="Purchase">+</button>
+                      <?php else: ?>
+                        <button type="button" class="btn btn-add" onclick="window.location.href='login.php'" aria-label="Purchase">+</button>
+                      <?php endif; ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <tr><td colspan="3">Unavailable</td></tr>
+              <?php endif; ?>
+            </table>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</main>
+
+<?php require 'footer.php'; ?>

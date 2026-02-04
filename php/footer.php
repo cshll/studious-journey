@@ -1,3 +1,5 @@
+<?php require 'pwa-promo.php'; ?>
+
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
@@ -27,3 +29,6 @@
     </div>
   </div>
 </footer>
+
+</body>
+</html>

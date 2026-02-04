@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<?php require 'head.php'; ?>
+
+<body class="<?= isset($body_class) ? $body_class : '' ?>">
+
 <header class="site-header">
   <div class="container header-flex">
     <div class="logo">

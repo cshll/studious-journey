@@ -1,9 +1,7 @@
 <?php
-session_start();
+require 'init.php';
 
-require 'connect.php';
-
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+if ($is_logged_in) {
   header('Location: index.php');
   exit;
 }
@@ -38,43 +36,35 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $error_msg = $error;
   }
 }
+
+require 'header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<?php require 'head.php'; ?>
-<body class="home-page">
-  <?php require 'header.php'; ?>
-
-  <main class="site-content" style="margin: 60px auto; max-width: 900px; overflow: hidden;">
-    <div class="container auth-card">
-      <div class="auth-half login-side">
-        <h2>Login</h2>
-        <form id="login" action="login.php" method="POST">
-          <div class="form-group">
-            <label>Email</label>
-            <input name="email" type="email" placeholder="Enter email here...">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input name="password" type="password" placeholder="Enter password here...">
-          </div>
-          <button type="submit" class="btn full-width">Sign In</button>
-          <?php if (!empty($error_msg)): ?>
-            <p style="margin-top: 5px; color: #ff6b6b !important;"><?= htmlspecialchars($error_msg) ?></p>
-          <?php endif; ?>
-        </form>
-      </div>
-      <div class="auth-half register-side">
-        <h2>Register</h2>
-        <p>New to Trafford Bus? Create an account to plan journeys or access tickets.</p>
-        <a class="btn btn-outline full-width" href="signup.php" id="signup">Create Account</a>
-      </div>
+<main class="site-content" style="margin: 60px auto; max-width: 900px; overflow: hidden;">
+  <div class="container auth-card">
+    <div class="auth-half login-side">
+      <h2>Login</h2>
+      <form id="login" action="login.php" method="POST">
+        <div class="form-group">
+          <label>Email</label>
+          <input name="email" type="email" placeholder="Enter email here...">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input name="password" type="password" placeholder="Enter password here...">
+        </div>
+        <button type="submit" class="btn full-width">Sign In</button>
+        <?php if (!empty($error_msg)): ?>
+          <p style="margin-top: 5px; color: #ff6b6b !important;"><?= htmlspecialchars($error_msg) ?></p>
+        <?php endif; ?>
+      </form>
     </div>
-  </main>
+    <div class="auth-half register-side">
+      <h2>Register</h2>
+      <p>New to Trafford Bus? Create an account to plan journeys or access tickets.</p>
+      <a class="btn btn-outline full-width" href="signup.php" id="signup">Create Account</a>
+    </div>
+  </div>
+</main>
 
-  <?php require 'footer.php'; ?>
-  
-  <?php require 'pwa-promo.php'; ?>
-</body>
-</html>
+<?php require 'footer.php'; ?>

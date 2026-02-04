@@ -1,7 +1,5 @@
 <?php
-session_start();
-
-require 'connect.php';
+require 'init.php';
 
 $search = $_GET['search'] ?? '';
 $search_params = [];
@@ -63,136 +61,128 @@ if ($route_id) {
     $trip_stops = $stmt_stops->fetchAll();
   }
 }
+
+require 'header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<?php require 'head.php'; ?>
-<body class="home-page">
-  <?php require 'header.php'; ?>
-
-  <main class="site-content">
-    <div class="container">
-      <?php if (!$route_id): ?>
-        <div class="seach-bar-wrapper" style="width: 100%;">
-          <form action="timetable.php" method="GET" class="search-form">
-            <input type="text" name="search" placeholder="Search routes here..." value="<?= htmlspecialchars($search) ?>">
-            <?php if ($route_id): ?>
-              <input type="hidden" name="route_id" value="<?= htmlspecialchars($route_id) ?>">
-            <?php endif; ?>
-            <button type="submit" class="btn">Search</button>
-          </form>
-        </div>
-
-        <hr class="divider">
-
-        <div class="trip-list-panel" style="width: 100%; max-width: 100%;">
-          <?php if (count($all_routes) > 0): ?>
-            <div class="routes-grid">
-              <?php foreach ($all_routes as $route): ?>
-                <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="route-btn-card">
-                  <span class="route-number-large"><?= htmlspecialchars($route['route_number']) ?></span>
-                  <span class="route-name"><?= htmlspecialchars($route['route_name']) ?></span>
-                </a>
-              <?php endforeach; ?>
-            </div>
-          <?php else: ?>
-            <p>No routes found.</p>
+<main class="site-content">
+  <div class="container">
+    <?php if (!$route_id): ?>
+      <div class="seach-bar-wrapper" style="width: 100%;">
+        <form action="timetable.php" method="GET" class="search-form">
+          <input type="text" name="search" placeholder="Search routes here..." value="<?= htmlspecialchars($search) ?>">
+          <?php if ($route_id): ?>
+            <input type="hidden" name="route_id" value="<?= htmlspecialchars($route_id) ?>">
           <?php endif; ?>
-        </div>
-      <?php endif; ?>
+          <button type="submit" class="btn">Search</button>
+        </form>
+      </div>
 
-      <?php if ($route_id && $selected_route): ?>
-        <span>
-          <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← Back to All Routes</a>
-          <h2>Route <?= htmlspecialchars($selected_route['route_number']) ?></h2>
-        </span>
+      <hr class="divider">
 
-        <div class="next-bus-hero">
-          <?php if ($next_trip): ?>
-            <div class="hero-label">Next Bus Departing At</div>
-            <div class="hero-time"><?= date('H:i', strtotime($next_trip['start_time'])) ?></div>
-            <div class="hero-dest">To <?= htmlspecialchars($next_trip['trip_headsign']) ?></div>
-          <?php else: ?>
-            <div class="hero-time">End of Service</div>
-            <p>No more buses scheduled for today.</p>
-          <?php endif; ?>
-        </div>
-
-        <?php if ($next_trip): ?>
-          <div class="trip-detail-panel" style="display: block;">
-            <h3>Current Schedule</h3>
-            <table class="bus-table">
-              <thead>
-                <tr>
-                  <th>Stop Name</th>
-                  <th>Arrival</th>
-                  <th>Map</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <?php foreach ($trip_stops as $stop): ?>
-                  <tr>
-                    <td class="stop-name"><?= htmlspecialchars($stop['stop_name']) ?></td>
-                    <td class="time-slot"><?= date('H:i', strtotime($stop['arrival_time'])) ?></td>
-                    <td>
-                      <?php if ($stop['latitude']): ?>
-                        <a href="https://www.google.com/maps?q=<?= $stop['latitude'] ?>,<?= $stop['longitude'] ?>"
-                          target="_blank" class="map-link">📍 View</a>
-                        <?php else: ?>
-                          -
-                        <?php endif; ?>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
+      <div class="trip-list-panel" style="width: 100%; max-width: 100%;">
+        <?php if (count($all_routes) > 0): ?>
+          <div class="routes-grid">
+            <?php foreach ($all_routes as $route): ?>
+              <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="route-btn-card">
+                <span class="route-number-large"><?= htmlspecialchars($route['route_number']) ?></span>
+                <span class="route-name"><?= htmlspecialchars($route['route_name']) ?></span>
+              </a>
+            <?php endforeach; ?>
           </div>
+        <?php else: ?>
+          <p>No routes found.</p>
         <?php endif; ?>
+      </div>
+    <?php endif; ?>
 
-        <div class="daily-schedule-container">
-          <h3>Daily Departures</h3>
-          <div class="table-responsive">
-            <table class="schedule-compact">
-              <thead>
+    <?php if ($route_id && $selected_route): ?>
+      <span>
+        <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← Back to All Routes</a>
+        <h2>Route <?= htmlspecialchars($selected_route['route_number']) ?></h2>
+      </span>
+
+      <div class="next-bus-hero">
+        <?php if ($next_trip): ?>
+          <div class="hero-label">Next Bus Departing At</div>
+          <div class="hero-time"><?= date('H:i', strtotime($next_trip['start_time'])) ?></div>
+          <div class="hero-dest">To <?= htmlspecialchars($next_trip['trip_headsign']) ?></div>
+        <?php else: ?>
+          <div class="hero-time">End of Service</div>
+          <p>No more buses scheduled for today.</p>
+        <?php endif; ?>
+      </div>
+
+      <?php if ($next_trip): ?>
+        <div class="trip-detail-panel" style="display: block;">
+          <h3>Current Schedule</h3>
+          <table class="bus-table">
+            <thead>
+              <tr>
+                <th>Stop Name</th>
+                <th>Arrival</th>
+                <th>Map</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <?php foreach ($trip_stops as $stop): ?>
                 <tr>
-                  <th>Depart</th>
-                  <th>To</th>
-                  <th>Status</th>
+                  <td class="stop-name"><?= htmlspecialchars($stop['stop_name']) ?></td>
+                  <td class="time-slot"><?= date('H:i', strtotime($stop['arrival_time'])) ?></td>
+                  <td>
+                    <?php if ($stop['latitude']): ?>
+                      <a href="https://www.google.com/maps?q=<?= $stop['latitude'] ?>,<?= $stop['longitude'] ?>"
+                        target="_blank" class="map-link">📍 View</a>
+                      <?php else: ?>
+                        -
+                      <?php endif; ?>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($daily_schedule as $trip):
-                  $trip_time = $trip['start_time'];
-                    
-                  if ($trip_time < $current_time) {
-                    $status = "Departed";
-                    $row_class = "row-past";
-                  } elseif ($next_trip && $trip_time == $next_trip['start_time']) {
-                    $status = "Next Bus";
-                    $row_class = "row-next";
-                  } else {
-                    $status = "On Time";
-                    $row_class = "";
-                  }
-                ?>
-                  <tr class="<?= $row_class ?>">
-                    <td class="time-cell"><?= date('H:i', strtotime($trip_time)) ?></td>
-                    <td><?= htmlspecialchars($trip['trip_headsign']) ?></td>
-                    <td><span class="status-badge <?= strtolower(str_replace(' ', '-', $status)) ?>"><?= $status ?></span></td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-          </div>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
         </div>
       <?php endif; ?>
-    </div>
-  </main>
 
-  <?php require 'footer.php'; ?>
-  
-  <?php require 'pwa-promo.php'; ?>
-</body>
-</html>
+      <div class="daily-schedule-container">
+        <h3>Daily Departures</h3>
+        <div class="table-responsive">
+          <table class="schedule-compact">
+            <thead>
+              <tr>
+                <th>Depart</th>
+                <th>To</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($daily_schedule as $trip):
+                $trip_time = $trip['start_time'];
+                  
+                if ($trip_time < $current_time) {
+                  $status = "Departed";
+                  $row_class = "row-past";
+                } elseif ($next_trip && $trip_time == $next_trip['start_time']) {
+                  $status = "Next Bus";
+                  $row_class = "row-next";
+                } else {
+                  $status = "On Time";
+                  $row_class = "";
+                }
+              ?>
+                <tr class="<?= $row_class ?>">
+                  <td class="time-cell"><?= date('H:i', strtotime($trip_time)) ?></td>
+                  <td><?= htmlspecialchars($trip['trip_headsign']) ?></td>
+                  <td><span class="status-badge <?= strtolower(str_replace(' ', '-', $status)) ?>"><?= $status ?></span></td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <?php endif; ?>
+  </div>
+</main>
+
+<?php require 'footer.php'; ?>

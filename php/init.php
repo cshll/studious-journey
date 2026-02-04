@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+$is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
+
 $db_host = 'db';
 $db_user = 'root';
 $db_pass = 'busses';

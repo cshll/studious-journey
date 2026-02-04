@@ -1,5 +1,5 @@
 <?php
-session_start();
+require 'init.php';
 
 // Clear session array.
 $_SESSION = array();
