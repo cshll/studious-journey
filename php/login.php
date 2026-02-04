@@ -59,6 +59,7 @@ require 'header.php';
         <?php endif; ?>
       </form>
     </div>
+
     <div class="auth-half register-side">
       <h2>Register</h2>
       <p>New to Trafford Bus? Create an account to plan journeys or access tickets.</p>

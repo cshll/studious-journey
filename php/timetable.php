@@ -68,7 +68,7 @@ require 'header.php';
 <main class="site-content">
   <div class="container">
     <?php if (!$route_id): ?>
-      <div class="seach-bar-wrapper" style="width: 100%;">
+      <div class="route-wrapper">
         <form action="timetable.php" method="GET" class="search-form">
           <input type="text" name="search" placeholder="Search routes here..." value="<?= htmlspecialchars($search) ?>">
           <?php if ($route_id): ?>
@@ -76,22 +76,20 @@ require 'header.php';
           <?php endif; ?>
           <button type="submit" class="btn">Search</button>
         </form>
+
+        <?php if (count($all_routes) > 0): ?>
+          <div class="routes-grid">
+            <?php foreach ($all_routes as $route): ?>
+              <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="route-btn-card">
+                <span class="route-number-large"><?= htmlspecialchars($route['route_number']) ?></span>
+                <span class="route-name"><?= htmlspecialchars($route['route_name']) ?></span>
+              </a>
+            <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+          <p>No routes found.</p>
+        <?php endif; ?>
       </div>
-
-      <hr class="divider">
-
-      <?php if (count($all_routes) > 0): ?>
-        <div class="routes-grid">
-          <?php foreach ($all_routes as $route): ?>
-            <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="route-btn-card">
-              <span class="route-number-large"><?= htmlspecialchars($route['route_number']) ?></span>
-              <span class="route-name"><?= htmlspecialchars($route['route_name']) ?></span>
-            </a>
-          <?php endforeach; ?>
-        </div>
-      <?php else: ?>
-        <p>No routes found.</p>
-      <?php endif; ?>
     <?php endif; ?>
 
     <?php if ($route_id && $selected_route): ?>
