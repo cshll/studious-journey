@@ -1,0 +1,15 @@
+{
+  "name": "bus-tracker-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "mysql2": "^3.6.5",
+    "axios": "^1.6.2"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "generate": "node generate_routes.js"
+  }
+}

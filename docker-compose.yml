@@ -2,8 +2,8 @@ version: '3.8'
 services:
   nodejs:
     build:
-      context: .
-      dockerfile: ./nodejs/Dockerfile
+      context: ./nodejs
+      dockerfile: Dockerfile
     container_name: nodejs-app
     volumes:
       - ./php:/app/php
@@ -11,6 +11,9 @@ services:
       - "3000:3000"
     dns:
       - 8.8.8.8
+    depends_on:
+      db:
+        condition: service_healthy
 
   php:
     build:
@@ -32,6 +35,11 @@ services:
     volumes:
       - ./db-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
