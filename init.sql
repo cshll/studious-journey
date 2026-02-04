@@ -22,10 +22,14 @@
 CREATE TABLE IF NOT EXISTS users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(50) NOT NULL UNIQUE,
-  password_hash VARCHAR(255) NOT NULL
+  password_hash VARCHAR(255) NOT NULL,
+  full_name VARCHAR(100),
+  address TEXT,
+  date_of_birth DATE,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (email, password_hash) VALUES 
+INSERT INTO users (email, password_hash, full_name, address, date_of_birth, created_at) VALUES 
 ('admin@localhost', '$2y$10$w.twbxazasehpTWPJ3dL1OyvZCxmKCFYU6SnvexzPaAEs0BWorCem');
 
 CREATE TABLE IF NOT EXISTS routes (
@@ -229,8 +233,7 @@ INSERT INTO routes (route_number, route_name) VALUES
 /* Stop IDs 4, 5, 6 */
 INSERT INTO stops (stop_name, latitude, longitude) VALUES 
 ('Altrincham Interchange', 53.3872, -2.3482),  /* Start */
-('Sale Tram Stop', 53.4251, -2.3167),          /* Middle */
-('Trafford Centre', 53.4668, -2.3488);         /* End */
+('Sale Tram Stop', 53.4251, -2.3167);          /* Middle */
 
 /* 3. Two Trips */
 /* Trip IDs 3, 4 linked to Route ID 2 */
@@ -243,32 +246,32 @@ INSERT INTO trips (route_id, trip_headsign) VALUES
 
 /* Trip 25: 07:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(25, 4, '07:00', 1), (25, 5, '07:20', 2), (25, 6, '07:45', 3);
+(25, 4, '07:00', 1), (25, 5, '07:20', 2), (25, 1, '07:45', 3);
 
 /* Trip 26: 09:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(26, 4, '09:00', 1), (26, 5, '09:20', 2), (26, 6, '09:45', 3);
+(26, 4, '09:00', 1), (26, 5, '09:20', 2), (26, 1, '09:45', 3);
 
 /* Trip 27: 11:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(27, 4, '11:00', 1), (27, 5, '11:20', 2), (27, 6, '11:45', 3);
+(27, 4, '11:00', 1), (27, 5, '11:20', 2), (27, 1, '11:45', 3);
 
 /* Trip 28: 13:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(28, 4, '13:00', 1), (28, 5, '13:20', 2), (28, 6, '13:45', 3);
+(28, 4, '13:00', 1), (28, 5, '13:20', 2), (28, 1, '13:45', 3);
 
 /* Trip 29: 15:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(29, 4, '15:00', 1), (29, 5, '15:20', 2), (29, 6, '15:45', 3);
+(29, 4, '15:00', 1), (29, 5, '15:20', 2), (29, 1, '15:45', 3);
 
 /* Trip 30: 17:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(30, 4, '17:00', 1), (30, 5, '17:20', 2), (30, 6, '17:45', 3);
+(30, 4, '17:00', 1), (30, 5, '17:20', 2), (30, 1, '17:45', 3);
 
 /* Trip 31: 19:00 */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(31, 4, '19:00', 1), (31, 5, '19:20', 2), (31, 6, '19:45', 3);
+(31, 4, '19:00', 1), (31, 5, '19:20', 2), (31, 1, '19:45', 3);
 
 /* Trip 32: 21:00 (Last bus) */
 INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(32, 4, '21:00', 1), (32, 5, '21:20', 2), (32, 6, '21:45', 3);
+(32, 4, '21:00', 1), (32, 5, '21:20', 2), (32, 1, '21:45', 3);

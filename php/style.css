@@ -202,6 +202,13 @@ ul {
   background: var(--primary-color);
 }
 
+.btn-block {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  margin-top: 10px;
+}
+
 /* Footer */
 
 .site-footer {
@@ -736,8 +743,59 @@ body.home-page .site-content {
   font-size: 1.1rem;
 }
 
-.error-msg {
-  color: red;
+/* Signup Page */
+
+.register-page {
+  flex-direction: column;
+  padding: 20px;
+}
+
+.register-page h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+}
+
+.register-page p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.auth-form .form-group {
+  margin-bottom: 20px;
+}
+
+.auth-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.auth-form input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 0.9rem;
+}
+
+.auth-footer a {
+  color: var(--text-dark);
+  text-decoration: underline;
   font-weight: bold;
 }
 
@@ -756,7 +814,7 @@ body.home-page .site-content {
 }
 
 .pwa-text-box {
-  background: white;
+  background: var(--bg-light);
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 20px;
@@ -925,6 +983,7 @@ body.home-page .site-content {
   }
 
   .auth-card {
+    max-width: 500px;
     flex-direction: column;
   }
 

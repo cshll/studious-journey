@@ -127,8 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin_id']) && isset($
         <hr class="divider">
       <?php endif; ?>
 
-      <?php if ($error): ?>
-        <p class="error-msg"><?= $error ?></p>
+      <?php if (!empty($error)): ?>
+        <p style="margin-top: 5px; color: #ff6b6b !important;"><?= htmlspecialchars($error) ?></p>
       <?php elseif ($search_performed): ?>
         <div class="journey-list">
           <?php if (count($results) > 0): ?>
