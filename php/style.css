@@ -725,6 +725,11 @@ body.home-page .site-content {
   background-color: #fcfcfc;
 }
 
+.bus-info-action {
+  display: flex;
+  gap: 60px;
+}
+
 .bus-info {
   display: flex;
   align-items: center;
@@ -990,6 +995,11 @@ body.home-page .site-content {
   .search-btn {
     width: 100%;
     flex: auto;
+  }
+
+  .bus-info-action {
+    display: unset;
+    gap: unset;
   }
 
   .pwa-promo-container {

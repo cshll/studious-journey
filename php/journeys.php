@@ -99,17 +99,19 @@ require 'header.php';
           <h3>Available Buses</h3>
           <?php foreach ($results as $row): ?>
             <div class="journey-item">
-              <div class="bus-info">
-                <span class="route-number"><?= htmlspecialchars($row['route_number']) ?></span>
-                <div class="route-times">
-                  <strong><?= substr($row['depart_time'], 0, 5) ?></strong>
-                  <span>to</span>
-                  <strong><?= substr($row['arrive_time'], 0, 5) ?></strong>
+              <span class="route-number"><?= htmlspecialchars($row['route_number']) ?></span>
+              <div class="bus-info-action">
+                <div class="bus-info">
+                  <div class="route-times">
+                    <strong><?= substr($row['depart_time'], 0, 5) ?></strong>
+                    <span>to</span>
+                    <strong><?= substr($row['arrive_time'], 0, 5) ?></strong>
+                  </div>
                 </div>
-              </div>
 
-              <div class="bus-action">
-                <span class="route-name"><?= htmlspecialchars($row['route_name']) ?></span>
+                <div class="bus-action">
+                  <span class="route-name">To <?= htmlspecialchars($row['route_name']) ?></span>
+                </div>
               </div>
             </div>
           <?php endforeach; ?>
