@@ -44,6 +44,29 @@ ul {
   list-style: none;
 }
 
+/* Form Styles */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: var(--bg-light);
+  transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
 /* Container */
 
 .site-content {
@@ -351,20 +374,6 @@ body.home-page .site-content {
   color: var(--text-dark);
 }
 
-.form-group input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: border-color 0.3s;
-}
-
-.form-group input:focus {
-  border-color: var(--primary-color);
-  outline: none;
-}
-
 .full-width {
   width: 100%;
   display: block;
@@ -446,13 +455,6 @@ body.home-page .site-content {
 .search-form {
   display: flex;
   gap: 10px;
-}
-
-.search-form input {
-  flex: 1;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
 }
 
 .trip-list-panel {
@@ -649,11 +651,9 @@ body.home-page .site-content {
 /* Journey Page */
 
 .planner-form-inline {
-  background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 30px;
-  border: 1px solid #ddd;
 }
 
 .form-row {
@@ -672,15 +672,6 @@ body.home-page .site-content {
   font-weight: bold;
   margin-bottom: 5px;
   font-size: 0.9rem;
-}
-
-.input-group select,
-.input-group input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  width: 100%;
 }
 
 .time-group {
@@ -770,20 +761,6 @@ body.home-page .site-content {
   font-weight: bold;
   margin-bottom: 8px;
   color: var(--text-dark);
-}
-
-.auth-form input {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.auth-form input:focus {
-  border-color: var(--primary-color);
-  outline: none;
 }
 
 .auth-footer {
