@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin_id']) && isset($
     $sql = "SELECT 
         routes.route_number,
         routes.route_name,
+        routes.route_id, 
         trips.trip_id,
         st_start.arrival_time AS depart_time,
         st_end.arrival_time AS arrive_time 
@@ -98,22 +99,24 @@ require 'header.php';
         <?php if (count($results) > 0): ?>
           <h3>Available Buses</h3>
           <?php foreach ($results as $row): ?>
-            <div class="journey-item">
-              <span class="route-number"><?= htmlspecialchars($row['route_number']) ?></span>
-              <div class="bus-info-action">
-                <div class="bus-info">
-                  <div class="route-times">
-                    <strong><?= substr($row['depart_time'], 0, 5) ?></strong>
-                    <span>to</span>
-                    <strong><?= substr($row['arrive_time'], 0, 5) ?></strong>
+          <a href="timetable.php?route_id=<?= $row['route_id'] ?>">
+              <div class="journey-item">
+                <span class="route-number"><?= htmlspecialchars($row['route_number']) ?></span>
+                <div class="bus-info-action">
+                  <div class="bus-info">
+                    <div class="route-times">
+                      <strong><?= substr($row['depart_time'], 0, 5) ?></strong>
+                      <span>to</span>
+                      <strong><?= substr($row['arrive_time'], 0, 5) ?></strong>
+                    </div>
+                  </div>
+
+                  <div class="bus-action">
+                    <span class="route-name">To <?= htmlspecialchars($row['route_name']) ?></span>
                   </div>
                 </div>
-
-                <div class="bus-action">
-                  <span class="route-name">To <?= htmlspecialchars($row['route_name']) ?></span>
-                </div>
               </div>
-            </div>
+            </a>
           <?php endforeach; ?>
         <?php endif; ?>
       </div>
