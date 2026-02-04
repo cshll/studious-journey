@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require 'connect.php';
+
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   header("Location: index.php");
   exit;
@@ -45,7 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           'password_hash' => $password_hash
         ]);
 
-        header("refresh:2;url=login.php");
+        $new_user_id = $pdo->lastInsertId();
+
+        $_SESSION['loggedin'] = true;
+        $_SESSION['userid'] = $new_user_id;
+        $_SESSION['email'] = $email;
+        $_SESSION['full_name'] = $full_name;
+
+        header("Location: index.php");
+        exit;
       } catch (PDOException $_) {
         $error = "Something went wrong, please contact us if this persists.";
       }
@@ -103,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="form-group">
           <label for="dob">Date of Birth</label>
-          <input type="text" id="dob" name="dob" required value="<?= htmlspecialchars($_POST['dob'] ?? '') ?>">
+          <input type="date" id="dob" name="dob" required value="<?= htmlspecialchars($_POST['dob'] ?? '') ?>">
         </div>
 
         <div class="form-group">
@@ -118,12 +128,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="text" id="password" name="password" required>
+          <input type="password" id="password" name="password" required>
         </div>
 
         <div class="form-group">
           <label for="confirm_password">Confirm Password</label>
-          <input type="text" id="confirm_password" name="confirm_password" required>
+          <input type="password" id="confirm_password" name="confirm_password" required>
         </div>
 
         <div class="form-actions">

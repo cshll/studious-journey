@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $password = $_POST['password'] ?? '';
 
   try {
-    $sql_users = "SELECT users.user_id, users.email, users.password_hash 
+    $sql_users = "SELECT users.user_id, users.email, users.password_hash, users.full_name 
     FROM users 
     WHERE users.email = :email";
 
@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $_SESSION['loggedin'] = true;
       $_SESSION['userid'] = $user['user_id'];
       $_SESSION['email'] = $user['email'];
+      $_SESSION['full_name'] = $user['full_name'];
 
       header('Location: index.php');
       exit;

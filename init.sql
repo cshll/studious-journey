@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS users (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (email, password_hash, full_name, address, date_of_birth, created_at) VALUES 
+INSERT INTO users (email, password_hash) VALUES 
 ('admin@localhost', '$2y$10$w.twbxazasehpTWPJ3dL1OyvZCxmKCFYU6SnvexzPaAEs0BWorCem');
 
 CREATE TABLE IF NOT EXISTS routes (
