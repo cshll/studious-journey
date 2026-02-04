@@ -87,7 +87,7 @@ require 'header.php';
       </div>
     </form>
 
-    <?php if ($error || $search_performed): ?>
+    <?php if ($error || ($search_performed && count($results) > 0)): ?>
       <hr class="divider">
     <?php endif; ?>
 
