@@ -97,7 +97,7 @@ require 'header.php';
         <span>
           <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← <u>Back to All Routes</u></a>
           <h1>Route <?= htmlspecialchars($selected_route['route_number']) ?></h1>
-          <p>You are currently viewing information for <strong>Route <?= htmlspecialchars($selected_route['route_number']) ?></strong>, on this page you can find the current schedule and daily departures. Please make sure you have a valid ticket before boarding. If you do not have a ticket, you can <strong><u><a style="color: #1565c0;" href="tickets.php">purchase a ticket online</a></u></strong> or ask the driver.</p>
+          <p>You are viewing live information for <strong>Route <?= htmlspecialchars($selected_route['route_number']) ?></strong>. The times below are tracked in real-time and will update automatically if there are delays - <i>hopefully not today</i>.<br><small>Please make sure you have a valid ticket before boarding. If you do not have a ticket, you can <strong><u><a style="color: #1565c0;" href="tickets.php">purchase a ticket online</a></u></strong> or ask the driver.</small></p>
         </span>
 
         <div class="next-bus-hero">
