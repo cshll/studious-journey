@@ -111,6 +111,8 @@ require 'header.php';
         <?php endif; ?>
       </div>
 
+      <hr class="divider">
+
       <?php if ($next_trip): ?>
         <div class="trip-detail-panel" style="display: block;">
           <h3>Current Schedule</h3>
@@ -142,6 +144,8 @@ require 'header.php';
           </table>
         </div>
       <?php endif; ?>
+
+      <hr class="divider">
 
       <div class="daily-schedule-container">
         <h3>Daily Departures</h3>

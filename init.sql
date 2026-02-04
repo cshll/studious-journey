@@ -113,6 +113,27 @@ CREATE TABLE IF NOT EXISTS user_tickets (
   FOREIGN KEY (price_id) REFERENCES ticket_prices(price_id)
 );
 
+-- ----------- --
+-- TICKET DATA --
+-- ----------- --
+
+INSERT INTO ticket_scopes (name, description, validity_seconds, is_return, ui_color_hex) VALUES 
+('Single', 'One-way direct trip', 0, 0, '#3498db'),
+('Return', 'There and back again', 0, 1, '#2980b9'),
+('Explorer Pass', 'Unlimited travel for 24 hours', 86400, 0, '#e67e22'),
+('7-Day Saver', 'Unlimited travel for one week', 604800, 0, '#9b59b6'),
+('Commuter 30', 'Unlimited travel for 30 days', 2592000, 0, '#27ae60'),
+('Freedom 365', 'Annual unlimited pass', 31536000, 0, '#f1c40f');
+
+INSERT INTO passenger_types (name, verification_required) VALUES 
+('Adult', 0), ('Child', 0), ('Student', 1), ('Senior', 1);
+
+INSERT INTO ticket_prices (scope_id, passenger_type_id, price) VALUES 
+(1, 1, 2.00), (2, 1, 3.80), (3, 1, 5.50), (4, 1, 22.00), (5, 1, 80.00), (6, 1, 850.00),
+(1, 2, 1.00), (2, 2, 1.90), (3, 2, 2.75), (4, 2, 11.00), (5, 2, 40.00), (6, 2, 425.00),
+(1, 3, 1.50), (2, 3, 2.85), (3, 3, 4.10), (4, 3, 16.50), (5, 3, 60.00), (6, 3, 630.00),
+(1, 4, 1.20), (2, 4, 2.00), (3, 4, 3.50), (4, 4, 10.00), (5, 4, 30.00), (6, 4, 300.00);
+
 -- -------------- --
 -- TRANSPORT DATA --
 -- -------------- --
@@ -247,24 +268,3 @@ DELIMITER ;
 CALL GenerateSchedule();
 
 DROP PROCEDURE GenerateSchedule();
-
--- ----------- --
--- TICKET DATA --
--- ----------- --
-
-INSERT INTO ticket_scopes (name, description, validity_seconds, is_return, ui_color_hex) VALUES 
-('Single', 'One-way direct trip', 0, 0, '#3498db'),
-('Return', 'There and back again', 0, 1, '#2980b9'),
-('Explorer Pass', 'Unlimited travel for 24 hours', 86400, 0, '#e67e22'),
-('7-Day Saver', 'Unlimited travel for one week', 604800, 0, '#9b59b6'),
-('Commuter 30', 'Unlimited travel for 30 days', 2592000, 0, '#27ae60'),
-('Freedom 365', 'Annual unlimited pass', 31536000, 0, '#f1c40f');
-
-INSERT INTO passenger_types (name, verification_required) VALUES 
-('Adult', 0), ('Child', 0), ('Student', 1), ('Senior', 1);
-
-INSERT INTO ticket_prices (scope_id, passenger_type_id, price) VALUES 
-(1, 1, 2.00), (2, 1, 3.80), (3, 1, 5.50), (4, 1, 22.00), (5, 1, 80.00), (6, 1, 850.00),
-(1, 2, 1.00), (2, 2, 1.90), (3, 2, 2.75), (4, 2, 11.00), (5, 2, 40.00), (6, 2, 425.00),
-(1, 3, 1.50), (2, 3, 2.85), (3, 3, 4.10), (4, 3, 16.50), (5, 3, 60.00), (6, 3, 630.00),
-(1, 4, 1.20), (2, 4, 2.00), (3, 4, 3.50), (4, 4, 10.00), (5, 4, 30.00), (6, 4, 300.00);

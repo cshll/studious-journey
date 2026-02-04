@@ -85,6 +85,12 @@ select:focus {
   width: 100%;
 }
 
+.divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 30px 0;
+}
+
 /* Header */
 
 .site-header {
@@ -397,12 +403,12 @@ body.home-page .site-content {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #fff;
   border: 2px solid #ddd;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 30px;
   text-align: center;
   text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   color: var(--text-dark);
   transition: all 0.2s ease;
 }
@@ -458,7 +464,6 @@ body.home-page .site-content {
 }
 
 .trip-detail-panel {
-  background: var(--bg-light);
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -491,7 +496,7 @@ body.home-page .site-content {
   background: var(--bg-light);
   border-radius: 8px;
   padding: 20px;
-  border: 1px solid #eee;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .daily-schedule-container h3,
@@ -570,14 +575,13 @@ body.home-page .site-content {
 .ticket-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
   padding-bottom: 40px;
 }
 
 .ticket-card {
   background: var(--bg-light);
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   border-top: 6px solid #ccc;
   display: flex;
@@ -587,7 +591,7 @@ body.home-page .site-content {
 
 .ticket-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .ticket-info {
@@ -641,8 +645,9 @@ body.home-page .site-content {
 /* Journey Page */
 
 .planner-form-inline {
-  padding: 20px;
   border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
 }
 
@@ -673,10 +678,10 @@ body.home-page .site-content {
   padding: 0 30px;
 }
 
-.divider {
-  border: 0;
-  border-top: 1px solid #eee;
-  margin: 30px 0;
+.journey-list {
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .journey-list h3 {

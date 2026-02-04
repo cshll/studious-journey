@@ -28,7 +28,13 @@ require 'header.php';
     <?php endif; ?>
 
     <div class="ticket-grid">
-      <?php foreach ($scopes as $scope): ?>
+      <?php 
+        $total = count($scopes);
+        $i = 0;
+
+        foreach ($scopes as $scope):
+          $i++; 
+      ?>
         <div class="ticket-card" style="border-top-color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">
           <div class="ticket-info">
             <h2 style="color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">
@@ -60,6 +66,10 @@ require 'header.php';
             </table>
           </div>
         </div>
+
+        <?php if ($i != $total): ?>
+          <hr class="divider">
+        <?php endif; ?>
       <?php endforeach; ?>
     </div>
   </div>
