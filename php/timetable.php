@@ -80,20 +80,18 @@ require 'header.php';
 
       <hr class="divider">
 
-      <div class="trip-list-panel" style="width: 100%; max-width: 100%;">
-        <?php if (count($all_routes) > 0): ?>
-          <div class="routes-grid">
-            <?php foreach ($all_routes as $route): ?>
-              <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="route-btn-card">
-                <span class="route-number-large"><?= htmlspecialchars($route['route_number']) ?></span>
-                <span class="route-name"><?= htmlspecialchars($route['route_name']) ?></span>
-              </a>
-            <?php endforeach; ?>
-          </div>
-        <?php else: ?>
-          <p>No routes found.</p>
-        <?php endif; ?>
-      </div>
+      <?php if (count($all_routes) > 0): ?>
+        <div class="routes-grid">
+          <?php foreach ($all_routes as $route): ?>
+            <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="route-btn-card">
+              <span class="route-number-large"><?= htmlspecialchars($route['route_number']) ?></span>
+              <span class="route-name"><?= htmlspecialchars($route['route_name']) ?></span>
+            </a>
+          <?php endforeach; ?>
+        </div>
+      <?php else: ?>
+        <p>No routes found.</p>
+      <?php endif; ?>
     <?php endif; ?>
 
     <?php if ($route_id && $selected_route): ?>

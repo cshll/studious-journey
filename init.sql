@@ -17,7 +17,11 @@
 -- docker ps
 -- ```
 -- - Visit localhost on your browser for the site and localhost:8080 for phpMyAdmin.
--- This can also be done on Linux (**run using sudo**) using the above commands in a terminal (if docker is installed).
+-- This can also be done on Linux (**run using sudo**) using the above commands in a terminal (if docker is installed)
+
+-- ----------- --
+-- USER SCHEMA --
+-- ----------- --
 
 CREATE TABLE IF NOT EXISTS users (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,6 +35,10 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT INTO users (email, password_hash) VALUES 
 ('admin@localhost', '$2y$10$w.twbxazasehpTWPJ3dL1OyvZCxmKCFYU6SnvexzPaAEs0BWorCem');
+
+-- ---------------- --
+-- TRANSPORT SCHEMA --
+-- ---------------- --
 
 CREATE TABLE IF NOT EXISTS routes (
   route_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,19 +56,24 @@ CREATE TABLE IF NOT EXISTS stops (
 CREATE TABLE IF NOT EXISTS trips (
   trip_id INT AUTO_INCREMENT PRIMARY KEY,
   route_id INT,
+  direction TINYINT DEFAULT 0,
   trip_headsign VARCHAR(100),
   FOREIGN KEY (route_id) REFERENCES routes(route_id)
 );
 
 CREATE TABLE IF NOT EXISTS stop_times (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  trip_id INT,
-  stop_id INT,
-  arrival_time VARCHAR(5),
-  stop_sequence INT,
+  stop_time_id INT AUTO_INCREMENT PRIMARY KEY,
+  trip_id INT NOT NULL,
+  stop_id INT NOT NULL,
+  arrival_time TIME NOT NULL,
+  stop_sequence INT NOT NULL,
   FOREIGN KEY (trip_id) REFERENCES trips(trip_id),
   FOREIGN KEY (stop_id) REFERENCES stops(stop_id)
 );
+
+-- ------------- --
+-- TICKET SCHEMA --
+-- ------------- --
 
 CREATE TABLE IF NOT EXISTS ticket_scopes (
   scope_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -100,178 +113,158 @@ CREATE TABLE IF NOT EXISTS user_tickets (
   FOREIGN KEY (price_id) REFERENCES ticket_prices(price_id)
 );
 
+-- -------------- --
+-- TRANSPORT DATA --
+-- -------------- --
+
+-- 1-10: The Hub (Trafford Interchange)
+INSERT INTO stops (stop_name, latitude, longitude) VALUES 
+('Trafford Interchange (Stand A)', 53.4593, -2.2943),
+('Trafford Interchange (Stand B)', 53.4593, -2.2943),
+('Trafford Interchange (Stand C)', 53.4593, -2.2943),
+('Trafford Interchange (Stand D)', 53.4593, -2.2943),
+('Trafford Interchange (Stand E)', 53.4593, -2.2943),
+('Trafford Interchange (Stand F)', 53.4593, -2.2943),
+('Trafford Interchange (Stand G)', 53.4593, -2.2943),
+('Trafford Interchange (Stand H)', 53.4593, -2.2943),
+('Trafford Interchange (Stand I)', 53.4593, -2.2943),
+('Trafford Interchange (Stand J)', 53.4593, -2.2943);
+
+-- 11-20: Terminals (The Destinations)
+INSERT INTO stops (stop_name, latitude, longitude) VALUES 
+('The Trafford Centre', 53.467, -2.348),
+('Old Trafford Cricket Ground', 53.456, -2.286),
+('MediaCityUK', 53.472, -2.299),
+('Sale Water Park', 53.431, -2.308),
+('Altrincham Interchange', 53.387, -2.349),
+('Urmston Library', 53.447, -2.356),
+('Stretford Mall', 53.445, -2.311),
+('Eccles Interchange', 53.483, -2.336),
+('Manchester Piccadilly', 53.477, -2.230),
+('Chorlton Tram Stop', 53.442, -2.275);
+
+-- 21-40: Intermediate Stops (Connecting the Hub to Destinations)
+INSERT INTO stops (stop_name, latitude, longitude) VALUES 
+-- Route T1 intermediates
+('White City Retail Park', 53.462, -2.280),
+('Parkway', 53.465, -2.300),
+-- Route T2 intermediates
+('Talbot Road', 53.458, -2.290),
+('Seymour Grove', 53.455, -2.288),
+-- Route T3 intermediates
+('Trafford Bar', 53.461, -2.282),
+('Exchange Quay', 53.468, -2.295),
+-- Route T4 intermediates
+('Chester Road', 53.450, -2.300),
+('Stretford Grammar', 53.440, -2.305),
+-- Route T5 intermediates
+('Brooklands', 53.420, -2.320),
+('Timperley Village', 53.400, -2.330),
+-- Route T6 intermediates
+('Lostock Circle', 53.450, -2.330),
+('Trafford General Hospital', 53.448, -2.345),
+-- Route T7 intermediates
+('Edge Lane', 53.450, -2.310),
+('Longford Park', 53.448, -2.315),
+-- Route T8 intermediates
+('Trafford Park Hotel', 53.470, -2.310),
+('Centenary Bridge', 53.480, -2.320),
+-- Route T9 intermediates
+('Cornbrook', 53.470, -2.260),
+('Deansgate Castlefield', 53.474, -2.250),
+-- Route T10 intermediates
+('Firswood', 53.450, -2.280),
+('Wilbraham Road', 53.445, -2.278);
+
+INSERT INTO routes (route_number, route_name) VALUES 
+('T1', 'Trafford Centre Express'),
+('T2', 'Old Trafford Circular'),
+('T3', 'MediaCityUK Connection'),
+('T4', 'Sale Leisure Line'),
+('T5', 'Altrincham Direct'),
+('T6', 'Urmston Connector'),
+('T7', 'Stretford Local'),
+('T8', 'Eccles via Park'),
+('T9', 'City Centre Express'),
+('T10', 'Chorlton Shopper');
+
+
+-- code horrible enough to make a grown man cry
+DELIMITER $$
+
+CREATE PROCEDURE GenerateSchedule()
+BEGIN
+  DECLARE h INT DEFAULT 0; -- Hour
+  DECLARE r INT DEFAULT 1; -- Route ID
+  DECLARE stop_start INT;
+  DECLARE stop_end INT;
+  DECLARE stop_mid1 INT;
+  DECLARE stop_mid2 INT;
+  DECLARE route_label VARCHAR(100);
+  DECLARE trip_id_val INT;
+
+  WHILE h < 24 DO
+    SET r = 1;
+
+    WHILE r <= 10 DO
+      IF (r = 9) OR (h >= 7 AND h <= 22) THEN
+        SET stop_start = r;
+        SET stop_end = 10 + r;
+        SET stop_mid1 = 20 + (2 * r) - 1;
+        SET stop_mid2 = 20 + (2 * r);
+
+        SET route_label = (SELECT stop_name FROM stops WHERE stop_id = stop_end);
+
+        INSERT INTO trips (route_id, direction, trip_headsign) VALUES (r, 0, route_label);
+        SET trip_id_val = LAST_INSERT_ID();
+
+        INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+        (trip_id_val, stop_start, MAKETIME(h, 00, 00), 1),
+        (trip_id_val, stop_mid1, MAKETIME(h, 10, 00), 2),
+        (trip_id_val, stop_mid2, MAKETIME(h, 20, 00), 3),
+        (trip_id_val, stop_end, MAKETIME(h, 30, 00), 4);
+
+        INSERT INTO trips (route_id, direction, trip_headsign) VALUES (r, 1, 'Trafford Interchange');
+        SET trip_id_val = LAST_INSERT_ID();
+
+        INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
+        (trip_id_val, stop_end, MAKETIME(h, 35, 00), 1),
+        (trip_id_val, stop_mid2, MAKETIME(h, 45, 00), 2),
+        (trip_id_val, stop_mid1, MAKETIME(h, 55, 00), 3),
+        (trip_id_val, stop_start, ADDTIME(MAKETIME(h, 00, 00), '01:05:00'), 4);
+
+      END IF;
+
+      SET r = r + 1;
+    END WHILE;
+
+    SET h = h + 1;
+  END WHILE;
+END $$
+
+DELIMITER ;
+
+CALL GenerateSchedule();
+
+DROP PROCEDURE GenerateSchedule();
+
+-- ----------- --
+-- TICKET DATA --
+-- ----------- --
+
 INSERT INTO ticket_scopes (name, description, validity_seconds, is_return, ui_color_hex) VALUES 
-('Single', 'One-way direct trip', 0, 0, '#3498db'),               -- Blue
-('Return', 'There and back again', 0, 1, '#2980b9'),              -- Dark Blue
-('Explorer Pass', 'Unlimited travel for 24 hours', 86400, 0, '#e67e22'), -- Orange
-('7-Day Saver', 'Unlimited travel for one week', 604800, 0, '#9b59b6'),  -- Purple
-('Commuter 30', 'Unlimited travel for 30 days', 2592000, 0, '#27ae60'),  -- Green
-('Freedom 365', 'Annual unlimited pass', 31536000, 0, '#f1c40f');        -- Gold
+('Single', 'One-way direct trip', 0, 0, '#3498db'),
+('Return', 'There and back again', 0, 1, '#2980b9'),
+('Explorer Pass', 'Unlimited travel for 24 hours', 86400, 0, '#e67e22'),
+('7-Day Saver', 'Unlimited travel for one week', 604800, 0, '#9b59b6'),
+('Commuter 30', 'Unlimited travel for 30 days', 2592000, 0, '#27ae60'),
+('Freedom 365', 'Annual unlimited pass', 31536000, 0, '#f1c40f');
 
--- 2. Insert Passenger Types
 INSERT INTO passenger_types (name, verification_required) VALUES 
-('Adult', 0),
-('Child', 0),
-('Student', 1), -- Frontend can ask for ID upload later
-('Senior', 1);
-
--- 3. Insert Prices (The Matrix)
--- We use variables to make the insert readable/maintainable
--- Assuming IDs: 1=Single, 2=Return, 3=Explorer, 4=Week, 5=Month, 6=Annual
--- Assuming IDs: 1=Adult, 2=Child, 3=Student, 4=Senior
+('Adult', 0), ('Child', 0), ('Student', 1), ('Senior', 1);
 
 INSERT INTO ticket_prices (scope_id, passenger_type_id, price) VALUES 
--- Adult Prices (Standard Single is £2.00)
-(1, 1, 2.00),   -- Adult Single
-(2, 1, 3.80),   -- Adult Return
-(3, 1, 5.50),   -- Adult Explorer
-(4, 1, 22.00),  -- Adult Weekly
-(5, 1, 80.00),  -- Adult Monthly
-(6, 1, 850.00), -- Adult Annual
-
--- Child Prices (Approx 50% off)
-(1, 2, 1.00),
-(2, 2, 1.90),
-(3, 2, 2.75),
-(4, 2, 11.00),
-(5, 2, 40.00),
-(6, 2, 425.00),
-
--- Student Prices (Approx 25% off)
-(1, 3, 1.50),
-(2, 3, 2.85),
-(3, 3, 4.10),
-(4, 3, 16.50),
-(5, 3, 60.00),
-(6, 3, 630.00),
-
--- Senior Prices (Heavily discounted/Admin fees)
-(1, 4, 1.20),
-(2, 4, 2.00),
-(3, 4, 3.50),
-(4, 4, 10.00),
-(5, 4, 30.00),
-(6, 4, 300.00);
-
-/*DUMMY DATA*/
-
-/*Route X50*/
-INSERT INTO routes (route_number, route_name) VALUES 
-('X50', 'Manchester to Trafford');
-
-/*3 Stops*/
-INSERT INTO stops (stop_name, latitude, longitude) VALUES 
-('Trafford Centre', 53.4668, -2.3488), 
-('Old Trafford', 53.4563, -2.2882),
-('Piccadilly Gardens', 53.4811, -2.2369);
-
-/*24 Trips*/
-INSERT INTO trips (route_id, trip_headsign) VALUES 
-(1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'),
-(1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'),
-(1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'),
-(1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'),
-(1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'),
-(1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly'), (1, 'Piccadilly');
-
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-/* Trip 1: 00:00 Midnight */
-(1, 1, '00:00', 1), (1, 2, '00:20', 2), (1, 3, '00:45', 3),
-/* Trip 2: 01:00 AM */
-(2, 1, '01:00', 1), (2, 2, '01:20', 2), (2, 3, '01:45', 3),
-/* Trip 3: 02:00 AM */
-(3, 1, '02:00', 1), (3, 2, '02:20', 2), (3, 3, '02:45', 3),
-/* Trip 4: 03:00 AM */
-(4, 1, '03:00', 1), (4, 2, '03:20', 2), (4, 3, '03:45', 3),
-/* Trip 5: 04:00 AM */
-(5, 1, '04:00', 1), (5, 2, '04:20', 2), (5, 3, '04:45', 3),
-/* Trip 6: 05:00 AM */
-(6, 1, '05:00', 1), (6, 2, '05:20', 2), (6, 3, '05:45', 3),
-/* Trip 7: 06:00 AM */
-(7, 1, '06:00', 1), (7, 2, '06:20', 2), (7, 3, '06:45', 3),
-/* Trip 8: 07:00 AM */
-(8, 1, '07:00', 1), (8, 2, '07:20', 2), (8, 3, '07:45', 3),
-/* Trip 9: 08:00 AM */
-(9, 1, '08:00', 1), (9, 2, '08:20', 2), (9, 3, '08:45', 3),
-/* Trip 10: 09:00 AM */
-(10, 1, '09:00', 1), (10, 2, '09:20', 2), (10, 3, '09:45', 3),
-/* Trip 11: 10:00 AM */
-(11, 1, '10:00', 1), (11, 2, '10:20', 2), (11, 3, '10:45', 3),
-/* Trip 12: 11:00 AM */
-(12, 1, '11:00', 1), (12, 2, '11:20', 2), (12, 3, '11:45', 3),
-/* Trip 13: 12:00 PM */
-(13, 1, '12:00', 1), (13, 2, '12:20', 2), (13, 3, '12:45', 3),
-/* Trip 14: 13:00 PM */
-(14, 1, '13:00', 1), (14, 2, '13:20', 2), (14, 3, '13:45', 3),
-/* Trip 15: 14:00 PM */
-(15, 1, '14:00', 1), (15, 2, '14:20', 2), (15, 3, '14:45', 3),
-/* Trip 16: 15:00 PM */
-(16, 1, '15:00', 1), (16, 2, '15:20', 2), (16, 3, '15:45', 3),
-/* Trip 17: 16:00 PM */
-(17, 1, '16:00', 1), (17, 2, '16:20', 2), (17, 3, '16:45', 3),
-/* Trip 18: 17:00 PM */
-(18, 1, '17:00', 1), (18, 2, '17:20', 2), (18, 3, '17:45', 3),
-/* Trip 19: 18:00 PM */
-(19, 1, '18:00', 1), (19, 2, '18:20', 2), (19, 3, '18:45', 3),
-/* Trip 20: 19:00 PM */
-(20, 1, '19:00', 1), (20, 2, '19:20', 2), (20, 3, '19:45', 3),
-/* Trip 21: 20:00 PM */
-(21, 1, '20:00', 1), (21, 2, '20:20', 2), (21, 3, '20:45', 3),
-/* Trip 22: 21:00 PM */
-(22, 1, '21:00', 1), (22, 2, '21:20', 2), (22, 3, '21:45', 3),
-/* Trip 23: 22:00 PM */
-(23, 1, '22:00', 1), (23, 2, '22:20', 2), (23, 3, '22:45', 3),
-/* Trip 24: 23:00 PM */
-(24, 1, '23:00', 1), (24, 2, '23:20', 2), (24, 3, '23:45', 3);
-
-/* 1. New Route: Altrincham to Trafford */
-/* This will be Route ID 2 */
-INSERT INTO routes (route_number, route_name) VALUES 
-('263', 'Altrincham to Trafford');
-
-/* 2. Three Stops (Ordered Start to End) */
-/* Stop IDs 4, 5, 6 */
-INSERT INTO stops (stop_name, latitude, longitude) VALUES 
-('Altrincham Interchange', 53.3872, -2.3482),  /* Start */
-('Sale Tram Stop', 53.4251, -2.3167);          /* Middle */
-
-/* 3. Two Trips */
-/* Trip IDs 3, 4 linked to Route ID 2 */
-/* Headsign shows where the bus is GOING (Trafford) */
-INSERT INTO trips (route_id, trip_headsign) VALUES 
-(2, 'Trafford Centre'), (2, 'Trafford Centre'), 
-(2, 'Trafford Centre'), (2, 'Trafford Centre'), 
-(2, 'Trafford Centre'), (2, 'Trafford Centre'), 
-(2, 'Trafford Centre'), (2, 'Trafford Centre');
-
-/* Trip 25: 07:00 */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(25, 4, '07:00', 1), (25, 5, '07:20', 2), (25, 1, '07:45', 3);
-
-/* Trip 26: 09:00 */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(26, 4, '09:00', 1), (26, 5, '09:20', 2), (26, 1, '09:45', 3);
-
-/* Trip 27: 11:00 */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(27, 4, '11:00', 1), (27, 5, '11:20', 2), (27, 1, '11:45', 3);
-
-/* Trip 28: 13:00 */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(28, 4, '13:00', 1), (28, 5, '13:20', 2), (28, 1, '13:45', 3);
-
-/* Trip 29: 15:00 */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(29, 4, '15:00', 1), (29, 5, '15:20', 2), (29, 1, '15:45', 3);
-
-/* Trip 30: 17:00 */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(30, 4, '17:00', 1), (30, 5, '17:20', 2), (30, 1, '17:45', 3);
-
-/* Trip 31: 19:00 */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(31, 4, '19:00', 1), (31, 5, '19:20', 2), (31, 1, '19:45', 3);
-
-/* Trip 32: 21:00 (Last bus) */
-INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
-(32, 4, '21:00', 1), (32, 5, '21:20', 2), (32, 1, '21:45', 3);
+(1, 1, 2.00), (2, 1, 3.80), (3, 1, 5.50), (4, 1, 22.00), (5, 1, 80.00), (6, 1, 850.00),
+(1, 2, 1.00), (2, 2, 1.90), (3, 2, 2.75), (4, 2, 11.00), (5, 2, 40.00), (6, 2, 425.00),
+(1, 3, 1.50), (2, 3, 2.85), (3, 3, 4.10), (4, 3, 16.50), (5, 3, 60.00), (6, 3, 630.00),
+(1, 4, 1.20), (2, 4, 2.00), (3, 4, 3.50), (4, 4, 10.00), (5, 4, 30.00), (6, 4, 300.00);

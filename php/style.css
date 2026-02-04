@@ -457,16 +457,6 @@ body.home-page .site-content {
   gap: 10px;
 }
 
-.trip-list-panel {
-  background: var(--bg-light);
-  border-radius: 8px;
-  overflow: hidden;
-  max-height: 400px;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 25px;
-}
-
 .trip-detail-panel {
   background: var(--bg-light);
   border-radius: 8px;
