@@ -457,7 +457,6 @@ body.home-page .site-content {
 
 .trip-list-panel {
   background: var(--bg-light);
-  border: 1px solid #eee;
   border-radius: 8px;
   overflow: hidden;
   max-height: 400px;

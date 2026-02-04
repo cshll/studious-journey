@@ -102,7 +102,7 @@ if ($route_id) {
   </header>
 
   <main class="site-content">
-    <div class="container" style="display: flex; flex-wrap: wrap; gap: 25px;">
+    <div class="container">
       <?php if (!$route_id): ?>
         <div class="seach-bar-wrapper" style="width: 100%;">
           <form action="timetable.php" method="GET" class="search-form">
@@ -113,6 +113,8 @@ if ($route_id) {
             <button type="submit" class="btn">Search</button>
           </form>
         </div>
+
+        <hr class="divider">
 
         <div class="trip-list-panel" style="width: 100%; max-width: 100%;">
           <?php if (count($all_routes) > 0): ?>
