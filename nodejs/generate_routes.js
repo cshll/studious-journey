@@ -24,7 +24,7 @@ async function generateRoutes() {
         [route.route_id]
       );
 
-      if (trips.length === 0) { continue; }
+      if (trips.length === 0) continue;
 
       const tripId = trips[0].trip_id;
 

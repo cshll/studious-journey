@@ -798,6 +798,11 @@ body.home-page .site-content {
 .bus-icon-div {
   background: transparent;
   border: none;
+  transition: opacity 0.3s ease-in-out, transform 0.5s linear;
+}
+
+.is-zooming .bus-icon-div {
+  transition: none !important;
 }
 
 .bus-marker-circle {
