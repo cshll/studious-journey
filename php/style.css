@@ -793,6 +793,27 @@ body.home-page .site-content {
   font-weight: bold;
 }
 
+/* Live Map Page */
+
+.bus-icon-div {
+  background: transparent;
+  border: none;
+}
+
+.bus-marker-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: var(--text-dark);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
 /* PWA Promo Widget */
 
 .pwa-promo-container {

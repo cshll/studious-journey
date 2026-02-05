@@ -43,7 +43,7 @@ async function generateRoutes() {
         const response = await axios.get(url);
 
         masterRouteData[route.route_number] = {
-          color: getRandomColor(),
+          color: '#FFD100',
           path: response.data.routes[0].geometry.coordinates
         };
 
@@ -59,17 +59,6 @@ async function generateRoutes() {
   } finally {
     if (connection) await connection.end();
   }
-}
-
-function getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-
-  return color;
 }
 
 generateRoutes();

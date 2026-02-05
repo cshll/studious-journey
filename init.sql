@@ -140,16 +140,16 @@ INSERT INTO ticket_prices (scope_id, passenger_type_id, price) VALUES
 
 -- 1-10: The Hub (Trafford Interchange)
 INSERT INTO stops (stop_name, latitude, longitude) VALUES 
-('Trafford Interchange (Stand A)', 53.4593, -2.2943),
-('Trafford Interchange (Stand B)', 53.4593, -2.2943),
-('Trafford Interchange (Stand C)', 53.4593, -2.2943),
-('Trafford Interchange (Stand D)', 53.4593, -2.2943),
-('Trafford Interchange (Stand E)', 53.4593, -2.2943),
-('Trafford Interchange (Stand F)', 53.4593, -2.2943),
-('Trafford Interchange (Stand G)', 53.4593, -2.2943),
-('Trafford Interchange (Stand H)', 53.4593, -2.2943),
-('Trafford Interchange (Stand I)', 53.4593, -2.2943),
-('Trafford Interchange (Stand J)', 53.4593, -2.2943);
+('Trafford Interchange (Stand A)', 53.46011, -2.28202),
+('Trafford Interchange (Stand B)', 53.46013, -2.28208),
+('Trafford Interchange (Stand C)', 53.46015, -2.28214),
+('Trafford Interchange (Stand D)', 53.46017, -2.28220),
+('Trafford Interchange (Stand E)', 53.46019, -2.28226),
+('Trafford Interchange (Stand F)', 53.46021, -2.28232),
+('Trafford Interchange (Stand G)', 53.46023, -2.28238),
+('Trafford Interchange (Stand H)', 53.46025, -2.28244),
+('Trafford Interchange (Stand I)', 53.46027, -2.28250),
+('Trafford Interchange (Stand J)', 53.46029, -2.28256);
 
 -- 11-20: Terminals (The Destinations)
 INSERT INTO stops (stop_name, latitude, longitude) VALUES 
