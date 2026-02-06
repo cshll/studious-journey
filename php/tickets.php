@@ -28,6 +28,7 @@ require 'header.php';
     <?php endif; ?>
 
     <div class="ticket-wrapper">
+      <h1>Purchase a Ticket</h1>
       <div class="ticket-grid">
         <?php foreach ($scopes as $scope): ?>
           <div class="ticket-card" style="border-top-color: <?= htmlspecialchars($scope['ui_color_hex']) ?>;">

@@ -69,6 +69,7 @@ require 'header.php';
   <div class="container">
     <?php if (!$route_id): ?>
       <div class="route-wrapper">
+        <h1>View Timetables</h1>
         <form action="timetable.php" method="GET" class="search-form">
           <input type="text" name="search" placeholder="Search routes here..." value="<?= htmlspecialchars($search) ?>">
           <?php if ($route_id): ?>
@@ -97,7 +98,7 @@ require 'header.php';
         <span>
           <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← <u>Back to All Routes</u></a>
           <h1>Route <?= htmlspecialchars($selected_route['route_number']) ?></h1>
-          <p>You are viewing live information for <strong>Route <?= htmlspecialchars($selected_route['route_number']) ?></strong>. The times below are tracked in real-time and will update automatically if there are delays - <i>hopefully not today</i>.<br><small>Please make sure you have a valid ticket before boarding. If you do not have a ticket, you can <strong><u><a style="color: #1565c0;" href="tickets.php">purchase a ticket online</a></u></strong> or ask the driver.</small></p>
+          <p>You are viewing live information for <strong>Route <?= htmlspecialchars($selected_route['route_number']) ?></strong>. The times below are tracked in real-time and will update automatically if there are delays - <i>hopefully not today</i>.<br><small>Please make sure you have a valid ticket before boarding. If you do not have a ticket then you can <strong><u><a style="color: #1565c0;" href="tickets.php">purchase a ticket online</a></u></strong> or ask the driver.</small></p>
         </span>
 
         <div class="next-bus-hero">
@@ -133,8 +134,8 @@ require 'header.php';
                   <td class="time-slot"><?= date('H:i', strtotime($stop['arrival_time'])) ?></td>
                   <td>
                     <?php if ($stop['latitude']): ?>
-                      <a href="https://www.google.com/maps?q=<?= $stop['latitude'] ?>,<?= $stop['longitude'] ?>"
-                        target="_blank" class="map-link">📍 View</a>
+                      <a href="livemap.php?route=<?= $selected_route['route_number'] ?>"
+                        target="_blank" class="map-link">View</a>
                       <?php else: ?>
                         -
                       <?php endif; ?>

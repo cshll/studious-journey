@@ -662,11 +662,10 @@ body.home-page .site-content {
 
 /* Journey Page */
 
-.planner-form-inline {
+.journeys-wrapper {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  margin-bottom: 30px;
 }
 
 .form-row {
@@ -794,6 +793,16 @@ body.home-page .site-content {
 }
 
 /* Live Map Page */
+
+.map-wrapper {
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.map-wrapper p {
+  padding-bottom: 15px;
+}
 
 .bus-icon-div {
   background: transparent;

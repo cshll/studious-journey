@@ -15,6 +15,10 @@ L.control.zoom({
   position: 'bottomright'
 }).addTo(liveMap);
 
+const urlParams = new URLSearchParams(window.location.search);
+const requestedRoute = urlParams.get('route');
+let hasAutoZoomed = false;
+
 const busMarkers = {};
 const busPaths = {};
 
@@ -25,6 +29,10 @@ const socket = io('http://localhost:3000');
 
 socket.on('initRoutes', (allRoutes) => {
   storedRoutes = allRoutes;
+
+  if (requestedRoute && storedRoutes[requestedRoute]) {
+    drawRouteOnMap(requestedRoute, storedRoutes[requestedRoute].color);
+  }
 });
 
 socket.on('busesUpdate', (buses) => {
@@ -56,6 +64,15 @@ socket.on('busesUpdate', (buses) => {
       busMarkers[bus.id] = marker;
     }
   });
+
+  if (requestedRoute && !hasAutoZoomed) {
+    const targetBus = buses.find(b => b.route === requestedRoute);
+
+    if (targetBus) {
+      highlightSelectedBus(targetBus.id);
+      hasAutoZoomed = true;
+    }
+  }
 });
 
 function drawRouteOnMap(routeId, color) {

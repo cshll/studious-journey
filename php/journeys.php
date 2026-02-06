@@ -52,41 +52,44 @@ require 'header.php';
 
 <main class="site-content">
   <div class="container">
-    <form action="journeys.php" method="GET" class="planner-form-inline">
-      <div class="form-row">
-        <div class="input-group">
-          <label for="origin">From</label>
-          <select name="origin_id" id="origin" required>
-            <option value="" disabled selected>Start Location</option>
-            <?php foreach ($all_stops as $stop): ?>
-              <option value="<?= $stop['stop_id'] ?>"
-                <?= (isset($_GET['origin_id']) && $_GET['origin_id'] == $stop['stop_id']) ? 'selected' : '' ?>>
-                <?= htmlspecialchars($stop['stop_name']) ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
-        </div>
+    <div class="journeys-wrapper">
+      <h1>Plan a Journey</h1>
+      <form action="journeys.php" method="GET" class="planner-form-inline">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="origin">From</label>
+            <select name="origin_id" id="origin" required>
+              <option value="" disabled selected>Start Location</option>
+              <?php foreach ($all_stops as $stop): ?>
+                <option value="<?= $stop['stop_id'] ?>"
+                  <?= (isset($_GET['origin_id']) && $_GET['origin_id'] == $stop['stop_id']) ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($stop['stop_name']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
+          </div>
 
-        <div class="input-group">
-          <label for="dest">To</label>
-          <select name="dest_id" id="dest" required>
-            <option value="" disabled selected>End Location</option>
-            <?php foreach ($all_stops as $stop): ?>
-              <option value="<?= $stop['stop_id'] ?>"
-                <?= (isset($_GET['dest_id']) && $_GET['dest_id'] == $stop['stop_id']) ? 'selected' : '' ?>>
-                <?= htmlspecialchars($stop['stop_name']) ?>
-            <?php endforeach; ?>
-          </select>
-        </div>
+          <div class="input-group">
+            <label for="dest">To</label>
+            <select name="dest_id" id="dest" required>
+              <option value="" disabled selected>End Location</option>
+              <?php foreach ($all_stops as $stop): ?>
+                <option value="<?= $stop['stop_id'] ?>"
+                  <?= (isset($_GET['dest_id']) && $_GET['dest_id'] == $stop['stop_id']) ? 'selected' : '' ?>>
+                  <?= htmlspecialchars($stop['stop_name']) ?>
+              <?php endforeach; ?>
+            </select>
+          </div>
 
-        <div class="input-group time-group">
-          <label for="time">Leaving at</label>
-          <input type="time" name="time" id="time" value="<?= $_GET['time'] ?? date('H:i') ?>" required>
-        </div>
+          <div class="input-group time-group">
+            <label for="time">Leaving at</label>
+            <input type="time" name="time" id="time" value="<?= $_GET['time'] ?? date('H:i') ?>" required>
+          </div>
 
-        <button type="submit" class="btn btn-primary search-btn">Search</button>
-      </div>
-    </form>
+          <button type="submit" class="btn btn-primary search-btn">Search</button>
+        </div>
+      </form>
+    </div>
 
     <?php if ($error || ($search_performed && count($results) > 0)): ?>
       <hr class="divider">
