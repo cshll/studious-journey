@@ -67,6 +67,13 @@ select:focus {
   outline: none;
 }
 
+thead tr,
+label {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
 /* Container */
 
 .site-content {
@@ -397,6 +404,10 @@ body.home-page .site-content {
 
 /* TODO: animations and remove old code (if any is left, idk im tired) */
 
+.routes h1 {
+  padding-bottom: 15px;
+}
+
 .routes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -522,9 +533,6 @@ body.home-page .site-content {
 .schedule-compact th {
   text-align: left;
   color: #888;
-  font-weight: 600;
-  font-size: 0.85rem;
-  text-transform: uppercase;
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
   padding: 5px;
@@ -575,6 +583,10 @@ body.home-page .site-content {
 }
 
 /* Ticket Page */
+
+.tickets h1 {
+  padding-bottom: 15px;
+}
 
 .ticket-grid {
   display: grid;
@@ -647,6 +659,10 @@ body.home-page .site-content {
 }
 
 /* Journey Page */
+
+.journeys h1 {
+  padding-bottom: 15px;
+}
 
 .form-row {
   display: flex;
