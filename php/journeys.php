@@ -98,7 +98,7 @@ require 'header.php';
     <?php if (!empty($error)): ?>
       <p style="margin-top: 5px; color: #ff6b6b !important;"><?= htmlspecialchars($error) ?></p>
     <?php elseif ($search_performed): ?>
-      <div class="journey-list">
+      <div class="wrapper journey-list">
         <?php if (count($results) > 0): ?>
           <h3>Available Buses</h3>
           <?php foreach ($results as $row): ?>

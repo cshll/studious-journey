@@ -81,7 +81,7 @@ require 'header.php';
         <?php if (count($all_routes) > 0): ?>
           <div class="routes-grid">
             <?php foreach ($all_routes as $route): ?>
-              <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="route-btn-card">
+              <a href="timetable.php?route_id=<?= $route['route_id'] ?>" class="wrapper route-btn-card">
                 <span class="route-number-large"><?= htmlspecialchars($route['route_number']) ?></span>
                 <span class="route-name"><?= htmlspecialchars($route['route_name']) ?></span>
               </a>
@@ -116,7 +116,7 @@ require 'header.php';
       <hr class="divider">
 
       <?php if ($next_trip): ?>
-        <div class="trip-detail-panel" style="display: block;">
+        <div class="wrapper trip-detail-panel" style="display: block;">
           <h3>Current Schedule</h3>
           <table class="bus-table">
             <thead>
@@ -149,7 +149,7 @@ require 'header.php';
 
       <hr class="divider">
 
-      <div class="daily-schedule-container">
+      <div class="wrapper daily-schedule-container">
         <h3>Daily Departures</h3>
         <div class="table-responsive">
           <table class="schedule-compact">
