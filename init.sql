@@ -134,6 +134,21 @@ INSERT INTO ticket_prices (scope_id, passenger_type_id, price) VALUES
 (1, 3, 1.50), (2, 3, 2.85), (3, 3, 4.10), (4, 3, 16.50), (5, 3, 60.00), (6, 3, 630.00),
 (1, 4, 1.20), (2, 4, 2.00), (3, 4, 3.50), (4, 4, 10.00), (5, 4, 30.00), (6, 4, 300.00);
 
+-- ------------ --
+-- SUPPORT DATA --
+-- ------------ --
+
+CREATE TABLE IF NOT EXISTS support_requests (
+  request_id INT AUTO_INCREMENT PRIMARY KEY,
+  support_ref VARCHAR(20) NOT NULL UNIQUE,
+  user_id INT NOT NULL,
+  related_ticket_id INT NOT NULL,
+  status ENUM('new', 'in-progress', 'escalated', 'resolved') DEFAULT 'new',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (related_ticket_id) REFERENCES user_tickets(ticket_id)
+);
+
 -- -------------- --
 -- TRANSPORT DATA --
 -- -------------- --

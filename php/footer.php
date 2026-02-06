@@ -6,6 +6,11 @@
       <div class="footer-col">
         <h3>About Us</h3>
         <p>Trafford Bus operates a local bus service within the Trafford area.</p>
+        <?php if (!$is_logged_in): ?>
+          <a href="#about" style="color: white; border-bottom: 1px solid white;">Learn More</a>
+        <?php else: ?>
+          <a href="about.php" style="color: white; border-bottom: 1px solid white;">Learn More</a>
+        <?php endif; ?>
       </div>
 
       <div class="footer-col">

@@ -19,11 +19,7 @@ require 'header.php';
 
   <section id="about" class="content-section">
     <div class="container">
-      <div class="info-grid">
-        <div class="info-card">
-          <!--TODO: info cards -->
-        </div>
-      </div>
+      <?php require 'load-about.php' ?>
     </div>
   </section> 
 </main>

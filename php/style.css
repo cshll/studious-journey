@@ -252,6 +252,45 @@ label {
   margin-top: 10px;
 }
 
+.pay-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.pay-btn:hover {
+  transform: scale(1.02);
+}
+
+.pay-btn:active {
+  transform: scale(0.98);
+}
+
+.btn-apple {
+  background: #000;
+  color: #fff;
+}
+
+.btn-google {
+  background: #fff;
+  color: #757575;
+  border: 1px solid #ddd;
+}
+
+.btn-stripe {
+  background: #635bff;
+  color: #fff;
+}
+
 /* Footer */
 
 .site-footer {
@@ -346,12 +385,6 @@ body.home-page .site-content {
 .content-section {
   padding: 80px 0;
   background: var(--bg-light);
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
 }
 
 /* Login Page */
@@ -813,6 +846,49 @@ body.home-page .site-content {
   text-transform: uppercase;
 }
 
+/* Checkout Page */
+
+.checkout-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-page h1 {
+  padding-bottom: 15px;
+}
+
+.ticket-details {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 5px solid var(--primary-color);
+}
+
+.ticket-details h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.ticket-details p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.ticket-details span {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.auth-form p {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.pay-icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
 /* PWA Promo Widget */
 
 .pwa-promo-container {
@@ -980,6 +1056,7 @@ body.home-page .site-content {
   }
 
   .main-nav ul {
+    gap: 10px;
     font-size: 0.9rem;
   }
 
