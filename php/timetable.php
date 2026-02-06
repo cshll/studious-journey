@@ -68,7 +68,7 @@ require 'header.php';
 <main class="site-content">
   <div class="container">
     <?php if (!$route_id): ?>
-      <div class="route-wrapper">
+      <div class="wrapper routes">
         <h1>View Timetables</h1>
         <form action="timetable.php" method="GET" class="search-form">
           <input type="text" name="search" placeholder="Search routes here..." value="<?= htmlspecialchars($search) ?>">
@@ -94,7 +94,7 @@ require 'header.php';
     <?php endif; ?>
 
     <?php if ($route_id && $selected_route): ?>
-      <div class="selected-wrapper">
+      <div class="wrapper selected-routes">
         <span>
           <a href="timetable.php" style="display: inline-block; margin-bottom: 15px; font-weight: bold; color: #1565c0;">← <u>Back to All Routes</u></a>
           <h1>Route <?= htmlspecialchars($selected_route['route_number']) ?></h1>

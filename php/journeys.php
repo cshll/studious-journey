@@ -52,7 +52,7 @@ require 'header.php';
 
 <main class="site-content">
   <div class="container">
-    <div class="journeys-wrapper">
+    <div class="wrapper journeys">
       <h1>Plan a Journey</h1>
       <form action="journeys.php" method="GET" class="planner-form-inline">
         <div class="form-row">

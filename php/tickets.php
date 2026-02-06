@@ -27,7 +27,7 @@ require 'header.php';
       <!--TODO: USER TICKETS SECTION -->
     <?php endif; ?>
 
-    <div class="ticket-wrapper">
+    <div class="wrapper tickets">
       <h1>Purchase a Ticket</h1>
       <div class="ticket-grid">
         <?php foreach ($scopes as $scope): ?>

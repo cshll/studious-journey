@@ -85,6 +85,12 @@ select:focus {
   width: 100%;
 }
 
+.wrapper {
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
 .divider {
   border: 0;
   border-top: 1px solid #eee;
@@ -391,18 +397,6 @@ body.home-page .site-content {
 
 /* TODO: animations and remove old code (if any is left, idk im tired) */
 
-.route-wrapper {
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
-
-.selected-wrapper {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  border-radius: 8px;
-}
-
 .routes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -584,12 +578,6 @@ body.home-page .site-content {
 
 /* Ticket Page */
 
-.ticket-wrapper {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  border-radius: 8px;
-}
-
 .ticket-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -661,12 +649,6 @@ body.home-page .site-content {
 }
 
 /* Journey Page */
-
-.journeys-wrapper {
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
 
 .form-row {
   display: flex;
@@ -794,13 +776,7 @@ body.home-page .site-content {
 
 /* Live Map Page */
 
-.map-wrapper {
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
-
-.map-wrapper p {
+.map p {
   padding-bottom: 15px;
 }
 
