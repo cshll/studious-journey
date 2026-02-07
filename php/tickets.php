@@ -111,7 +111,7 @@ require 'header.php';
                   <div class="info-section">
                     <div class="passenger"><?= htmlspecialchars($ticket['passenger_name']) ?></div>
                     <div class="timer-box">
-                      <small>Expired in:</small>
+                      <small>Expires in:</small>
                       <div class="countdown" data-expires="<?= $expiry_iso ?>">Calculating...</div>
                     </div>
                     <div class="date-info">Activated: <?= date('H:i d M', strtotime($ticket['activated_at'])) ?></div>
