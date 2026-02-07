@@ -630,8 +630,8 @@ body.home-page .site-content {
 }
 
 .ticket-card {
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
   overflow: hidden;
   border-top: 6px solid #ccc;
   display: flex;
@@ -889,6 +889,146 @@ body.home-page .site-content {
   font-size: 1.2rem;
 }
 
+/* My Tickets Page */
+
+.section-title {
+  margin: 30px 0 15px 0;
+  font-size: 1.2rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+}
+
+.ticket-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.active-ticket {
+  border: 2px solid var(--primary-color);
+  background: linear-gradient(to bottom, #fff, #fffdf0);
+}
+
+.ticket-header {
+  background: var(--primary-color);
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.support-ref {
+  font-family: monospace;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.ticket-body {
+  display: flex;
+  padding: 15px;
+  align-items: center;
+  gap: 20px;
+}
+
+.qr-section {
+  text-align: center;
+}
+
+.qr-section img {
+  width: 100px;
+  height: 100px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.scan-inst {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+.info-section {
+  flex: 1;
+}
+
+.timer-box {
+  background: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.timer-box small {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.countdown {
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: monospace;
+  line-height: 1.2;
+}
+
+.active-footer {
+  background: #f9f9f9;
+  padding: 8px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #777;
+  border-top: 1px solid #eee;
+}
+
+.unused-ticket {
+  border-left: 6px solid #3498db;
+  padding: 15px;
+}
+
+.ticket-header-simple {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.pill {
+  background: #eee;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.ticket-action-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.expired-ticket {
+  background: #fdfdfd;
+  border: 1px solid #eee;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.support-ref-dark {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #999;
+}
+
 /* PWA Promo Widget */
 
 .pwa-promo-container {
@@ -1101,6 +1241,16 @@ body.home-page .site-content {
 
   .pwa-promo-container {
     display: none !important;
+  }
+
+  .ticket-body {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .ticket-action-area {
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
