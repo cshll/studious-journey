@@ -9,19 +9,27 @@ if ($is_logged_in) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $full_name = trim($_POST['full_name']);
+  $full_name = trim(strip_tags($_POST['full_name']));
   $dob = $_POST['dob'];
-  $address = trim($_POST['address']);
-  $email = trim($_POST['email']);
+  $address = trim(strip_tags($_POST['address']));
+  $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
   $password = $_POST['password'];
   $confirm_password = $_POST['confirm_password'];
 
+  $date_object = DateTime::createFromFormat('Y-m-d', $dob);
+
   if (empty($full_name) || empty($dob) || empty($address) || empty($email) || empty($password)) {
     $error = "All fields are required!";
+  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100) {
+    $error = "Invalid email provided!";
+  } elseif (strlen($full_name) > 100 || strlen($full_name) < 2) {
+    $error = "Invalid full name provided!";
+  } elseif (!$date_object || $date_object->format('Y-m-d') !== $dob) {
+    $error = "Invalid date of birth provided!";
   } elseif ($password !== $confirm_password) {
     $error = "Password do not match!";
-  } elseif (strlen($password) < 6) {
-    $error = "Password must be at least 6 characters long!";
+  } elseif (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
+    $error = "Password must be at least 8 characters long, contain a number, and a capital letter!";
   } else {
     $sql = "SELECT user_id FROM users WHERE email = :email";
     $stmt = $pdo->prepare($sql);
