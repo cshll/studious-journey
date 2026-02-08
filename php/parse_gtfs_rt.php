@@ -1,3 +1,5 @@
+<!-- LEGACY CODE (UNUSED) -->
+
 <?php
 // Parse GTFS RT binary data and extract vehicle positions
 // This requires the protobuf PHP extension or a PHP protobuf library

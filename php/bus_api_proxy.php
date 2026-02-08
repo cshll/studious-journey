@@ -1,3 +1,5 @@
+<!-- LEGACY CODE (UNUSED) -->
+
 <?php
 // PHP Proxy to fetch bus data from BODS API (avoids CORS issues)
 header('Content-Type: application/json; charset=utf-8');

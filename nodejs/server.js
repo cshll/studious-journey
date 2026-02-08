@@ -11,11 +11,13 @@ app.use(express.static('public'));
 
 let allRoutes = {};
 try {
+  // Read the all_routes JSON file containing route data and parse it
   allRoutes = JSON.parse(fs.readFileSync('all_routes.json', 'utf8'));
 } catch (error) {
   console.error("Could not load routes: ", error.message);
 }
 
+// Create a key for each bus
 const buses = Object.keys(allRoutes).map(routeKey => {
   return {
     id: `Bus-${routeKey}`,
@@ -26,13 +28,17 @@ const buses = Object.keys(allRoutes).map(routeKey => {
   };
 });
 
+// Wait for connection
 io.on('connection', (socket) => {
+  // Emit initRoutes socket for the frontend
   socket.emit('initRoutes', allRoutes);
 });
 
+// Update the bus every two seconds
 setInterval(() => {
   const updates = [];
 
+  // Update the bus position
   buses.forEach(bus => {
     bus.currentIndex = (bus.currentIndex + 1) % bus.path.length;
 
@@ -47,9 +53,11 @@ setInterval(() => {
     });
   });
 
+  // Send bus update socket to frontend
   io.emit('busesUpdate', updates);
 }, 2000);
 
+// Wait for connection on port 3000
 server.listen(3000, () => {
   console.log("Server up on port 3000, brace yourself for chaos.");
 });

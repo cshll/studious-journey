@@ -1,8 +1,10 @@
 <?php
 session_start();
 
+// Check if user has an active session, save as variable for use later
 $is_logged_in = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
 
+// Database parameters
 $db_host = 'db';
 $db_user = 'root';
 $db_pass = 'busses';
