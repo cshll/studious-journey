@@ -1,30 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
   const timers = document.querySelectorAll('.countdown');
 
-  function updateTimers() {
-    const now = new Date();
+  timers.forEach(timer => {
+    const expireTime = new Date(timer.dataset.expires).getTime();
+    const serverStart = new Date(timer.dataset.serverNow).getTime();
+    const clientStart = new Date().getTime();
 
-    timers.forEach(timer => {
-      const expireTime = new Date(timer.dataset.expires);
+    const clockOffset = clientStart - serverStart;
+
+    function update() {
+      const now = new Date().getTime() - clockOffset;
       const diff = expireTime - now;
 
       if (diff <= 0) {
         timer.innerHTML = "EXPIRED";
         timer.style.color = "red";
         return;
+      } else {
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timer.innerHTML =
+          (hours < 10 ? "0" + hours : hours) + ":" +
+          (minutes < 10 ? "0" + minutes : minutes) + ":" +
+          (seconds < 10 ? "0" + seconds : seconds);
       }
+    }
 
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      timer.innerHTML =
-        (hours < 10 ? "0" + hours : hours) + ":" +
-        (minutes < 10 ? "0" + minutes : minutes) + ":" +
-        (seconds < 10 ? "0" + seconds : seconds);
-    });
-  }
-
-  updateTimers();
-  setInterval(updateTimers, 1000);
+    setInterval(update, 1000);
+  });
 });
