@@ -1,6 +1,7 @@
 <?php
 require 'init.php';
 
+// If user is logged in redirect to home page to prevent confusion.
 if ($is_logged_in) {
   header('Location: index.php');
   exit;
@@ -13,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $password = $_POST['password'] ?? '';
 
   try {
+    // Grab user from the database where email equals the inputted one.
     $sql_users = "SELECT users.user_id, users.email, users.password_hash, users.full_name 
     FROM users 
     WHERE users.email = :email";
@@ -21,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Check password hash against the database.
     if ($user && password_verify($password, $user['password_hash'])) {
       $_SESSION['loggedin'] = true;
       $_SESSION['userid'] = $user['user_id'];
@@ -30,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       header('Location: index.php');
       exit;
     } else {
+      // Throw error if login is incorrect.
       $error_msg = 'Invalid email or password.';
     }
   } catch (PDOException $error) {

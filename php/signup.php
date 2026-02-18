@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   $date_object = DateTime::createFromFormat('Y-m-d', $dob);
 
+  // Ensure all information is correct, valid, and secure.
   if (empty($full_name) || empty($dob) || empty($address) || empty($email) || empty($password)) {
     $error = "All fields are required!";
   } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100) {
@@ -42,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $sql = "INSERT INTO users (full_name, date_of_birth, address, email, password_hash) 
         VALUES (:name, :dob, :address, :email, :password_hash)";
-      
+
+      // Try to create user on database.
       try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([

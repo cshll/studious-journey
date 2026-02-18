@@ -1,10 +1,12 @@
 <?php
 require 'init.php';
 
+// Grab all available ticket scopes in ascending order.
 $sql_scopes = "SELECT * FROM ticket_scopes ORDER BY validity_seconds ASC";
 $stmt_scopes = $pdo->query($sql_scopes);
 $scopes = $stmt_scopes->fetchAll(PDO::FETCH_ASSOC);
 
+// Grab all available tickets and ticket prices.
 $sql_prices = "SELECT ticket_prices.price, ticket_prices.price_id, ticket_prices.scope_id, passenger_types.name as passenger_name, passenger_types.passenger_type_id 
   FROM ticket_prices 
   JOIN passenger_types ON ticket_prices.passenger_type_id = passenger_types.passenger_type_id 
@@ -12,16 +14,18 @@ $sql_prices = "SELECT ticket_prices.price, ticket_prices.price_id, ticket_prices
 $stmt_prices = $pdo->query($sql_prices);
 $all_prices = $stmt_prices->fetchAll(PDO::FETCH_ASSOC);
 
+// Assign table for each ticket.
 $prices_by_scope = [];
 foreach ($all_prices as $p) {
   $prices_by_scope[$p['scope_id']][] = $p;
 }
 
-//
+// Check if user is logged in.
 if ($is_logged_in) {
   $user_id = $_SESSION['userid'];
   $msg = '';
 
+  // Check if user has requested to activate a ticket.
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['activate_ticket_id'])) {
     $ticket_id = $_POST['activate_ticket_id'];
 
@@ -39,19 +43,23 @@ if ($is_logged_in) {
         $duration = 5400;
       }
 
+      // Generate expiry date.
       $now = new DateTime();
       $expires = clone $now;
       $expires->modify("+$duration seconds");
 
+      // Update ticket to active.
       $sql_update = "UPDATE user_tickets SET status = 'active', activated_at = NOW(), expires_at = ? WHERE ticket_id = ?";
       $stmt_update = $pdo->prepare($sql_update);
       $stmt_update->execute([$expires->format('Y-m-d H:i:s'), $ticket_id]);
 
+      // Reload page.
       header("Location: tickets.php#my-tickets");
       exit;
     }
   }
 
+  // Grab all user tickets.
   $sql = "SELECT user_tickets.*, ticket_scopes.name as scope_name, ticket_scopes.description, passenger_types.name as passenger_name, support_requests.support_ref, ticket_prices.price 
     FROM user_tickets 
     JOIN ticket_prices ON user_tickets.price_id = ticket_prices.price_id 
@@ -68,6 +76,7 @@ if ($is_logged_in) {
   $unused = [];
   $expired = [];
 
+  // Show all ticket types.
   foreach ($all_tickets as $ticket) {
     if ($ticket['status'] == 'active' && new DateTime($ticket['expires_at']) < new DateTime()) {
       $ticket['status'] = 'expired';

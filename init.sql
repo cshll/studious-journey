@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT INTO users (email, password_hash) VALUES 
 ('admin@localhost', '$2y$10$w.twbxazasehpTWPJ3dL1OyvZCxmKCFYU6SnvexzPaAEs0BWorCem');
+-- Create user data, admin user for testing purposes.
 
 -- ---------------- --
 -- TRANSPORT SCHEMA --
@@ -232,6 +233,7 @@ CREATE PROCEDURE GenerateSchedule()
 BEGIN
   DECLARE h INT DEFAULT 0; -- Hour
   DECLARE r INT DEFAULT 1; -- Route ID
+  -- Declare integers for stop times.
   DECLARE stop_start INT;
   DECLARE stop_end INT;
   DECLARE stop_mid1 INT;
@@ -239,11 +241,15 @@ BEGIN
   DECLARE route_label VARCHAR(100);
   DECLARE trip_id_val INT;
 
+  -- Every hour generate stops (24 hours).
   WHILE h < 24 DO
     SET r = 1;
 
+    -- Every route generate stops (10 routes).
     WHILE r <= 10 DO
+      -- Generate 24/7 trips for busy route (route 9) or between hours 7 and 22 for others.
       IF (r = 9) OR (h >= 7 AND h <= 22) THEN
+        -- Set correct route information.
         SET stop_start = r;
         SET stop_end = 10 + r;
         SET stop_mid1 = 20 + (2 * r) - 1;
@@ -251,15 +257,18 @@ BEGIN
 
         SET route_label = (SELECT stop_name FROM stops WHERE stop_id = stop_end);
 
+        -- Create away trip for user.
         INSERT INTO trips (route_id, direction, trip_headsign) VALUES (r, 0, route_label);
         SET trip_id_val = LAST_INSERT_ID();
 
+        -- Create stops for user.
         INSERT INTO stop_times (trip_id, stop_id, arrival_time, stop_sequence) VALUES
         (trip_id_val, stop_start, MAKETIME(h, 00, 00), 1),
         (trip_id_val, stop_mid1, MAKETIME(h, 10, 00), 2),
         (trip_id_val, stop_mid2, MAKETIME(h, 20, 00), 3),
         (trip_id_val, stop_end, MAKETIME(h, 30, 00), 4);
 
+        -- Create return trip for user (always goes to Trafford).
         INSERT INTO trips (route_id, direction, trip_headsign) VALUES (r, 1, 'Trafford Interchange');
         SET trip_id_val = LAST_INSERT_ID();
 

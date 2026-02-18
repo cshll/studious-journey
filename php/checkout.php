@@ -9,6 +9,7 @@ if (!$is_logged_in) {
 $user_id = $_SESSION['userid'];
 $error = '';
 
+// Go back to tickets if there is no correct price id.
 $price_id = $_GET['price_id'] ?? null;
 if (!$price_id) {
   header('Location: tickets.php');
@@ -24,12 +25,15 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$price_id]);
 $ticket = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// If a matching ticket is not found, go back to tickets.
 if (!$ticket) {
   header('Location: tickets.php');
   exit;
 }
 
+// If user attempts to purchase, continue.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['payment_method']) {
+  // Check if payment method is valid for security.
   $allowed_methods = ['stripe', 'apple_pay', 'google_pay'];
   $payment_method = $_POST['payment_method'];
 
@@ -37,8 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['payment_method']) {
     $error = "Invalid payment method!";
   } else {
     try {
+      // Create database transaction so unsaved data can be rolled back.
       $pdo->beginTransaction();
 
+      // Generate a ticket hash for reference.
       $ticket_hash = hash('sha256', uniqid($user_id . $price_id, true));
       $sql_ticket = "INSERT INTO user_tickets (user_id, price_id, ticket_hash, status) VALUES (?, ?, ?, 'unused')";
       $stmt_ticket = $pdo->prepare($sql_ticket);
@@ -46,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['payment_method']) {
 
       $new_ticket_id = $pdo->lastInsertId();
 
+      // Generate support hash so user can contact support.
       $chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
       $random_str = substr(str_shuffle($chars), 0, 3) . '-' . substr(str_shuffle($chars), 0, 3);
       $support_ref = 'TRF-' . $random_str;
@@ -54,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['payment_method']) {
       $stmt_support = $pdo->prepare($sql_support);
       $stmt_support->execute([$support_ref, $user_id, $new_ticket_id]);
 
+      // Commit the changes.
       $pdo->commit();
 
       header("Location: tickets.php");

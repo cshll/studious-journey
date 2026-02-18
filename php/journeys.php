@@ -1,6 +1,7 @@
 <?php
 require 'init.php';
 
+// Grab all stops for searching.
 $stops_sql = "SELECT stop_id, stop_name FROM stops ORDER BY stop_name ASC";
 $stmt_stops = $pdo->query($stops_sql);
 $all_stops = $stmt_stops->fetchAll(PDO::FETCH_ASSOC);
@@ -9,6 +10,7 @@ $results = [];
 $search_performed = false;
 $error = '';
 
+// If the user has entered in information, continue.
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin_id']) && isset($_GET['dest_id'])) {
   $search_performed = true;
   $origin_id = $_GET['origin_id'];
@@ -16,8 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['origin_id']) && isset($
   $time_input = $_GET['time'] ?? date('H:i');
 
   if ($origin_id == $dest_id) {
+    // Define error for accessibility.
     $error = "Please select different start and end locations.";
   } else {
+    // Grab all routes based on origin, destination, and time.
     $sql = "SELECT 
         routes.route_number,
         routes.route_name,

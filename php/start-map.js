@@ -51,12 +51,14 @@ socket.on('busesUpdate', (buses) => { //This is the event listener for the buses
         html: `<div class="bus-marker-circle" style="background-color: ${bus.color};">${bus.route}</div>`
       });
 
+      // Place marker to show information to users.
       const marker = L.marker([bus.lat, bus.lng], { icon: customIcon }).addTo(liveMap);
       marker.bindPopup(`
         <b>${bus.id}</b><br>
         Route: ${bus.route}
       `);
 
+      // When a user clicks on a bus, highlight selected bus route.
       marker.on('click', (e) => {
         L.DomEvent.stopPropagation(e);
         drawRouteOnMap(bus.route, bus.color);
@@ -67,6 +69,7 @@ socket.on('busesUpdate', (buses) => { //This is the event listener for the buses
     }
   });
 
+  // Highlight selected bus route.
   if (requestedRoute && !hasAutoZoomed) {
     const targetBus = buses.find(b => b.route === requestedRoute);
 
@@ -85,14 +88,17 @@ function drawRouteOnMap(routeId, color) {
   const routeData = storedRoutes[routeId];
   if (!routeData) return;
 
+  // Map out co-ordinates.
   const latLngs = routeData.path.map(coord => [coord[1], coord[0]]);
 
+  // Draw map line.
   activeRouteLine = L.polyline(latLngs, {
     color: color,
     weight: 5,
     opacity: 0.7
   }).addTo(liveMap);
 
+  // Zoom to fill route on map.
   liveMap.flyToBounds(activeRouteLine.getBounds(), {
     padding: [50, 50],
     duration: 1.5,
@@ -105,6 +111,7 @@ function highlightSelectedBus(selectedBusId) {
   Object.keys(busMarkers).forEach(id => {
     const marker = busMarkers[id];
 
+    // Set opacity of other bus markers.
     if (selectedBusId === null) {
       marker.setOpacity(1.0);
       marker.setZIndexOffset(0);
@@ -118,6 +125,7 @@ function highlightSelectedBus(selectedBusId) {
   });
 }
 
+// Listen for map click and unhighlight bus.
 liveMap.on('click', () => {
   if (activeRouteLine) {
     liveMap.removeLayer(activeRouteLine);
@@ -127,6 +135,7 @@ liveMap.on('click', () => {
   highlightSelectedBus(null);
 });
 
+// Add zooming class for CSS interpolation.
 liveMap.on('movestart zoomstart', () => {
   liveMap.getContainer().classList.add('is-zooming');
 });
